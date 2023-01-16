@@ -1,0 +1,79 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="author" content="M.G.W.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="keywords" content="chess, coordinates, training">
+  <meta name="description"
+    content="Web app to help learn chessboard coordinates.">
+  <title>Coordinates Training</title>
+  <script src="coords.js"></script>
+  <link rel="stylesheet" href="styles.css?v=1.0">
+  <!-- <link rel="icon" type="image/x-icon" href="favicon.ico"> -->
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <header>
+    <h1>Coordinates Trainer</h1>
+  </header>
+  
+  <label for="guess" hidden>Type or speak the highlighted square (e.g. "a1")<br></label>
+  <input type="text" id="guess" autofocus hidden></input>
+
+  <div id="board">
+    <div id="sq"></div>
+    <div id="pc0" class="pc white queen"></div>
+    <div id="pc1" class="pc white king"></div>
+    <div id="pc2" class="pc black queen"></div>
+    <div id="pc3" class="pc black king"></div>
+    <div id="quadrants"></div>
+  </div>
+
+    <div id="multiChoice">
+      <span id="option1" class="opt">A1</span>
+      <span id="option2" class="opt">B2</span>
+      <span id="option3" class="opt">C3</span>
+      <span id="option4" class="opt">D4</span>
+    </div>
+
+  <div id="options">
+    <h2>Options</h2>
+    <span>
+      <input type="checkbox" id="flip" name="flip">
+      <label for="flip"> Flip Board</label><br>
+      <input type="checkbox" id="showQuads" name="showQuads" checked>
+      <label for="showQuads"> Show Quadrants</label><br>
+      <hr>
+      <input type="radio" id="normal" name="constrain" checked>
+      <label for="normal"> Full Board</label><br>
+      <input type="radio" id="ranksOnly" name="constrain">
+      <label for="ranksOnly"> Ranks Only</label><br>
+      <input type="radio" id="filesOnly" name="constrain">
+      <label for="filesOnly"> Files Only</label>
+      <hr>
+      <input type="radio" id="noPcs" name="showPcs">
+      <label for="noPcs"> No Pieces</label><br>
+      <input type="radio" id="kingQueenOnly" name="showPcs" checked>
+      <label for="kingQueenOnly"> King &amp; Queen</label><br>
+      <input type="radio" id="allPcs" name="showPcs">
+      <label for="allPcs"> Full Starting Position</label>
+      <hr>
+      Input Type:<br>
+      <input type="radio" id="multi" name="inputType" checked>
+      <label for="multi"> Multiple Choice</label><br>
+      <input type="radio" id="textual" name="inputType">
+      <label for="multi"> Textbox</label><br>
+    </span>
+
+  </div>
+
+</body>
