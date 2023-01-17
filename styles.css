@@ -20,11 +20,28 @@ body {
   background-color: green;
   color: white;
   text-align: center;
-  width: 15%;
   padding: .5rem 0;
   font-size: 1.2rem;
   border-radius: .3rem;
   cursor: pointer;
+}
+
+#multiChoice .opt {
+  display:none;
+  width: 15%;
+}
+
+body.guessingTime #multiChoice .opt {
+  display: inline;
+}
+
+#multiChoice #showOptions{
+  display: inline;
+  padding: .5rem;
+}
+
+body.guessingTime #multiChoice #showOptions {
+  display: none;
 }
 
 #multiChoice span:hover {
@@ -60,6 +77,18 @@ body {
   outline: 2px black solid;
   margin: 1rem auto;
 }
+
+body.guessingTime #board::after {
+  content: "";
+  position:absolute;
+  top:0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: wheat;
+  z-index: 100;
+}
+
 
 #sq {
   position:absolute;
