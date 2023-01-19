@@ -29,7 +29,7 @@
   <label for="guess" hidden>Type or speak the highlighted square (e.g. "a1")<br></label>
   <input type="text" id="guess" autofocus hidden></input>
 
-  <div id="board">
+  <div id="board" class="noSelect">
     <div id="sq"></div>
     <div id="pc0" class="pc white queen"></div>
     <div id="pc1" class="pc white king"></div>
@@ -38,8 +38,7 @@
     <div id="quadrants"></div>
   </div>
 
-    <div id="multiChoice">
-      <span id="showOptions">Make Guess</span>
+    <div id="multiChoice" class="noSelect">
       <span id="option1" class="opt">A1</span>
       <span id="option2" class="opt">B2</span>
       <span id="option3" class="opt">C3</span>
@@ -78,3 +77,8 @@
   </div>
 
 </body>
+
+
+<!-- The multiple choice options are all generated very close to the correct answer.
+  Hopefully this will prevent reliance on multiple choice guessing strategies.
+      -->

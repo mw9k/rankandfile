@@ -91,7 +91,6 @@ function makeGuess(guess) {
   } 
   if ( guessedRank == prevRank && guessedFile == prevFile) {
     el("guess").value = "";
-    document.body.classList.remove("guessingTime");
     moveSq();
   } 
 }
@@ -100,16 +99,12 @@ window.addEventListener("load", (event) => {
   el("board").classList.remove("justFlipped");
 
   let allOptions = document.getElementsByClassName('opt');
+
   for (let opt of allOptions) {
-    opt.addEventListener("click", function (e) {
+    opt.addEventListener("click", function () {
         makeGuess(opt.innerHTML);
     });
   }
-
-  el("showOptions").addEventListener("click", function (e) {
-    document.body.classList.add("guessingTime");
-  });
-
 
   el("guess").addEventListener('input', function (e) {
     makeGuess(el("guess").value); 
