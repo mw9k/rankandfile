@@ -6,7 +6,7 @@ body {
 
 #multiChoice {
   width: 60vh;
-  max-width: 90vw; /* Same as board */
+  max-width: 96vw; /* Same as board */
   margin: 1rem auto;
   height: 4rem;
   /* background: yellow; */
@@ -34,7 +34,7 @@ body {
 
 #streakContainer {
   width: 60vh;
-  max-width: 90vw; /* Same as board */
+  max-width: 96vw; /* Same as board */
   display: flex;
   margin: auto;
   align-items: center;
@@ -86,8 +86,8 @@ body {
   background-repeat: repeat;
   height: 60vh;
   width: 60vh;
-  max-height: 90vw;
-  max-width: 90vw;
+  max-height: 96vw;
+  max-width: 96vw;
   position:relative;
   outline: 2px black solid;
   margin: 1rem auto;
