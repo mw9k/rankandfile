@@ -39,21 +39,29 @@ body {
   margin: auto;
   align-items: center;
   justify-content: space-evenly;
-  outline: 1px lightgray solid;
+  outline: 1px silver solid;
   border-radius: .25rem;
 }
 
+#streakContainer>:last-child {
+  border: none;
+}
+
 #streakContainer>* {
-  /* margin: 0 .25rem; */
+  width: 33%;
+  height: 3rem;
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
+  border-right: 1px lightgray solid;
 }
 
 #streakNo {
   font-size: 2.5rem;
   font-weight: bold;
   color: green;
+  margin-left: .25rem;
 }
 
 #options {

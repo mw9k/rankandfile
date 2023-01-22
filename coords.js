@@ -61,15 +61,10 @@ function el(elem) {	// Custom shortener for document.getElementById()
 }
 
 
-function fileToNum(rank) {
-  return rank.toLowerCase().charCodeAt(0) - 96;
-}
-
-
 function makeGuess(guess) {
   if (!guess.length) return false;
   let guessedRank = parseInt(guess[1] - 1);
-  let guessedFile = fileToNum(guess[0]) - 1;
+  let guessedFile = guess[0].toLowerCase().charCodeAt(0) - 97;
   let gotRight = (guessedRank == prevRank && guessedFile == prevFile);
   if (gotRight) moveSq();
   updateStreak(gotRight);
