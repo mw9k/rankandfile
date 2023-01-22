@@ -30,9 +30,9 @@
   <input type="text" id="guess" autofocus hidden></input>
 
   <div id="streakContainer" class="noSelect">
-    <span>Streak:</span> <span id="streakNo">0</span>
-    <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-    <span>Best:</span> <span id="bestNo">0</span>
+    <span>Streak:&nbsp;<span id="streakNo">0</span></span>
+    <span>Best:&nbsp;<span id="bestNo">0</span></span>
+    <span>All Time:&nbsp;<span id="allTimeNo">0</span></span>
   </div>
 
   <div id="board" class="noSelect">
@@ -41,7 +41,7 @@
     <div id="pc1" class="pc white king"></div>
     <div id="pc2" class="pc black queen"></div>
     <div id="pc3" class="pc black king"></div>
-    <div id="quadrants"></div>
+    <div id="quadrants" class="hidden"></div>
   </div>
 
   <div id="multiChoice" class="noSelect">
@@ -59,7 +59,7 @@
     <span>
       <input type="checkbox" id="flip" name="flip">
       <label for="flip"> Flip Board</label><br>
-      <input type="checkbox" id="showQuads" name="showQuads" checked>
+      <input type="checkbox" id="showQuads" name="showQuads">
       <label for="showQuads"> Show Quadrants</label><br>
       <hr>
       <input type="radio" id="normal" name="constrain" checked>

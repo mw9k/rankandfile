@@ -38,13 +38,16 @@ body {
   display: flex;
   margin: auto;
   align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
   outline: 1px lightgray solid;
   border-radius: .25rem;
 }
 
 #streakContainer>* {
-  margin: 0 .25rem;
+  /* margin: 0 .25rem; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 #streakNo {

@@ -3,8 +3,8 @@ let prevRank = 0, prevFile = 0, streak = 0, best = 0;
 
 
 function moveSq() {
-  chosenFile = newRand(0, 7);
-  chosenRank = newRand(0, 7);
+  chosenFile = newRand(0, 7, prevFile);
+  chosenRank = newRand(0, 7, prevRank);
   prevFile = chosenFile;
   prevRank = chosenRank;
   el('sq').style.setProperty('--file', chosenFile);
