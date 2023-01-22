@@ -37,7 +37,7 @@ body {
 
 #streakContainer {
   width: 60vh; /* Same as board */
-  max-width: 96vw; 
+  max-width: 100w; 
   display: flex;
   margin: auto;
   align-items: center;
@@ -57,11 +57,9 @@ body {
   /* flex-basis: 33%; */
   flex-grow: 1;
   flex-shrink: 1;
-  
   display: flex;
   align-items: center;
   justify-content: center;
-
 }
 
 #streakNo {
@@ -172,11 +170,38 @@ body {
 .pc.white.king {
   background-image: url('w_king.svg');
 }
+.pc.white.knight {
+  background-image: url('w_knight.svg');
+}
+.pc.white.bishop {
+  background-image: url('w_bishop.svg');
+}
+.pc.white.rook {
+  background-image: url('w_rook.svg');
+}
+.pc.white.pawn {
+  background-image: url('w_pawn.svg');
+}
 .pc.black.queen {
   background-image: url('b_queen.svg');
 }
 .pc.black.king {
   background-image: url('b_king.svg');
+}
+.pc.black.knight {
+  background-image: url('b_knight.svg');
+}
+
+.pc.black.bishop {
+  background-image: url('b_bishop.svg');
+}
+
+.pc.black.rook {
+  background-image: url('b_rook.svg');
+}
+
+.pc.black.pawn {
+  background-image: url('b_pawn.svg');
 }
 
 @keyframes glow {
