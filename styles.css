@@ -1,18 +1,19 @@
 body {
   text-align: center;
   font-family: 'PT Serif', serif;
+  transition: background-color .3s linear;
 } 
 
 
 #multiChoice {
   width: 60vh;
-  max-width: calc(96vw - 4px); /* Same as board */
+  max-width: calc(98vw - 4px); /* Same as board */
   margin: 1rem auto;
   height: 4rem;
   /* background: yellow; */
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: space-around;
   align-items: center;
 }
 
@@ -34,7 +35,7 @@ body {
 
 #streakContainer {
   width: 60vh;
-  max-width: calc(96vw - 4px); /* Same as board */
+  max-width: calc(98vw - 4px); /* Same as board */
   display: flex;
   margin: auto;
   align-items: center;
@@ -60,7 +61,7 @@ body {
 #streakNo {
   font-size: 2.5rem;
   font-weight: bold;
-  color: purple;
+  color: darkorange;
   margin-left: .25rem;
 }
 
@@ -86,8 +87,8 @@ body {
   background-repeat: repeat;
   height: 60vh;
   width: 60vh;
-  max-height: calc(96vw - 4px);
-  max-width: calc(96vw - 4px);
+  max-height: calc(98vw - 4px);
+  max-width: calc(98vw - 4px);
   position:relative;
   outline: 2px black solid;
   margin: 1rem auto;
@@ -97,16 +98,19 @@ body {
   position:absolute;
   z-index: 2;
   transition: bottom .3s ease-in-out, left .3s ease-in-out;
-  height: calc(12.5% - 4px);
-  width: calc(12.5% - 4px);
-  background-color: red;
-  border: 2px black solid;
+  height: calc(12.5% - 6px);
+  width: calc(12.5% - 6px);
+  background-color: orange;
+  border: 3px black solid;
+  
   --rank: 0;
   --file: 0;
-  animation: glow 1s linear infinite;
+  /* animation: glow .75s linear infinite; */
+  animation-direction: alternate;
   bottom: calc(12.5% * var(--rank));
   left: calc(12.5% * var(--file));
   border-radius: 50%;
+
   /* margin-left: -3px;
   margin-bottom: -3px; */
 }
@@ -170,9 +174,8 @@ body {
 }
 
 @keyframes glow {
-  0% { border-color: black; }
-  50% { border-color: white; }
-  100% { border-color: black; }
+  from { border-color: rgba(0,0,0, 0.3); }
+  to { border-color: rgba(255, 255, 255, 0.3); }
 }
 
 #quadrants.hidden {

@@ -14,7 +14,7 @@ function moveSq() {
 
 
 function newRand(lBound, uBound, prevRnd) {
-  // choose rnd int,  differently from previous choice. Try up to 10000x.
+  // choose a random int different from previous choice. Try up to 10000x.
   for (let i = 0; i < 10000; i++) {
     var newRnd = rndIntInRange(lBound, uBound);
     if (newRnd !== prevRnd) break;
@@ -66,10 +66,13 @@ function makeGuess(guess) {
   let guessedRank = parseInt(guess[1] - 1);
   let guessedFile = guess[0].toLowerCase().charCodeAt(0) - 97;
   let gotRight = (guessedRank == prevRank && guessedFile == prevFile);
-  if (gotRight) moveSq();
+  if (gotRight) {
+    moveSq();
+  } else flashWrong();
   updateStreak(gotRight);
   el("guess").value = "";
 }
+
 
 function updateStreak(gotRight) {
   streak = (gotRight) ? streak + 1 : 0;
@@ -78,17 +81,21 @@ function updateStreak(gotRight) {
   el("bestNo").textContent = best;
 }
 
+function flashWrong() {
+  document.body.style.backgroundColor = "red";
+  setTimeout(function () { document.body.style.backgroundColor = "white"; }, 300);
+
+}
+
+
 window.addEventListener("load", (event) => {
   el("board").classList.remove("justFlipped");
-
   let allChoices = document.getElementsByClassName("choice");
-
   for (let choice of allChoices) {
     choice.addEventListener("click", function () {
         makeGuess(choice.textContent);
     });
   }
-
   el("guess").addEventListener('input', function (e) {
     makeGuess(el("guess").value); 
     el("board").classList.remove("justFlipped");
