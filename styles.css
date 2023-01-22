@@ -1,6 +1,6 @@
 body {
   text-align: center;
-  font-family: 'Noto Serif', serif;
+  font-family: 'PT Serif', serif;
 } 
 
 
@@ -19,6 +19,7 @@ body {
 #multiChoice span {
   background-color: green;
   color: white;
+  letter-spacing: .1rem;
   text-align: center;
   width: 15%;
   padding: .5rem 0;
@@ -31,6 +32,26 @@ body {
   background-color: darkgreen;
 }
 
+#streakContainer {
+  width: 60vh;
+  max-width: 90vw; /* Same as board */
+  display: flex;
+  margin: auto;
+  align-items: center;
+  justify-content: center;
+  outline: 1px lightgray solid;
+  border-radius: .25rem;
+}
+
+#streakContainer>* {
+  margin: 0 .25rem;
+}
+
+#streakNo {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: green;
+}
 
 #options {
   width: fit-content;

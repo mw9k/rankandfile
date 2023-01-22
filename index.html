@@ -18,16 +18,22 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=PT+Serif:wght@400;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
   <header>
     <h1>Coordinates Trainer</h1>
   </header>
-  
+
   <label for="guess" hidden>Type or speak the highlighted square (e.g. "a1")<br></label>
   <input type="text" id="guess" autofocus hidden></input>
+
+  <div id="streakContainer" class="noSelect">
+    <span>Streak:</span> <span id="streakNo">0</span>
+    <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+    <span>Best:</span> <span id="bestNo">0</span>
+  </div>
 
   <div id="board" class="noSelect">
     <div id="sq"></div>
@@ -38,12 +44,15 @@
     <div id="quadrants"></div>
   </div>
 
-    <div id="multiChoice" class="noSelect">
-      <span id="option1" class="opt">A1</span>
-      <span id="option2" class="opt">B2</span>
-      <span id="option3" class="opt">C3</span>
-      <span id="option4" class="opt">D4</span>
-    </div>
+  <div id="multiChoice" class="noSelect">
+    <span id="choice1" class="choice">A1</span>
+    <span id="choice2" class="choice">B2</span>
+    <span id="choice3" class="choice">C3</span>
+    <span id="choice4" class="choice">D4</span>
+  </div>
+
+
+
 
   <div id="options">
     <h2>Options</h2>

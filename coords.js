@@ -1,80 +1,57 @@
 
-let prevRank = 0, prevFile = 0;
-
-
-window.addEventListener("click", (event) => {
-  // listen();
-
-});
-
-
+let prevRank = 0, prevFile = 0, streak = 0, best = 0;
 
 
 function moveSq() {
-  const ranks = [1, 2, 3, 4, 5, 6, 7, 8];
-  const files = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
-
-  chosenFile = randomChoice(files, prevFile);
+  chosenFile = newRand(0, 7);
+  chosenRank = newRand(0, 7);
   prevFile = chosenFile;
-  chosenRank = randomChoice(ranks, prevRank);
   prevRank = chosenRank;
-  // document.body.append(files[chosenFile], ranks[chosenRank], ", ");
-
   el('sq').style.setProperty('--file', chosenFile);
   el('sq').style.setProperty('--rank', chosenRank);
-  generateOptions();
-
+  generateChoices();
 }
 
 
-function randomChoice(arr, prevChoice) {
-  // choose random member from array,
-  // also choosing differently from previous choice.
-  // try up to 1000x.
-  let choice = undefined;
-  for (let i = 0; i < 1000; i++) {
-    choice = Math.floor(Math.random() / (1 / arr.length));
-    if (choice !== prevChoice) break;
-  }
-  return choice;
-}
-
-function randomIntInRange(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-
-function generateOptions() {
-  let options = [];
-  options.push(String(prevFile)+String(prevRank));
+function newRand(lBound, uBound, prevRnd) {
+  // choose rnd int,  differently from previous choice. Try up to 10000x.
   for (let i = 0; i < 10000; i++) {
-    let lBound = prevFile;
-    if (lBound - 1 >= 0) lBound--;
-    let uBound = prevFile;
-    if (uBound + 1 <= 7) uBound++;
-    let rndFile = randomIntInRange(lBound, uBound);
-    if (Math.random() < .75) rndFile = prevFile;
+    var newRnd = rndIntInRange(lBound, uBound);
+    if (newRnd !== prevRnd) break;
+  }
+  return newRnd;
+}
 
-    lBound = prevRank;
-    if (lBound - 1 >= 0) lBound--;
-    uBound = prevRank;
-    if (uBound + 1 <= 7) uBound++;
-    let rndRank = randomIntInRange(lBound, uBound);
+function rndIntInRange(lBound, uBound) {
+  return Math.floor(Math.random() * (uBound - lBound + 1)) + lBound;
+}
+
+
+function generateChoices() {
+  let choices = [];
+  choices.push(String(prevFile) + String(prevRank)); // add correct choice 1st
+  for (let i = 0; i < 10000; i++) { // try 10k times
+    let lBound = (prevFile - 1 >= 0) ? prevFile - 1: prevFile;
+    let uBound = (prevFile + 1 <= 7) ? prevFile + 1 : prevFile;
+    let rndFile = rndIntInRange(lBound, uBound);
+    if (Math.random() < .75) rndFile = prevFile; // 75% chance of no change 
+
+    lBound = (prevRank - 1 >= 0) ? prevRank - 1 : prevRank;
+    uBound = (prevRank + 1 <= 7) ? prevRank + 1 : prevRank;
+    rndRank = rndIntInRange(lBound, uBound);
     if (Math.random() < .75) rndRank = prevRank;
 
     let rndSq = String(rndFile) + String(rndRank);
-    if (options.indexOf(rndSq) == -1) {
-      options.push(rndSq);
-    }
-    if (options.length >= 4) break;
+    if (choices.indexOf(rndSq) == -1) choices.push(rndSq);  // add if unique
+    if (choices.length >= 4) break;
   }
 
-  shuffleArray(options);
+  shuffleArray(choices);
 
-  for (let [i, option] of options.entries()) {
-    let file = String.fromCharCode(parseInt(option[0]) + 65);
-    let rank = parseInt(option[1]) + 1;
-    el(`option${i+1}`).innerHTML = `${file}${rank}`;
+  for (let [i, choice] of choices.entries()) {
+    let file = String.fromCharCode(parseInt(choice[0]) + 97);
+    let rank = parseInt(choice[1]) + 1;
+    el(`choice${i+1}`).textContent = `${file}${rank}`;
   }
 }
 
@@ -83,26 +60,37 @@ function el(elem) {	// Custom shortener for document.getElementById()
   return document.getElementById(elem);
 }
 
+
+function fileToNum(rank) {
+  return rank.toLowerCase().charCodeAt(0) - 96;
+}
+
+
 function makeGuess(guess) {
+  if (!guess.length) return false;
   let guessedRank = parseInt(guess[1] - 1);
-  let guessedFile = undefined;
-  if (guess.length) {
-    guessedFile = guess[0].toLowerCase().charCodeAt(0) - 97;
-  } 
-  if ( guessedRank == prevRank && guessedFile == prevFile) {
-    el("guess").value = "";
-    moveSq();
-  } 
+  let guessedFile = fileToNum(guess[0]) - 1;
+  let gotRight = (guessedRank == prevRank && guessedFile == prevFile);
+  if (gotRight) moveSq();
+  updateStreak(gotRight);
+  el("guess").value = "";
+}
+
+function updateStreak(gotRight) {
+  streak = (gotRight) ? streak + 1 : 0;
+  if (streak > best) best = streak;
+  el("streakNo").textContent = streak;
+  el("bestNo").textContent = best;
 }
 
 window.addEventListener("load", (event) => {
   el("board").classList.remove("justFlipped");
 
-  let allOptions = document.getElementsByClassName('opt');
+  let allChoices = document.getElementsByClassName("choice");
 
-  for (let opt of allOptions) {
-    opt.addEventListener("click", function () {
-        makeGuess(opt.innerHTML);
+  for (let choice of allChoices) {
+    choice.addEventListener("click", function () {
+        makeGuess(choice.textContent);
     });
   }
 
@@ -138,50 +126,10 @@ window.addEventListener("load", (event) => {
 }
 });
 
-
-function listen() {
-  const SpeechRecognition = window.SpeechRecognition || webkitSpeechRecognition;
-  const SpeechGrammarList = window.SpeechGrammarList || webkitSpeechGrammarList;
-  const SpeechRecognitionEvent = window.SpeechRecognitionEvent || webkitSpeechRecognitionEvent;
-
-  const sqs = [
-    'a1', 'a2', 'a3', 'a4', 'a5', 'a6', 'a7', 'a8',
-    'b1', 'b2', 'b3', 'b4', 'b5', 'b6', 'b7', 'b8',
-    'c1', 'c2', 'c3', 'c4', 'c5', 'c6', 'c7', 'c8',
-    'd1', 'e2', 'e3', 'e4', 'e5', 'e6', 'e7', 'e8',
-    'f1', 'f2', 'f3', 'f4', 'f5', 'f6', 'f7', 'f8',
-    'g1', 'g2', 'g3', 'g4', 'g5', 'g6', 'g7', 'g8',
-    'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'h7', 'h8',
-  ];
-
-  const recognition = new SpeechRecognition();
-
-  recognition.continuous = false;
-  recognition.lang = 'en-US';
-  recognition.interimResults = false;
-  recognition.maxAlternatives = 20;
-
-  recognition.start();
-  console.log('Ready to receive speech.');
-
-  recognition.onresult = (event) => {
-    let heard = event.results[event.resultIndex][0].transcript;
-    for (let f of event.results[event.resultIndex]) {
-      f = String(f.transcript).replace(/\s/g, "");
-      console.log("hey, it's..." + f);
-      if (sqs.indexOf(f) > -1) {
-        makeGuess(f);
-      }
-    }
-  }
-
-}
-
-
-function shuffleArray(array) { 
+function shuffleArray(arr) { 
   // from https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
-  for (let i = array.length - 1; i > 0; i--) {
+  for (let i = arr.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
+    [arr[i], arr[j]] = [arr[j], arr[i]];
   }
 }
