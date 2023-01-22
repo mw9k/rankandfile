@@ -37,7 +37,7 @@ body {
 
 #streakContainer {
   width: 60vh; /* Same as board */
-  max-width: 100w; 
+  max-width: 100vw; 
   display: flex;
   margin: auto;
   align-items: center;
@@ -109,7 +109,7 @@ body {
   
   --rank: 0;
   --file: 0;
-  /* animation: glow .75s linear infinite; */
+  animation: glow .75s linear infinite;
   animation-direction: alternate;
   bottom: calc(12.5% * var(--rank));
   left: calc(12.5% * var(--file));
@@ -143,25 +143,6 @@ body {
   background-size: 100%;
   z-index: 0;
   /* opacity: .6; */
-}
-
-#pc0 {
-  --rank: 0;
-  --file: 3;
-}
-
-#pc1 {
-  --rank: 0;
-  --file: 4;
-}
-
-#pc2 {
-  --rank: 7;
-  --file: 3;
-
-}#pc3 {
-  --rank: 7;
-  --file: 4;
 }
 
 .pc.white.queen {
@@ -205,8 +186,8 @@ body {
 }
 
 @keyframes glow {
-  from { border-color: rgba(0,0,0, 0.3); }
-  to { border-color: rgba(255, 255, 255, 0.3); }
+  from { border-color: rgb(0,0,0); }
+  to { border-color: rgb(255, 255, 255); }
 }
 
 #quadrants.hidden {
