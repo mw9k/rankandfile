@@ -43,7 +43,7 @@ function generateChoices() {
 
     let rndSq = String(rndFile) + String(rndRank);
     if (choices.indexOf(rndSq) == -1) choices.push(rndSq);  // add if unique
-    if (choices.length >= 4) break;
+    if (choices.length >= 3) break;
   }
 
   shuffleArray(choices);
