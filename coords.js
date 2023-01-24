@@ -62,6 +62,7 @@ function el(elem) {	// Custom shortener for document.getElementById()
 
 
 function makeGuess(guess) {
+  guess = String(guess).replace(/\s/g, ""); // trim whitespace
   if (!guess.length) return false;
   let guessedRank = parseInt(guess[1] - 1);
   let guessedFile = guess[0].toLowerCase().charCodeAt(0) - 97;
