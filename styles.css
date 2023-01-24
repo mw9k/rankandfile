@@ -6,9 +6,14 @@ body {
   margin:0;
 } 
 
+h1 {
+  font-size: 2rem;
+  margin: 1rem;
+  padding: 0;
+}
 
 #multiChoice {
-  width: 60vh; /* Same as board */
+  width: 65vh; /* Same as board */
   max-width: 96vw; 
   margin: 1rem auto;
   height: 4rem;
@@ -36,7 +41,7 @@ body {
 }
 
 #streakContainer {
-  width: 60vh; /* Same as board */
+  width: 65vh; /* Same as board */
   max-width: 100vw; 
   display: flex;
   margin: auto;
@@ -55,7 +60,7 @@ body {
   overflow: hidden;
   border-right: 1px lightgray solid;
   /* flex-basis: 33%; */
-  flex-grow: 1;
+  flex-grow: 1;sq
   flex-shrink: 1;
   display: flex;
   align-items: center;
@@ -63,9 +68,9 @@ body {
 }
 
 #streakNo {
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-weight: bold;
-  color: purple;
+  color: blue;
   margin-left: .25rem;
 }
 
@@ -89,8 +94,8 @@ body {
   background-image: url('board.svg');
   background-size: 25%;
   background-repeat: repeat;
-  height: 60vh;
-  width: 60vh;
+  height: 65vh;
+  width: 65vh;
   max-height: 100vw;
   max-width: 100vw;
   position:relative;
@@ -109,7 +114,7 @@ body {
   
   --rank: 0;
   --file: 0;
-  animation: glow .75s linear infinite;
+  /* animation: glow .75s linear infinite; */
   animation-direction: alternate;
   bottom: calc(12.5% * var(--rank));
   left: calc(12.5% * var(--file));
@@ -118,6 +123,22 @@ body {
   /* margin-left: -3px;
   margin-bottom: -3px; */
 }
+
+/* #sq::after {
+  content: "";
+  display: block;
+  background-color: orange;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 3;
+  border-radius: 50%;
+  outline: 3px white solid;
+  animation: glow .75s linear infinite;
+  animation-direction: alternate;
+} */
 
 #board.flipped #sq, #board.flipped .pc {
     bottom: calc(100% - (12.5% * (var(--rank) + 1)));
