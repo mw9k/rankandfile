@@ -100,7 +100,7 @@ h1 {
   max-height: 100vw;
   max-width: 100vw;
   position:relative;
-  outline: 2px black solid;
+  outline: 2px darkslategray solid;
   margin: 1rem auto;
 }
 
