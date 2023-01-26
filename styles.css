@@ -127,20 +127,7 @@ h1 {
   /* margin-left: -3px;
   margin-bottom: -3px; */
 }
-/* 
-#sq::after {
-  content: "";
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  z-index: 2;
-  opacity: .6;
-  /* animation: glow .75s linear infinite;
-  animation-direction: alternate; */
-} */
+
 
 #board.flipped #sq, #board.flipped .pc {
     bottom: calc(100% - (12.5% * (var(--rank) + 1)));
@@ -152,8 +139,12 @@ h1 {
   transition: none;
 }
 
-#board.noPcs .pc {
-  opacity:0;
+#board.noPcs .pc, #board.kqOnly .pc {
+  opacity: 0;
+}
+
+#board.kqOnly .pc.queen, #board.kqOnly .pc.king {
+  opacity: 1;
 }
 
 .pc {

@@ -99,7 +99,6 @@ window.addEventListener("load", (event) => {
     el("board").classList.add("justFlipped");
     if (el("flip").checked) {
       el("board").classList.add("flipped");
-      console.log(el("board").classList);
     } else el("board").classList.remove("flipped");
   });
   el("showQuads").addEventListener('input', function (e) {
@@ -120,11 +119,10 @@ window.addEventListener("load", (event) => {
   const showPcsGroup = document.querySelectorAll('input[name="showPcs"]');
   for (let btn of showPcsGroup) {
     btn.addEventListener("click", () => {
-      if (btn.id == "noPcs") {
-        el("board").classList.add("noPcs");
-      } else {
-        el("board").classList.remove("noPcs");
-      }
+      el("board").classList.remove("noPcs");
+      el("board").classList.remove("allPcs");
+      el("board").classList.remove("kqOnly");
+      el("board").classList.add(btn.id);
     });
 }
 });
