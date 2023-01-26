@@ -3,6 +3,8 @@ let prevRank = 0, prevFile = 0, streak = 0, best = 0;
 
 
 function moveSq() {
+  el("board").classList.remove("justFlipped");
+  console.log(el("board").classList);
   chosenFile = newRand(0, 7, prevFile);
   chosenRank = newRand(0, 7, prevRank);
   prevFile = chosenFile;
@@ -133,12 +135,4 @@ function shuffleArray(arr) {
     const j = Math.floor(Math.random() * (i + 1));
     [arr[i], arr[j]] = [arr[j], arr[i]];
   }
-}
-
-
-function drawBoard(darkColor, lightColor) {
-  // Using Canvas - pixel perfect, avoids scaling & tiling issues
-
-  
-
 }
