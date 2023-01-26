@@ -21,7 +21,7 @@ h1 {
   /* background: yellow; */
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: center;
   align-items: center;
 }
 
@@ -30,9 +30,9 @@ h1 {
   color: white;
   letter-spacing: .1rem;
   text-align: center;
-  width: 15%;
-  padding: .5rem 0;
-  font-size: 1.2rem;
+  padding: .5rem 1rem;
+  margin: 0 1rem;
+  font-size: 1.3rem;
   border-radius: .3rem;
   cursor: pointer;
 }
@@ -91,9 +91,10 @@ h1 {
 }
 
 #board {
+  z-index: -1;
   background-image: url('board.svg');
   background-size: 25%;
-  background-repeat: repeat;
+  background-repeat: round;
   height: 65vh;
   width: 65vh;
   max-height: 100vw;
@@ -107,11 +108,11 @@ h1 {
   position:absolute;
   z-index: 3;
   transition: bottom .3s ease-in-out, left .3s ease-in-out;
-  height: calc(12.5%);
-  width: calc(12.5%);
+  height: calc(12.5% - 6px);
+  width: calc(12.5% - 6px);
+  border: 3px black solid;
   /* background-color: orange; */
   /* border: 3px black solid; */
-  outline: 4px black solid;
   /* background: rgba(255,255,0,0.5); */
   --rank: 0;
   --file: 0;

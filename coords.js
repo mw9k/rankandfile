@@ -71,7 +71,6 @@ function makeGuess(guess) {
     moveSq();
   } else flashWrong();
   updateStreak(gotRight);
-  el("guess").value = "";
 }
 
 
@@ -84,8 +83,7 @@ function updateStreak(gotRight) {
 
 function flashWrong() {
   document.body.style.backgroundColor = "red";
-  setTimeout(function () { document.body.style.backgroundColor = "white"; }, 300);
-
+  setTimeout(function () { document.body.style.backgroundColor = "initial"; }, 300);
 }
 
 
@@ -97,17 +95,11 @@ window.addEventListener("load", (event) => {
         makeGuess(choice.textContent);
     });
   }
-  el("guess").addEventListener('input', function (e) {
-    makeGuess(el("guess").value); 
-    el("board").classList.remove("justFlipped");
-  });
-  el("guess").addEventListener('blur', function (e) {
-    el("guess").focus({ preventScroll: true });
-  });
   el("flip").addEventListener('input', function (e) {
     el("board").classList.add("justFlipped");
     if (el("flip").checked) {
       el("board").classList.add("flipped");
+      console.log(el("board").classList);
     } else el("board").classList.remove("flipped");
   });
   el("showQuads").addEventListener('input', function (e) {
@@ -115,12 +107,20 @@ window.addEventListener("load", (event) => {
       el("quadrants").classList.remove("hidden");
     } else el("quadrants").classList.add("hidden");
   });
+  document.addEventListener("keypress", function (event) {
+    if (event.key == "A" || event.key == "a") {
+      el("choice1").click();
+    } else if (event.key == "S" || event.key == "s") {
+      el("choice2").click();
+    } else if (event.key == "D" || event.key == "d") {
+      el("choice3").click();
+    }
+  });
   
   const showPcsGroup = document.querySelectorAll('input[name="showPcs"]');
   for (let btn of showPcsGroup) {
     btn.addEventListener("click", () => {
-      let choice = btn.id;
-      if (choice == "noPcs") {
+      if (btn.id == "noPcs") {
         el("board").classList.add("noPcs");
       } else {
         el("board").classList.remove("noPcs");
@@ -130,9 +130,17 @@ window.addEventListener("load", (event) => {
 });
 
 function shuffleArray(arr) { 
-  // from https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
+  // adapted from https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
   for (let i = arr.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [arr[i], arr[j]] = [arr[j], arr[i]];
   }
+}
+
+
+function drawBoard(darkColor, lightColor) {
+  // Using Canvas - pixel perfect, avoids scaling & tiling issues
+
+  
+
 }
