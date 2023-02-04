@@ -258,4 +258,5 @@ ul {
   margin: 0 auto;
   margin-bottom: 3rem;
   padding:0;
+  list-style-position: inside;
 }
