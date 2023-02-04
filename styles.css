@@ -134,10 +134,8 @@ h1 {
     left: calc(100% - (12.5% * (var(--file) + 1)));
 }
 
-#board.justFlipped #sq,
-#board.justFlipped .pc {
-  /* only jumpy movement during board-flip. still allow opacity fade out. */
-  transition: opacity .3s ease-out; 
+#board.justFlipped #sq {
+  transition: none;
 }
 
 #board.noPcs .pc, #board.kqOnly .pc {
@@ -222,8 +220,8 @@ h1 {
   height: 50%;
   width:100%;
   position: absolute;
-  top: -2px;  /* half border width */
-  border-bottom: 4px yellow solid;
+  top: -1.5px;  /* half border width */
+  border-bottom: 3px yellow solid;
 }
 
 #quadrants::before {
@@ -232,9 +230,8 @@ h1 {
   height: 100%;
   width: 50%;
   position: absolute;
-  left: -2px;
-  /* half border width */
-  border-right: 4px yellow solid;
+  left: -1.5px; /* half border width */
+  border-right: 3px yellow solid;
 }
 
 #guess {
@@ -262,14 +259,10 @@ ul {
   list-style-position: inside;
 }
 
-button {
-  font-size: 1rem;
-  background: none;
-  border: none;
+span.actionText {
   color:blue;
   cursor: pointer;
   text-decoration: underline;
-  border-radius: .15rem;
   margin: 1rem 0;
   display:block;
 }

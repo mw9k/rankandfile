@@ -1,6 +1,5 @@
-let prevRank = 0, prevFile = 0, streak = 0, best = 0;
-let settings = { exists:true, showQuads:true, flipped:false, showPcs:"kqOnly",
-  constrain:"normal" };
+let prevRank = 0, prevFile = 0, streak = 0, best = 0, bestEver = 0;
+let settings = {};
 
 function moveSq() {
   loadSettings();
@@ -13,7 +12,6 @@ function moveSq() {
   el('sq').style.setProperty('--rank', chosenRank);
   generateChoices();
 }
-
 
 function newRand(lBound, uBound, prevRnd) {
   // choose a random int different from previous choice. Try up to 10000x.
@@ -71,7 +69,6 @@ function el(elem) {	// Custom shortener for document.getElementById()
   return document.getElementById(elem);
 }
 
-
 function makeGuess(guess) {
   guess = String(guess).replace(/\s/g, ""); // trim whitespace
   if (!guess.length) return false;
@@ -89,12 +86,16 @@ function makeGuess(guess) {
   updateStreak(gotRight);
 }
 
-
 function updateStreak(gotRight) {
   streak = (gotRight) ? streak + 1 : 0;
   if (streak > best) best = streak;
+  if (best > bestEver) {
+    bestEver = best;
+    localStorage.setItem('rankFileHiScore', bestEver);
+  }
   el("streakNo").textContent = streak;
   el("bestNo").textContent = best;
+  el("bestEverNo").textContent = bestEver;
 }
 
 function flashWrong() {
@@ -104,7 +105,10 @@ function flashWrong() {
 
 
 window.addEventListener("load", (event) => {
+  resetSettings();
   loadSettings();
+  bestEver = localStorage.getItem('rankFileHiScore');
+  el("bestEverNo").textContent = bestEver;
   let allChoices = document.getElementsByClassName("choice");
   for (let choice of allChoices) {
     choice.addEventListener("click", function () {
@@ -122,6 +126,8 @@ window.addEventListener("load", (event) => {
         generateChoices();
       }
     }
+    if (e.target.id == "resetHiScore") resetHiScore();
+    if (e.target.id == "resetSettings") resetSettings(true);
   });
   el("flip").addEventListener('input', function (e) {
     settings.flipped = e.target.checked;
@@ -132,16 +138,17 @@ window.addEventListener("load", (event) => {
     saveSettings();
   });
   document.addEventListener("keypress", function (event) {
-    if (event.key == "A" || event.key == "a") {
+    if (event.key == "A" || event.key == "a" || event.key == "1") {
       el("choice1").click();
-    } else if (event.key == "S" || event.key == "s") {
+    } else if (event.key == "S" || event.key == "s" || event.key == "2") {
       el("choice2").click();
-    } else if (event.key == "D" || event.key == "d") {
+    } else if (event.key == "D" || event.key == "d" || event.key == "3") {
       el("choice3").click();
     }
   });
   generateChoices();
 });
+
 
 function shuffleArray(arr) { 
   // adapted from https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
@@ -167,31 +174,41 @@ function saveSettings() {
 function applySettings() {
   if (settings.showQuads) {
     el("quadrants").classList.remove("hidden");
-    el("showQuads").setAttribute("checked", "");
+    el("showQuads").checked = true;
   } else {
     el("quadrants").classList.add("hidden");
-    el("showQuads").removeAttribute("checked");
+    el("showQuads").checked = false;
   }
   el("board").classList.add("justFlipped");
   if (settings.flipped) {
     el("board").classList.add("flipped");
-    el("flip").setAttribute("checked", "");
+    el("flip").checked = true;
   } else {
     el("board").classList.remove("flipped");
-    el("flip").removeAttribute("checked");
+    el("flip").checked = false;
   }
   el("board").classList.remove("noPcs");
   el("board").classList.remove("allPcs");
   el("board").classList.remove("kqOnly");
   el("board").classList.add(settings.showPcs);
   if (el(settings.showPcs)) {
-    el(settings.showPcs).setAttribute("checked", "");
+    el(settings.showPcs).checked = true;
   }
   if (el(settings.constrain)) {
-    el(settings.constrain).setAttribute("checked", "");
+    el(settings.constrain).checked = false;
   }
 }
 
-function resetSettings() {
+function resetHiScore() {
+  if (confirm('Are you sure you want to erase your saved High Score?')) {
+    bestEver = 0;
+    localStorage.setItem('rankFileHiScore', bestEver);
+    el("bestEverNo").textContent = bestEver;
+  }
+}
 
+function resetSettings(andSave = false) {
+  settings = { exists:true, showQuads:true, flipped:false, showPcs:"allPcs",
+  constrain: "normal" };
+  if (andSave) saveSettings();
 }
