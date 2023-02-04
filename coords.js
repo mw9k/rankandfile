@@ -35,14 +35,14 @@ function generateChoices() {
   choices.push(correctChoice); 
   
   for (let i = 0; i < 10000; i++) { // try 10k times
-    let maxDist = (settings.constrain == "rankOnly") ? 1 : 3;
+    let maxDist = (settings.constrain == "fileOnly") ? 3 : 1;
     let lBound = (prevFile - maxDist >= 0) ? prevFile - maxDist: 0;
     let uBound = (prevFile + maxDist <= 7) ? prevFile + maxDist : 7;
     let rndFile = rndIntInRange(lBound, uBound);
     rndFile = String.fromCharCode(rndFile + 97);
     if (Math.random() < .75) rndFile = String.fromCharCode(prevFile + 97); // ~75% chance of no change 
     
-    maxDist = (settings.constrain == "fileOnly") ? 1 : 3;
+    maxDist = (settings.constrain == "rankOnly") ? 3 : 1;
     lBound = (prevRank - maxDist >= 0) ? prevRank - maxDist : 0;
     uBound = (prevRank + maxDist <= 7) ? prevRank + maxDist : 7;
     let rndRank = rndIntInRange(lBound, uBound);
@@ -112,7 +112,6 @@ window.addEventListener("load", (event) => {
     });
   }
   window.addEventListener("click", function (e) {
-    if (e.target.id == "") moveSq();
     if (e.target.type == "radio") {
       if (e.target.name == "showPcs") {
         settings.showPcs = e.target.id;
@@ -120,7 +119,7 @@ window.addEventListener("load", (event) => {
       } else if (e.target.name == "constrain") {
         settings.constrain = e.target.id;
         saveSettings();
-        moveSq();
+        generateChoices();
       }
     }
   });

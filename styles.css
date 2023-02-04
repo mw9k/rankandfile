@@ -136,7 +136,8 @@ h1 {
 
 #board.justFlipped #sq,
 #board.justFlipped .pc {
-  transition: none;
+  /* only jumpy movement during board-flip. still allow opacity fade out. */
+  transition: opacity .3s ease-out; 
 }
 
 #board.noPcs .pc, #board.kqOnly .pc {
@@ -259,4 +260,16 @@ ul {
   margin-bottom: 3rem;
   padding:0;
   list-style-position: inside;
+}
+
+button {
+  font-size: 1rem;
+  background: none;
+  border: none;
+  color:blue;
+  cursor: pointer;
+  text-decoration: underline;
+  border-radius: .15rem;
+  margin: 1rem 0;
+  display:block;
 }
