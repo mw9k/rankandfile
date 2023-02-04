@@ -1,10 +1,10 @@
-
 let prevRank = 0, prevFile = 0, streak = 0, best = 0;
-
+let settings = { exists:true, showQuads:true, flipped:false, showPcs:"kqOnly",
+  constrain:"normal" };
 
 function moveSq() {
+  loadSettings();
   el("board").classList.remove("justFlipped");
-  console.log(el("board").classList);
   chosenFile = newRand(0, 7, prevFile);
   chosenRank = newRand(0, 7, prevRank);
   prevFile = chosenFile;
@@ -31,32 +31,41 @@ function rndIntInRange(lBound, uBound) {
 
 function generateChoices() {
   let choices = [];
-  choices.push(String(prevFile) + String(prevRank)); // add correct choice 1st
+  let correctChoice = constrain(String.fromCharCode(prevFile + 97), prevRank + 1);
+  choices.push(correctChoice); 
+  
   for (let i = 0; i < 10000; i++) { // try 10k times
-    let lBound = (prevFile - 1 >= 0) ? prevFile - 1: prevFile;
-    let uBound = (prevFile + 1 <= 7) ? prevFile + 1 : prevFile;
+    let maxDist = (settings.constrain == "rankOnly") ? 1 : 3;
+    let lBound = (prevFile - maxDist >= 0) ? prevFile - maxDist: 0;
+    let uBound = (prevFile + maxDist <= 7) ? prevFile + maxDist : 7;
     let rndFile = rndIntInRange(lBound, uBound);
-    if (Math.random() < .75) rndFile = prevFile; // 75% chance of no change 
-
-    lBound = (prevRank - 1 >= 0) ? prevRank - 1 : prevRank;
-    uBound = (prevRank + 1 <= 7) ? prevRank + 1 : prevRank;
-    rndRank = rndIntInRange(lBound, uBound);
-    if (Math.random() < .75) rndRank = prevRank;
-
-    let rndSq = String(rndFile) + String(rndRank);
+    rndFile = String.fromCharCode(rndFile + 97);
+    if (Math.random() < .75) rndFile = String.fromCharCode(prevFile + 97); // ~75% chance of no change 
+    
+    maxDist = (settings.constrain == "fileOnly") ? 1 : 3;
+    lBound = (prevRank - maxDist >= 0) ? prevRank - maxDist : 0;
+    uBound = (prevRank + maxDist <= 7) ? prevRank + maxDist : 7;
+    let rndRank = rndIntInRange(lBound, uBound);
+    if (Math.random() < .75) rndRank = prevRank; // ~75% chance of no change 
+    rndRank++;
+    
+    let rndSq = constrain(rndFile, rndRank);
     if (choices.indexOf(rndSq) == -1) choices.push(rndSq);  // add if unique
     if (choices.length >= 3) break;
   }
 
   shuffleArray(choices);
-
   for (let [i, choice] of choices.entries()) {
-    let file = String.fromCharCode(parseInt(choice[0]) + 97);
-    let rank = parseInt(choice[1]) + 1;
-    el(`choice${i+1}`).textContent = `${file}${rank}`;
+    el(`choice${i + 1}`).textContent = choice;
   }
 }
 
+
+function constrain(file, rank) {
+  if (settings.constrain == "rankOnly") file = "";
+  if (settings.constrain == "fileOnly") rank = "";
+  return `${file}${rank}`;
+}
 
 function el(elem) {	// Custom shortener for document.getElementById()
   return document.getElementById(elem);
@@ -66,6 +75,11 @@ function el(elem) {	// Custom shortener for document.getElementById()
 function makeGuess(guess) {
   guess = String(guess).replace(/\s/g, ""); // trim whitespace
   if (!guess.length) return false;
+  if (settings.constrain == "rankOnly") {
+    guess = `${String.fromCharCode(prevFile + 97)}${guess}`;
+  } else if (settings.constrain == "fileOnly") {
+    guess += prevRank + 1;
+  }
   let guessedRank = parseInt(guess[1] - 1);
   let guessedFile = guess[0].toLowerCase().charCodeAt(0) - 97;
   let gotRight = (guessedRank == prevRank && guessedFile == prevFile);
@@ -90,23 +104,33 @@ function flashWrong() {
 
 
 window.addEventListener("load", (event) => {
-  el("board").classList.remove("justFlipped");
+  loadSettings();
   let allChoices = document.getElementsByClassName("choice");
   for (let choice of allChoices) {
     choice.addEventListener("click", function () {
         makeGuess(choice.textContent);
     });
   }
+  window.addEventListener("click", function (e) {
+    if (e.target.id == "") moveSq();
+    if (e.target.type == "radio") {
+      if (e.target.name == "showPcs") {
+        settings.showPcs = e.target.id;
+        saveSettings();
+      } else if (e.target.name == "constrain") {
+        settings.constrain = e.target.id;
+        saveSettings();
+        moveSq();
+      }
+    }
+  });
   el("flip").addEventListener('input', function (e) {
-    el("board").classList.add("justFlipped");
-    if (el("flip").checked) {
-      el("board").classList.add("flipped");
-    } else el("board").classList.remove("flipped");
+    settings.flipped = e.target.checked;
+    saveSettings();
   });
   el("showQuads").addEventListener('input', function (e) {
-    if (el("showQuads").checked) {
-      el("quadrants").classList.remove("hidden");
-    } else el("quadrants").classList.add("hidden");
+    settings.showQuads = e.target.checked;
+    saveSettings();
   });
   document.addEventListener("keypress", function (event) {
     if (event.key == "A" || event.key == "a") {
@@ -117,16 +141,7 @@ window.addEventListener("load", (event) => {
       el("choice3").click();
     }
   });
-  
-  const showPcsGroup = document.querySelectorAll('input[name="showPcs"]');
-  for (let btn of showPcsGroup) {
-    btn.addEventListener("click", () => {
-      el("board").classList.remove("noPcs");
-      el("board").classList.remove("allPcs");
-      el("board").classList.remove("kqOnly");
-      el("board").classList.add(btn.id);
-    });
-}
+  generateChoices();
 });
 
 function shuffleArray(arr) { 
@@ -135,4 +150,49 @@ function shuffleArray(arr) {
     const j = Math.floor(Math.random() * (i + 1));
     [arr[i], arr[j]] = [arr[j], arr[i]];
   }
+}
+
+function loadSettings() {
+  let loaded = JSON.parse(localStorage.getItem('rankFileSettings'));
+  if (loaded && loaded.exists) {
+    settings = loaded;
+    applySettings();
+  }
+}
+
+function saveSettings() {
+  localStorage.setItem('rankFileSettings', JSON.stringify(settings));
+  applySettings();
+}
+
+function applySettings() {
+  if (settings.showQuads) {
+    el("quadrants").classList.remove("hidden");
+    el("showQuads").setAttribute("checked", "");
+  } else {
+    el("quadrants").classList.add("hidden");
+    el("showQuads").removeAttribute("checked");
+  }
+  el("board").classList.add("justFlipped");
+  if (settings.flipped) {
+    el("board").classList.add("flipped");
+    el("flip").setAttribute("checked", "");
+  } else {
+    el("board").classList.remove("flipped");
+    el("flip").removeAttribute("checked");
+  }
+  el("board").classList.remove("noPcs");
+  el("board").classList.remove("allPcs");
+  el("board").classList.remove("kqOnly");
+  el("board").classList.add(settings.showPcs);
+  if (el(settings.showPcs)) {
+    el(settings.showPcs).setAttribute("checked", "");
+  }
+  if (el(settings.constrain)) {
+    el(settings.constrain).setAttribute("checked", "");
+  }
+}
+
+function resetSettings() {
+
 }

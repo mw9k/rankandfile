@@ -70,9 +70,9 @@
   </div>
 
   <div id="multiChoice" class="noSelect">
-    <span id="choice1" class="choice">a1</span>
-    <span id="choice2" class="choice">a2</span>
-    <span id="choice3" class="choice">b1</span>
+    <span id="choice1" class="choice"></span>
+    <span id="choice2" class="choice"></span>
+    <span id="choice3" class="choice"></span>
     <!-- <span id="choice4" class="choice">b2</span> -->
   </div>
 
@@ -86,11 +86,11 @@
       <label for="showQuads"> Show Quadrants</label><br>
       <hr>
       <input type="radio" id="normal" name="constrain" checked>
-      <label for="normal"> Full Board</label><br>
-      <input type="radio" id="ranksOnly" name="constrain">
-      <label for="ranksOnly"> Ranks Only</label><br>
-      <input type="radio" id="filesOnly" name="constrain">
-      <label for="filesOnly"> Files Only</label>
+      <label for="normal"> File &amp; Rank</label><br>
+      <input type="radio" id="fileOnly" name="constrain">
+      <label for="fileOnly"> File Only</label><br>
+      <input type="radio" id="rankOnly" name="constrain">
+      <label for="rankOnly"> Rank Only</label><br>
       <hr>
       <input type="radio" id="noPcs" name="showPcs">
       <label for="noPcs"> No Pieces</label><br>
@@ -99,16 +99,37 @@
       <input type="radio" id="allPcs" name="showPcs" checked>
       <label for="allPcs"> Full Starting Position</label>
     </span>
-
   </div>
+  <hr>
+  <h2>About</h2>
+  <ul>
+    <li>
+      Chess beginners may struggle to name the coordinates of a given 
+      square. This simple web game is designed to help train that ability.
+    </li>
+    <li>
+      The site was designed especially for mobile. Tapping the multiple choice
+      options is easiest on a touchscreen device.
+    </li>
+    <li>
+      Keyboard Shortcut: use A/S/D to make a multiple choice selection.
+    </li>
+    <li>
+      Recommended strategy: start in File Only or Rank Only mode.
+       Consider using the "Show Quadrants" aid. 
+      As you progress, try File &amp; Rank mode, with fewer pieces, and even flipped.
+    </li>
+    <li>
+      The multiple choice options are generated deliberately close to the correct answer.
+      Hopefully this will prevent reliance on multiple choice guessing strategies.
+    </li>
 
+    <li>
+      Settings are saved using localStorage; similar to cookies. 
+      Only the settings are saved; there is no tracking etc.
+    </li>
+    <li>
+      Requires a modern browser.
+    </li>
+ </ul>
 </body>
-
-
-<!-- The multiple choice options are all generated very close to the correct answer.
-  Hopefully this will prevent reliance on multiple choice guessing strategies.
-
-  The site was designed especially for mobile. Tapping the choices is easier on a touchscreen device.
-
-
-      -->

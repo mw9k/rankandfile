@@ -100,7 +100,7 @@ h1 {
   max-height: 100vw;
   max-width: 100vw;
   position:relative;
-  outline: 2px darkslategray solid;
+  outline: 2px #404040 solid;
   margin: 1rem auto;
 }
 
@@ -249,4 +249,12 @@ h1 {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -moz-user-select: none;
+}
+
+ul {
+  width: 65vh; /* Same as board */
+  max-width: 96vw;
+  text-align: left;
+  margin: 0 auto;
+  margin-bottom: 3rem;
 }
