@@ -9,7 +9,7 @@ body {
 
 h1 {
   font-size: 2rem;
-  margin: 1rem;
+  margin: .8rem 0;
   padding: 0;
 }
 
@@ -31,10 +31,11 @@ h1 {
   letter-spacing: .1rem;
   text-align: center;
   padding: .5rem 1rem;
-  margin: 0 1rem;
+  margin: 0 .5rem;
   font-size: 1.3rem;
   border-radius: .3rem;
   cursor: pointer;
+  min-width: 20%;
 }
 
 #multiChoice span:hover {
