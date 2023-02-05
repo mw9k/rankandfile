@@ -1,7 +1,6 @@
-let prevRank = 0, prevFile = 0, streak = 0, best = 0, bestEver = 0;
-let settings = {};
-let sfxWrong = new Audio("wrong.wav"),
-    sfxRight = new Audio("right.wav");
+let prevRank = 0, prevFile = 0, streak = 0, best = 0, bestEver = 0,
+    settings = {},
+    sfxWrong = new Audio("wrong.wav"), sfxRight = new Audio("right.wav");
 
 function moveSq() {
   loadSettings();
@@ -83,11 +82,11 @@ function makeGuess(guess) {
   let guessedFile = guess[0].toLowerCase().charCodeAt(0) - 97;
   let gotRight = (guessedRank == prevRank && guessedFile == prevFile);
   if (gotRight) {
-    sfxRight.play();
+    if (settings.sfx) sfxRight.play();
     moveSq();
   } else {
-    sfxWrong.play();
-    flashWrong();
+    if (settings.sfx) sfxWrong.play();
+    if (settings.flashScreen) flashWrong();
   } 
   updateStreak(gotRight);
 }
@@ -134,16 +133,12 @@ window.addEventListener("load", (event) => {
         generateChoices();
       }
     }
+    if (e.target.type == "checkbox") {
+      settings[e.target.id] = e.target.checked;
+      saveSettings();
+    }
     if (e.target.id == "resetHiScore") resetHiScore();
     if (e.target.id == "resetSettings") resetSettings(true);
-  });
-  el("flip").addEventListener('input', function (e) {
-    settings.flipped = e.target.checked;
-    saveSettings();
-  });
-  el("showQuads").addEventListener('input', function (e) {
-    settings.showQuads = e.target.checked;
-    saveSettings();
   });
   document.addEventListener("keypress", function (event) {
     if (event.key == "A" || event.key == "a" || event.key == "1") {
@@ -188,7 +183,7 @@ function applySettings() {
     el("showQuads").checked = false;
   }
   el("board").classList.add("justFlipped");
-  if (settings.flipped) {
+  if (settings.flip) {
     el("board").classList.add("flipped");
     el("flip").checked = true;
   } else {
@@ -205,6 +200,8 @@ function applySettings() {
   if (el(settings.constrain)) {
     el(settings.constrain).checked = true;
   }
+  if (settings.sfx) el("sfx").checked = true;
+  if (settings.flashScreen) el("flashScreen").checked = true;
 }
 
 function resetHiScore() {
@@ -216,8 +213,8 @@ function resetHiScore() {
 }
 
 function resetSettings(andSave = false) {
-  settings = { exists:true, showQuads:false, flipped:false, showPcs:"allPcs",
-  constrain: "normal" };
+  settings = { exists:true, showQuads:false, flip:false, showPcs:"allPcs",
+  constrain: "normal", sfx:true, flashScreen:true };
   if (andSave) saveSettings();
 }
 
