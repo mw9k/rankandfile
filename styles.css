@@ -105,16 +105,13 @@ h1 {
   margin: 1rem auto;
 }
 
-#sq {
+.sq {
   position:absolute;
   z-index: 3;
-  transition: bottom .3s ease-in-out, left .3s ease-in-out;
+  /* transition: bottom .3s ease-in-out, left .3s ease-in-out; */
   height: calc(12.5% - 6px);
   width: calc(12.5% - 6px);
   border: 3px black solid;
-  /* background-color: orange; */
-  /* border: 3px black solid; */
-  /* background: rgba(255,255,0,0.5); */
   --rank: 0;
   --file: 0;
   /* animation: glow .75s linear infinite; */
@@ -124,9 +121,14 @@ h1 {
   border-radius: 50%;
   overflow: hidden;
   background-color: gold;
-
   /* margin-left: -3px;
   margin-bottom: -3px; */
+}
+
+.sq.gotRight {
+  transition: transform .5s ease-in, opacity 2s ease-out;
+  transform: rotateY(270deg) scale(1.5);
+  opacity: 0;
 }
 
 

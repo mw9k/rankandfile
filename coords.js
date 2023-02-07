@@ -9,8 +9,13 @@ function moveSq() {
   chosenRank = newRand(0, 7, prevRank);
   prevFile = chosenFile;
   prevRank = chosenRank;
-  el('sq').style.setProperty('--file', chosenFile);
-  el('sq').style.setProperty('--rank', chosenRank);
+  let sqOld = (!streak % 2) ? "sq1" : "sq2";
+  let sqNew = (!streak % 2) ? "sq2" : "sq1";
+  el(sqNew).classList.remove("gotRight");
+  el(sqOld).classList.remove("gotRight");
+  el(sqNew).style.setProperty('--file', chosenFile);
+  el(sqNew).style.setProperty('--rank', chosenRank);
+  el(sqOld).classList.add("gotRight");
   generateChoices();
 }
 
