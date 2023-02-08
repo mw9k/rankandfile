@@ -121,14 +121,38 @@ h1 {
   border-radius: 50%;
   overflow: hidden;
   background-color: gold;
+  animation: zoomIn .3s ease-out;
+  animation-fill-mode: forwards;
+
   /* margin-left: -3px;
   margin-bottom: -3px; */
 }
 
+@keyframes zoomIn {
+  from {
+      transform: scale(0);
+    }
+    to {
+      transform: scale(1);
+    }
+}
+
 .sq.gotRight {
-  transition: transform .5s ease-in, opacity 2s ease-out;
-  transform: rotateY(270deg) scale(1.5);
-  opacity: 0;
+  animation: gotRight .5s ease-out;
+  animation-fill-mode: forwards;
+}
+
+@keyframes gotRight {
+  from { 
+    opacity: 1; 
+    transform: rotateY(0deg);
+    scale:1;
+  }
+  to {
+    opacity: .25; 
+    transform: rotateY(270deg);
+    scale: .9;
+  }
 }
 
 
