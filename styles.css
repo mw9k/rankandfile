@@ -1,6 +1,6 @@
 body {
   text-align: center;
-font-family: 'Roboto Slab', serif;
+font-family: 'Roboto Serif', serif;
   transition: background-color .3s linear;
   padding: 0;
   margin:0;
@@ -8,9 +8,13 @@ font-family: 'Roboto Slab', serif;
 } 
 
 h1 {
-  font-size: 2rem;
+  font-size: 1.75rem;
   margin: .8rem 0;
   padding: 0;
+}
+
+h2 { 
+  font-size: 1.5rem;
 }
 
 #multiChoice {
@@ -121,9 +125,11 @@ h1 {
   border-radius: 50%;
   overflow: hidden;
   background-color: gold;
-  animation: zoomIn .3s ease-out;
-  animation-fill-mode: forwards;
-
+  /* animation: zoomIn .3s ease-out;
+  animation-fill-mode: forwards; */
+  animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  animation: bounce .4s infinite;
+  animation-direction: alternate;
   /* margin-left: -3px;
   margin-bottom: -3px; */
 }
@@ -155,13 +161,23 @@ h1 {
   }
 }
 
+@keyframes bounce{
+  from { 
+    /* transform: scale(1); */
+    transform: scale(.95);
+  }
+  to {
+    transform: scale(1);
+  }
+}
 
-#board.flipped #sq, #board.flipped .pc {
+
+#board.flipped .sq, #board.flipped .pc {
     bottom: calc(100% - (12.5% * (var(--rank) + 1)));
     left: calc(100% - (12.5% * (var(--file) + 1)));
 }
 
-#board.justFlipped #sq {
+#board.justFlipped .sq {
   transition: none;
 }
 
