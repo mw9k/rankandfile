@@ -1,6 +1,6 @@
 body {
   text-align: center;
-font-family: 'Roboto Serif', serif;
+  font-family: 'Roboto Serif', serif;
   transition: background-color .3s linear;
   padding: 0;
   margin:0;
@@ -118,29 +118,11 @@ h2 {
   border: 3px black solid;
   --rank: 0;
   --file: 0;
-  /* animation: glow .75s linear infinite; */
-  animation-direction: alternate;
   bottom: calc(12.5% * var(--rank));
   left: calc(12.5% * var(--file));
   border-radius: 50%;
   overflow: hidden;
   background-color: gold;
-  /* animation: zoomIn .3s ease-out;
-  animation-fill-mode: forwards; */
-  animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  animation: bounce .4s infinite;
-  animation-direction: alternate;
-  /* margin-left: -3px;
-  margin-bottom: -3px; */
-}
-
-@keyframes zoomIn {
-  from {
-      transform: scale(0);
-    }
-    to {
-      transform: scale(1);
-    }
 }
 
 .sq.gotRight {
@@ -161,24 +143,32 @@ h2 {
   }
 }
 
-@keyframes bounce{
-  from { 
-    /* transform: scale(1); */
-    transform: scale(.95);
-  }
-  to {
-    transform: scale(1);
-  }
+.sq.bouncing {
+  animation-name: zoomIn, bounce;
+  animation-duration: 350ms, 400ms;
+  animation-delay: 0ms, 375ms;
+  animation-timing-function: ease-out, cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  animation-iteration-count: 1, infinite;
+  animation-direction: alternate;
 }
 
+.sq.hider {
+  display: none;
+}
+
+@keyframes zoomIn {
+  from { transform: scale(0); }
+  to { transform: scale(1); }
+}
+
+@keyframes bounce {
+  from { transform: scale(.95); }
+  to { transform: scale(1); }
+}
 
 #board.flipped .sq, #board.flipped .pc {
     bottom: calc(100% - (12.5% * (var(--rank) + 1)));
     left: calc(100% - (12.5% * (var(--file) + 1)));
-}
-
-#board.justFlipped .sq {
-  transition: none;
 }
 
 #board.noPcs .pc, #board.kqOnly .pc {
@@ -239,11 +229,6 @@ h2 {
 
 .pc.black.pawn {
   background-image: url('b_pawn.svg');
-}
-
-@keyframes glow {
-  from { border-color: rgb(0,0,0); }
-  to { border-color: rgb(255, 255, 255); }
 }
 
 #quadrants.hidden {

@@ -4,22 +4,24 @@ let prevRank = 0, prevFile = 0, streak = 0, best = 0, bestEver = 0, count = 0,
 
 function moveSq() {
   count++;
-  el("board").classList.remove("justFlipped");
   chosenFile = newRand(0, 7, prevFile);
   chosenRank = newRand(0, 7, prevRank);
   prevFile = chosenFile;
   prevRank = chosenRank;
   let sqOld = (count % 2 == 0) ? "sq1" : "sq2";
   let sqNew = (count % 2 == 0) ? "sq2" : "sq1";
-  el(sqNew).classList.remove("gotRight");
-  el(sqOld).classList.remove("gotRight");
+  el(sqOld).classList.remove("gotRight", "bouncing", "hider");
+  el(sqNew).classList.remove("gotRight", "bouncing", "hider");
   el(sqNew).style.setProperty('--file', chosenFile);
   el(sqNew).style.setProperty('--rank', chosenRank);
   el(sqOld).offsetHeight; // reflow element; req. to restart animation
   el(sqNew).offsetHeight;
   el(sqOld).classList.add("gotRight");
+  el(sqNew).classList.add("bouncing");
   generateChoices();
+  console.log(el(sqNew).classList);
 }
+
 
 function newRand(lBound, uBound, prevRnd) {
   // choose a random int different from previous choice. Try up to 10000x.
@@ -37,7 +39,7 @@ function rndIntInRange(lBound, uBound) {
 
 function generateChoices() {
   let choices = [];
-  let correctChoice = constrain(String.fromCharCode(prevFile + 97), prevRank + 1);
+  let correctChoice = constrain(numToFile(prevFile), prevRank + 1);
   choices.push(correctChoice); 
   
   for (let i = 0; i < 10000; i++) { // try 10k times
@@ -45,8 +47,8 @@ function generateChoices() {
     let lBound = (prevFile - maxDist >= 0) ? prevFile - maxDist: 0;
     let uBound = (prevFile + maxDist <= 7) ? prevFile + maxDist : 7;
     let rndFile = rndIntInRange(lBound, uBound);
-    rndFile = String.fromCharCode(rndFile + 97);
-    if (Math.random() < .75) rndFile = String.fromCharCode(prevFile + 97); // ~75% chance of no change 
+    rndFile = numToFile(rndFile);
+    if (Math.random() < .75) rndFile = numToFile(prevFile); // ~75% chance of no change 
     
     maxDist = (settings.constrain == "rankOnly") ? 3 : 1;
     lBound = (prevRank - maxDist >= 0) ? prevRank - maxDist : 0;
@@ -81,7 +83,7 @@ function makeGuess(guess) {
   guess = String(guess).replace(/\s/g, ""); // trim whitespace
   if (!guess.length) return false;
   if (settings.constrain == "rankOnly") {
-    guess = `${String.fromCharCode(prevFile + 97)}${guess}`;
+    guess = `${numToFile(prevFile)}${guess}`;
   } else if (settings.constrain == "fileOnly") {
     guess += prevRank + 1;
   }
@@ -189,7 +191,6 @@ function applySettings() {
     el("quadrants").classList.add("hidden");
     el("showQuads").checked = false;
   }
-  el("board").classList.add("justFlipped");
   if (settings.flip) {
     el("board").classList.add("flipped");
     el("flip").checked = true;
@@ -197,9 +198,7 @@ function applySettings() {
     el("board").classList.remove("flipped");
     el("flip").checked = false;
   }
-  el("board").classList.remove("noPcs");
-  el("board").classList.remove("allPcs");
-  el("board").classList.remove("kqOnly");
+  el("board").classList.remove("noPcs", "allPcs", "kqOnly");
   el("board").classList.add(settings.showPcs);
   if (el(settings.showPcs)) {
     el(settings.showPcs).checked = true;
@@ -209,6 +208,10 @@ function applySettings() {
   }
   if (settings.sfx) el("sfx").checked = true;
   if (settings.flashScreen) el("flashScreen").checked = true;
+}
+
+function numToFile(num) {
+  return String.fromCharCode(num + 97);
 }
 
 function resetHiScore() {
