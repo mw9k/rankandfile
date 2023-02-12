@@ -146,8 +146,9 @@ h2 {
 .sq.bouncing {
   animation-name: zoomIn, bounce;
   animation-duration: 350ms, 400ms;
-  animation-delay: 0ms, 375ms;
-  animation-timing-function: ease-out, cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  animation-delay: 0ms, 500ms;
+  /* animation-timing-function: ease-out, cubic-bezier(0.25, 0.46, 0.45, 0.94); */
+  animation-timing-function: ease-out, cubic-bezier(0.6, 0.04, 0.98, 0.335);
   animation-iteration-count: 1, infinite;
   animation-direction: alternate;
 }
@@ -162,8 +163,8 @@ h2 {
 }
 
 @keyframes bounce {
-  from { transform: scale(.95); }
-  to { transform: scale(1); }
+  from { transform: scale(1); }
+  to { transform: scale(.85); }
 }
 
 #board.flipped .sq, #board.flipped .pc {
@@ -171,15 +172,14 @@ h2 {
     left: calc(100% - (12.5% * (var(--file) + 1)));
 }
 
-#board.noPcs .pc, #board.kqOnly .pc {
-  opacity: 0;
-}
-
-#board.kqOnly .pc.queen, #board.kqOnly .pc.king {
+#board.allPcs .pc, 
+#board.kqOnly .pc.queen, 
+#board.kqOnly .pc.king {
   opacity: 1;
 }
 
 .pc {
+  opacity: 0;
   transition: opacity .3s ease-out;
   height: 12.5%;
   width: 12.5%;
@@ -188,7 +188,10 @@ h2 {
   left: calc(12.5% * var(--file));
   background-size: 100%;
   z-index: 2;
-  /* opacity: .6; */
+}
+
+#board.noAnim .pc {
+  transition: none !important;
 }
 
 .pc.white.queen {

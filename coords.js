@@ -1,15 +1,15 @@
-let prevRank = 0, prevFile = 0, streak = 0, best = 0, bestEver = 0, count = 0,
-    settings = {},
-    sfxWrong = new Audio("wrong.wav"), sfxRight = new Audio("right.wav");
+let settings = {}, 
+  glb = { prevRank:0, prevFile:0, streak:0, best:0, bestEver:0, count:0 },
+  sfxWrong = new Audio("wrong.wav"), sfxRight = new Audio("right.wav");
 
 function moveSq() {
-  count++;
-  chosenFile = newRand(0, 7, prevFile);
-  chosenRank = newRand(0, 7, prevRank);
-  prevFile = chosenFile;
-  prevRank = chosenRank;
-  let sqOld = (count % 2 == 0) ? "sq1" : "sq2";
-  let sqNew = (count % 2 == 0) ? "sq2" : "sq1";
+  glb.count++;
+  chosenFile = newRand(0, 7, glb.prevFile);
+  chosenRank = newRand(0, 7, glb.prevRank);
+  glb.prevFile = chosenFile;
+  glb.prevRank = chosenRank;
+  let sqOld = (glb.count % 2 == 0) ? "sq1" : "sq2";
+  let sqNew = (glb.count % 2 == 0) ? "sq2" : "sq1";
   el(sqOld).classList.remove("gotRight", "bouncing", "hider");
   el(sqNew).classList.remove("gotRight", "bouncing", "hider");
   el(sqNew).style.setProperty('--file', chosenFile);
@@ -19,7 +19,6 @@ function moveSq() {
   el(sqOld).classList.add("gotRight");
   el(sqNew).classList.add("bouncing");
   generateChoices();
-  console.log(el(sqNew).classList);
 }
 
 
@@ -39,22 +38,22 @@ function rndIntInRange(lBound, uBound) {
 
 function generateChoices() {
   let choices = [];
-  let correctChoice = constrain(numToFile(prevFile), prevRank + 1);
+  let correctChoice = constrain(numToFile(glb.prevFile), glb.prevRank + 1);
   choices.push(correctChoice); 
   
   for (let i = 0; i < 10000; i++) { // try 10k times
     let maxDist = (settings.constrain == "fileOnly") ? 3 : 1;
-    let lBound = (prevFile - maxDist >= 0) ? prevFile - maxDist: 0;
-    let uBound = (prevFile + maxDist <= 7) ? prevFile + maxDist : 7;
+    let lBound = (glb.prevFile - maxDist >= 0) ? glb.prevFile - maxDist: 0;
+    let uBound = (glb.prevFile + maxDist <= 7) ? glb.prevFile + maxDist : 7;
     let rndFile = rndIntInRange(lBound, uBound);
     rndFile = numToFile(rndFile);
-    if (Math.random() < .75) rndFile = numToFile(prevFile); // ~75% chance of no change 
+    if (Math.random() < .75) rndFile = numToFile(glb.prevFile); // ~75% chance of no change 
     
     maxDist = (settings.constrain == "rankOnly") ? 3 : 1;
-    lBound = (prevRank - maxDist >= 0) ? prevRank - maxDist : 0;
-    uBound = (prevRank + maxDist <= 7) ? prevRank + maxDist : 7;
+    lBound = (glb.prevRank - maxDist >= 0) ? glb.prevRank - maxDist : 0;
+    uBound = (glb.prevRank + maxDist <= 7) ? glb.prevRank + maxDist : 7;
     let rndRank = rndIntInRange(lBound, uBound);
-    if (Math.random() < .75) rndRank = prevRank; // ~75% chance of no change 
+    if (Math.random() < .75) rndRank = glb.prevRank; // ~75% chance of no change 
     rndRank++;
     
     let rndSq = constrain(rndFile, rndRank);
@@ -69,27 +68,31 @@ function generateChoices() {
 }
 
 
+function el(elem) {	// Custom shortener for document.getElementById()
+  return document.getElementById(elem);
+}
+
 function constrain(file, rank) {
   if (settings.constrain == "rankOnly") file = "";
   if (settings.constrain == "fileOnly") rank = "";
   return `${file}${rank}`;
 }
 
-function el(elem) {	// Custom shortener for document.getElementById()
-  return document.getElementById(elem);
+function numToFile(num) {
+  return String.fromCharCode(num + 97);
 }
 
 function makeGuess(guess) {
   guess = String(guess).replace(/\s/g, ""); // trim whitespace
   if (!guess.length) return false;
   if (settings.constrain == "rankOnly") {
-    guess = `${numToFile(prevFile)}${guess}`;
+    guess = `${numToFile(glb.prevFile)}${guess}`;
   } else if (settings.constrain == "fileOnly") {
-    guess += prevRank + 1;
+    guess += glb.prevRank + 1;
   }
   let guessedRank = parseInt(guess[1] - 1);
   let guessedFile = guess[0].toLowerCase().charCodeAt(0) - 97;
-  let gotRight = (guessedRank == prevRank && guessedFile == prevFile);
+  let gotRight = (guessedRank == glb.prevRank && guessedFile == glb.prevFile);
   if (gotRight) {
     if (settings.sfx) sfxRight.play();
     moveSq();
@@ -101,15 +104,15 @@ function makeGuess(guess) {
 }
 
 function updateStreak(gotRight) {
-  streak = (gotRight) ? streak + 1 : 0;
-  if (streak > best) best = streak;
-  if (best > bestEver) {
-    bestEver = best;
-    localStorage.setItem('rankFileHiScore', bestEver);
+  glb.streak = (gotRight) ? glb.streak + 1 : 0;
+  if (glb.streak > glb.best) glb.best = glb.streak;
+  if (glb.best > glb.bestEver) {
+    glb.bestEver = glb.best;
+    localStorage.setItem('rankFileHiScore', glb.bestEver);
   }
-  el("streakNo").textContent = streak;
-  el("bestNo").textContent = best;
-  el("bestEverNo").textContent = bestEver;
+  el("streakNo").textContent = glb.streak;
+  el("bestNo").textContent = glb.best;
+  el("bestEverNo").textContent = glb.bestEver;
 }
 
 function flashWrong() {
@@ -122,9 +125,9 @@ function flashWrong() {
 
 window.addEventListener("load", (event) => {
   resetSettings();
-  loadSettings();
-  bestEver = localStorage.getItem('rankFileHiScore');
-  el("bestEverNo").textContent = bestEver;
+  loadSettings(true);
+  glb.bestEver = localStorage.getItem('rankFileHiScore');
+  el("bestEverNo").textContent = glb.bestEver;
   let allChoices = document.getElementsByClassName("choice");
   for (let choice of allChoices) {
     choice.addEventListener("click", function () {
@@ -170,11 +173,11 @@ function shuffleArray(arr) {
   }
 }
 
-function loadSettings() {
+function loadSettings(firstLoad) {
   let loaded = JSON.parse(localStorage.getItem('rankFileSettings'));
   if (loaded && loaded.exists) {
     settings = loaded;
-    applySettings();
+    applySettings(firstLoad);
   }
 }
 
@@ -183,7 +186,8 @@ function saveSettings() {
   applySettings();
 }
 
-function applySettings() {
+function applySettings(firstLoad) {
+  if (firstLoad) el("board").classList.add("noAnim");
   if (settings.showQuads) {
     el("quadrants").classList.remove("hidden");
     el("showQuads").checked = true;
@@ -208,17 +212,14 @@ function applySettings() {
   }
   if (settings.sfx) el("sfx").checked = true;
   if (settings.flashScreen) el("flashScreen").checked = true;
-}
-
-function numToFile(num) {
-  return String.fromCharCode(num + 97);
+  if (!firstLoad) el("board").classList.remove("noAnim");
 }
 
 function resetHiScore() {
   if (confirm('Are you sure you want to erase your saved High Score?')) {
-    bestEver = 0;
-    localStorage.setItem('rankFileHiScore', bestEver);
-    el("bestEverNo").textContent = bestEver;
+    glb.bestEver = 0;
+    localStorage.setItem('rankFileHiScore', glb.bestEver);
+    el("bestEverNo").textContent = glb.bestEver;
   }
 }
 
