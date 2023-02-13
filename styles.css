@@ -299,6 +299,7 @@ ul li {
 span.key {
   /* color: white;
   background-color: gray; */
+  font-size: .8em;
   border: 1px black solid;
   background-color: Gainsboro;
   font-family: sans-serif;
@@ -309,6 +310,8 @@ span.key {
   width: 1.25em;
   border-radius: .2em;
   margin: auto .125rem;
+  position:relative;
+  bottom:.2em;
 }
 
 span.actionText {
