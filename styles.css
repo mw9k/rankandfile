@@ -283,17 +283,16 @@ h2 {
 
 ul {
   width: 65vh; /* Same as board */
-  max-width: 96vw;
+  max-width: 88vw;
   text-align: left;
   margin: 0 auto;
   margin-bottom: 3rem;
   padding:0;
   list-style-type: none;
-  /* list-style-position: inside; */
 }
 
 ul li {
-  margin-bottom: .5rem;
+  margin-bottom: 1rem;
 }
 
 span.key {
