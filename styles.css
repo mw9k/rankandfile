@@ -328,3 +328,8 @@ span.actionText {
   margin: 1rem 0;
   display:block;
 }
+
+hr {
+  border: none;
+  border-bottom: 1px silver solid;
+}

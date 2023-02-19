@@ -223,7 +223,7 @@ function applySettings(firstLoad) {
 }
 
 function resetHiScore() {
-  if (confirm('Are you sure you want to erase your saved High Score?')) {
+  if (confirm(`Are you sure you want to erase your 'All Time' Best Score?`)) {
     glb.bestEver = 0;
     localStorage.setItem('rankFileHiScore', glb.bestEver);
     el("bestEverNo").textContent = glb.bestEver;
