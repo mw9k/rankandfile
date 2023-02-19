@@ -19,6 +19,15 @@ h2 {
   margin-bottom: .6rem;
 }
 
+h3 {
+  font-size: 1.1em;
+  font-weight: bold;
+  display: inline;
+  color: darkgreen;
+  margin: 0;
+  margin-right: .5rem;
+}
+
 #multiChoice {
   width: 65vh; /* Same as board */
   max-width: 96vw; 
@@ -43,8 +52,10 @@ h2 {
   min-width: 20%;
 }
 
-#multiChoice span:hover {
-  background-color: darkgreen;
+@media (hover: hover) { /* only applies on devices w/ actual hover */
+  #multiChoice span:hover {
+      background-color: darkgreen;
+  }
 }
 
 #streakContainer {
@@ -107,6 +118,10 @@ h2 {
   position:relative;
   outline: 2px #404040 solid;
   margin: 1rem auto;
+}
+
+#board.flashWrong {
+  outline-color: red;
 }
 
 #board::after {
@@ -301,6 +316,23 @@ ul {
   list-style-type: none;
 }
 
+ul.custBullets li {
+  width: calc(100% - 1rem);
+  position:relative;
+  left: 1rem;
+}
+
+ul.custBullets li::before {
+  top:0;
+  left:-1rem;
+  width: 1rem;
+  font-weight: bold;
+  content:"•";
+  color: darkgreen;
+  position: absolute;
+  margin: 0;
+}
+
 ul li {
   margin-bottom: 1rem;
 }
@@ -331,5 +363,5 @@ span.actionText {
 
 hr {
   border: none;
-  border-bottom: 1px silver solid;
+  border-bottom: 1px #B0B0B0 solid;
 }
