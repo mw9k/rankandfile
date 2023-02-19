@@ -1,7 +1,6 @@
 body {
   text-align: center;
   font-family: 'Bitter', serif;
-  transition: background-color .3s linear;
   line-height: 1.4;
   padding: 0;
   margin:0;
@@ -112,6 +111,21 @@ h2 {
   margin: 1rem auto;
 }
 
+#board::after {
+  content: "";
+  height: 100%;
+  width: 100%;
+  position:absolute;
+  top:0;
+  left:0;
+  background-color: transparent;
+  transition: background-color .3s ease-in-out;
+}
+
+#board.flashWrong::after {
+  background-color: red;
+}
+
 .sq {
   position:absolute;
   z-index: 3;
@@ -129,28 +143,25 @@ h2 {
 }
 
 .sq.gotRight {
-  animation: gotRight .5s ease-out;
+  animation: spinOut 525ms cubic-bezier(0.39, 0.575, 0.565, 1), 
+             fadeOut 525ms cubic-bezier(0.47, 0, 0.745, 0.715);
   animation-fill-mode: forwards;
 }
 
-@keyframes gotRight {
-  from { 
-    opacity: 1; 
-    transform: rotateY(0deg);
-    scale:1;
-  }
-  to {
-    opacity: .25; 
-    transform: rotateY(270deg);
-    scale: .9;
-  }
+@keyframes spinOut {
+  from { transform: rotateY(0deg) scale(1); }
+  to { transform: rotateY(270deg) scale(.8); }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
 }
 
 .sq.bouncing {
   animation-name: zoomIn, bounce;
   animation-duration: 350ms, 400ms;
   animation-delay: 0ms, 500ms;
-  /* animation-timing-function: ease-out, cubic-bezier(0.25, 0.46, 0.45, 0.94); */
   animation-timing-function: ease-out, cubic-bezier(0.6, 0.04, 0.98, 0.335);
   animation-iteration-count: 1, infinite;
   animation-direction: alternate;

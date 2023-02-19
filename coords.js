@@ -116,9 +116,9 @@ function updateStreak(gotRight) {
 }
 
 function flashWrong() {
-  document.body.style.backgroundColor = "red";
+  el("board").classList.add("flashWrong");
   setTimeout(function () { 
-    document.body.style.backgroundColor = "initial"; 
+    el("board").classList.remove("flashWrong");
   }, 300);
 }
 
