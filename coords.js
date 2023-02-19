@@ -47,13 +47,17 @@ function generateChoices() {
     let uBound = (glb.prevFile + maxDist <= 7) ? glb.prevFile + maxDist : 7;
     let rndFile = rndIntInRange(lBound, uBound);
     rndFile = numToFile(rndFile);
-    if (Math.random() < .75) rndFile = numToFile(glb.prevFile); // ~75% chance of no change 
+    if (Math.random() < .75) {
+      rndFile = numToFile(glb.prevFile); // ~75% chance of no change 
+    }
     
     maxDist = (settings.constrain == "rankOnly") ? 3 : 1;
     lBound = (glb.prevRank - maxDist >= 0) ? glb.prevRank - maxDist : 0;
     uBound = (glb.prevRank + maxDist <= 7) ? glb.prevRank + maxDist : 7;
     let rndRank = rndIntInRange(lBound, uBound);
-    if (Math.random() < .75) rndRank = glb.prevRank; // ~75% chance of no change 
+    if (Math.random() < .75) {
+      rndRank = glb.prevRank; // ~75% chance of no change 
+    }
     rndRank++;
     
     let rndSq = constrain(rndFile, rndRank);
@@ -208,7 +212,10 @@ function applySettings(firstLoad) {
     el(settings.showPcs).checked = true;
   }
   if (el(settings.constrain)) {
-    el(settings.constrain).checked = true;
+    if (!el(settings.constrain).checked) {
+      el(settings.constrain).checked = true;
+      generateChoices();
+    }
   }
   if (settings.sfx) el("sfx").checked = true;
   if (settings.flashScreen) el("flashScreen").checked = true;
@@ -228,10 +235,3 @@ function resetSettings(andSave = false) {
   constrain: "normal", sfx:true, flashScreen:true };
   if (andSave) saveSettings();
 }
-
-// https://jfxr.frozenfractal.com/#%7B%22_version%22%3A1%2C%22_name%22%3A%22Pickup%2Fcoin%2098%22%2C%22_locked%22%3A%5B%5D%2C%22sampleRate%22%3A44100%2C%22attack%22%3A0%2C%22sustain%22%3A0.03%2C%22sustainPunch%22%3A0%2C%22decay%22%3A0.35000000000000003%2C%22tremoloDepth%22%3A0%2C%22tremoloFrequency%22%3A10%2C%22frequency%22%3A800%2C%22frequencySweep%22%3A0%2C%22frequencyDeltaSweep%22%3A0%2C%22repeatFrequency%22%3A0%2C%22frequencyJump1Onset%22%3A15%2C%22frequencyJump1Amount%22%3A95%2C%22frequencyJump2Onset%22%3A25%2C%22frequencyJump2Amount%22%3A35%2C%22harmonics%22%3A0%2C%22harmonicsFalloff%22%3A0.5%2C%22waveform%22%3A%22whistle%22%2C%22interpolateNoise%22%3Atrue%2C%22vibratoDepth%22%3A0%2C%22vibratoFrequency%22%3A10%2C%22squareDuty%22%3A45%2C%22squareDutySweep%22%3A90%2C%22flangerOffset%22%3A0%2C%22flangerOffsetSweep%22%3A0%2C%22bitCrush%22%3A16%2C%22bitCrushSweep%22%3A0%2C%22lowPassCutoff%22%3A22050%2C%22lowPassCutoffSweep%22%3A0%2C%22highPassCutoff%22%3A0%2C%22highPassCutoffSweep%22%3A0%2C%22compression%22%3A1%2C%22normalization%22%3Atrue%2C%22amplification%22%3A100%7D
-// https://jfxr.frozenfractal.com/#%7B%22_version%22%3A1%2C%22_name%22%3A%22Pickup%2Fcoin%2083%22%2C%22_locked%22%3A%5B%5D%2C%22sampleRate%22%3A44100%2C%22attack%22%3A0%2C%22sustain%22%3A0.03%2C%22sustainPunch%22%3A0%2C%22decay%22%3A0.25%2C%22tremoloDepth%22%3A0%2C%22tremoloFrequency%22%3A10%2C%22frequency%22%3A219.8422641453093%2C%22frequencySweep%22%3A0%2C%22frequencyDeltaSweep%22%3A0%2C%22repeatFrequency%22%3A0%2C%22frequencyJump1Onset%22%3A30%2C%22frequencyJump1Amount%22%3A-30%2C%22frequencyJump2Onset%22%3A66%2C%22frequencyJump2Amount%22%3A-60%2C%22harmonics%22%3A0%2C%22harmonicsFalloff%22%3A0.5%2C%22waveform%22%3A%22breaker%22%2C%22interpolateNoise%22%3Atrue%2C%22vibratoDepth%22%3A0%2C%22vibratoFrequency%22%3A10%2C%22squareDuty%22%3A35%2C%22squareDutySweep%22%3A-80%2C%22flangerOffset%22%3A0%2C%22flangerOffsetSweep%22%3A0%2C%22bitCrush%22%3A16%2C%22bitCrushSweep%22%3A0%2C%22lowPassCutoff%22%3A22050%2C%22lowPassCutoffSweep%22%3A0%2C%22highPassCutoff%22%3A0%2C%22highPassCutoffSweep%22%3A0%2C%22compression%22%3A1%2C%22normalization%22%3Atrue%2C%22amplification%22%3A180%7D
-// https://jfxr.frozenfractal.com/#%7B%22_version%22%3A1%2C%22_name%22%3A%22Pickup%2Fcoin%20148%22%2C%22_locked%22%3A%5B%5D%2C%22sampleRate%22%3A44100%2C%22attack%22%3A0%2C%22sustain%22%3A0.03%2C%22sustainPunch%22%3A80%2C%22decay%22%3A0.16%2C%22tremoloDepth%22%3A0%2C%22tremoloFrequency%22%3A10%2C%22frequency%22%3A200%2C%22frequencySweep%22%3A0%2C%22frequencyDeltaSweep%22%3A0%2C%22repeatFrequency%22%3A0%2C%22frequencyJump1Onset%22%3A20%2C%22frequencyJump1Amount%22%3A60%2C%22frequencyJump2Onset%22%3A66%2C%22frequencyJump2Amount%22%3A60%2C%22harmonics%22%3A0%2C%22harmonicsFalloff%22%3A0.5%2C%22waveform%22%3A%22sine%22%2C%22interpolateNoise%22%3Atrue%2C%22vibratoDepth%22%3A0%2C%22vibratoFrequency%22%3A10%2C%22squareDuty%22%3A95%2C%22squareDutySweep%22%3A30%2C%22flangerOffset%22%3A0%2C%22flangerOffsetSweep%22%3A0%2C%22bitCrush%22%3A16%2C%22bitCrushSweep%22%3A0%2C%22lowPassCutoff%22%3A22050%2C%22lowPassCutoffSweep%22%3A0%2C%22highPassCutoff%22%3A0%2C%22highPassCutoffSweep%22%3A0%2C%22compression%22%3A1%2C%22normalization%22%3Atrue%2C%22amplification%22%3A100%7D
-// https://sfxr.me/#34T6Pkvwr51Zy9LqyfpNkXie6QzPy95KdPia3piS2fBwL4R5aMKZ8GPqxhuUNeYEhBik1CSzBXBEjfH77YSnLPvfGoHwsYafNzJKEhruNhZGCgRinbK9beAL7
-//https://sfxr.me/#11111GshsWfnMjhqHAkCpmyqTVjKSVZ4Mboik7xvFocEtLmuY6E9aedyZG5RvwMYoeQvm7ZKUCxdfYzXhx7ACnCbqidLtcRwJ2yKPpNF6tVCP8mzshHQ4Ew9
-//https://sfxr.me/#34T6PkuaeGhaQ3WFNRp1gAKh1HixSXGPMRU1wbf6dMq5zuXxxXYYESQEAEfcWEyPD1HQqqja6XYRd4ChnGKQSjMwWBLba2Mm8LUwokXPi5JVz8Bf7M28bHb5H

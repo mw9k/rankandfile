@@ -24,7 +24,6 @@ h2 {
   max-width: 96vw; 
   margin: 1rem auto;
   height: 4rem;
-  /* background: yellow; */
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -66,7 +65,6 @@ h2 {
   height: 3rem;
   overflow: hidden;
   border-right: 1px lightgray solid;
-  /* flex-basis: 33%; */
   flex-grow: 1;sq
   flex-shrink: 1;
   display: flex;
@@ -119,7 +117,7 @@ h2 {
   top:0;
   left:0;
   background-color: transparent;
-  transition: background-color .3s ease-in-out;
+  transition: background-color .25s cubic-bezier(0.39, 0.575, 0.565, 1);
 }
 
 #board.flashWrong::after {
@@ -129,7 +127,6 @@ h2 {
 .sq {
   position:absolute;
   z-index: 3;
-  /* transition: bottom .3s ease-in-out, left .3s ease-in-out; */
   height: calc(12.5% - 6px);
   width: calc(12.5% - 6px);
   border: 3px black solid;
@@ -309,8 +306,6 @@ ul li {
 }
 
 span.key {
-  /* color: white;
-  background-color: gray; */
   font-size: .8em;
   border: 1px black solid;
   background-color: Gainsboro;
