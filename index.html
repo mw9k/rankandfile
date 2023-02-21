@@ -19,145 +19,143 @@
 </head>
 
 <body>
-  <div id="centralColumn">
-    <header>
-      <h1>Coordinates Trainer</h1>
-    </header>
+  <header>
+    <h1>Coordinates Trainer</h1>
+  </header>
 
-    <div id="streakContainer" class="noSelect">
-      <span>Streak:&nbsp;<span id="streakNo">0</span></span>
-      <span>Best:&nbsp;<span id="bestNo">0</span></span>
-      <span>All Time:&nbsp;<span id="bestEverNo">0</span></span>
-    </div>
-
-    <div id="board" class="noSelect noAnim">
-      <div id="sq1" class="sq bouncing"></div>
-      <div id="sq2" class="sq hider"></div>
-      <div class="pc white rook"   style="--rank:0; --file:0;"></div>
-      <div class="pc white knight" style="--rank:0; --file:1;"></div>
-      <div class="pc white bishop" style="--rank:0; --file:2;"></div>
-      <div class="pc white queen"  style="--rank:0; --file:3;"></div>
-      <div class="pc white king"   style="--rank:0; --file:4;"></div>
-      <div class="pc white bishop" style="--rank:0; --file:5;"></div>
-      <div class="pc white knight" style="--rank:0; --file:6;"></div>
-      <div class="pc white rook"   style="--rank:0; --file:7;"></div>
-      <div class="pc white pawn"   style="--rank:1; --file:0;"></div>
-      <div class="pc white pawn"   style="--rank:1; --file:1;"></div>
-      <div class="pc white pawn"   style="--rank:1; --file:2;"></div>
-      <div class="pc white pawn"   style="--rank:1; --file:3;"></div>
-      <div class="pc white pawn"   style="--rank:1; --file:4;"></div>
-      <div class="pc white pawn"   style="--rank:1; --file:5;"></div>
-      <div class="pc white pawn"   style="--rank:1; --file:6;"></div>
-      <div class="pc white pawn"   style="--rank:1; --file:7;"></div>
-      <div class="pc black rook"   style="--rank:7; --file:0;"></div>
-      <div class="pc black knight" style="--rank:7; --file:1;"></div>
-      <div class="pc black bishop" style="--rank:7; --file:2;"></div>
-      <div class="pc black queen"  style="--rank:7; --file:3;"></div>
-      <div class="pc black king"   style="--rank:7; --file:4;"></div>
-      <div class="pc black bishop" style="--rank:7; --file:5;"></div>
-      <div class="pc black knight" style="--rank:7; --file:6;"></div>
-      <div class="pc black rook"   style="--rank:7; --file:7;"></div>
-      <div class="pc black pawn"   style="--rank:6; --file:0;"></div>
-      <div class="pc black pawn"   style="--rank:6; --file:1;"></div>
-      <div class="pc black pawn"   style="--rank:6; --file:2;"></div>
-      <div class="pc black pawn"   style="--rank:6; --file:3;"></div>
-      <div class="pc black pawn"   style="--rank:6; --file:4;"></div>
-      <div class="pc black pawn"   style="--rank:6; --file:5;"></div>
-      <div class="pc black pawn"   style="--rank:6; --file:6;"></div>
-      <div class="pc black pawn"   style="--rank:6; --file:7;"></div>
-      <div id="quadrants" class="hidden"></div>
-    </div>
-
-    <div id="multiChoice" class="noSelect">
-      <span id="choice1" class="choice"></span>
-      <span id="choice2" class="choice"></span>
-      <span id="choice3" class="choice"></span>
-      <!-- <span id="choice4" class="choice">b2</span> -->
-    </div>
-    <hr>
-    <h2>Options</h2>
-    <div id="options">
-      <span>
-        <input type="checkbox" id="sfx" name="sfx">
-        <label for="sfx"> Sound Effects</label><br>
-        <input type="checkbox" id="flashScreen" name="flashScreen">
-        <label for="flashScreen"> Screen Flashes</label><br>
-        <hr>
-        <input type="checkbox" id="flip" name="flip">
-        <label for="flip"> Flip Board (black POV)</label><br>
-        <input type="checkbox" id="showQuads" name="showQuads">
-        <label for="showQuads"> Show Quadrants</label><br>
-        <hr>
-        <input type="radio" id="normal" name="constrain" checked>
-        <label for="normal"> File &amp; Rank</label><br>
-        <input type="radio" id="fileOnly" name="constrain">
-        <label for="fileOnly"> File Only</label><br>
-        <input type="radio" id="rankOnly" name="constrain">
-        <label for="rankOnly"> Rank Only</label><br>
-        <hr>
-        <input type="radio" id="noPcs" name="showPcs">
-        <label for="noPcs"> No Pieces</label><br>
-        <input type="radio" id="kqOnly" name="showPcs">
-        <label for="kqOnly"> King &amp; Queen</label><br>
-        <input type="radio" id="allPcs" name="showPcs" checked>
-        <label for="allPcs"> Full Starting Position</label>
-        <hr>
-        <span class="actionText" id="resetSettings">Reset Settings</span>
-        <span class="actionText" id="resetHiScore">Reset Best Record</span>
-      </span>
-    </div>
-    <hr>
-    <h2>About</h2>
-    <ul>
-      <li>
-        This training game helps improve your recognition of chessboard
-        coordinates; important for understanding chess theory.
-      </li>
-      <li>
-        <h3>How To Play</h3> Follow the flashing dot and choose the correct 
-        coordinates from the options given.
-      </li>
-      <li>
-        <h3>Keyboard Shortcuts</h3> Use
-        <span class=key>A</span><span class=key>S</span><span class=key>D</span> 
-        or 
-        <span class=key>1</span><span class=key>2</span><span class=key>3</span>
-        to make a multiple choice selection.
-      </li>
-      <li>
-        <h3>No Peeking</h3> For best results, try to formulate your guess
-        before looking at the available options.
-      </li>
-      <li>
-        <h3>Recommended Strategy</h3> Start out in File Only or Rank Only mode to
-        build up intuition. The "Show Quadrants" aid may be helpful at first. 
-      </li>
-      <li>
-        <h3>Privacy</h3> 
-        Settings &amp; high scores are automatically saved in your browser's
-        localStorage. No data is collected or tracked.
-      </li>
-      <li>
-        <h3>Designed for Mobile</h3> Plays best on a touchscreen device.
-        <br>Requires a modern browser.
-      </li>
-  </ul>
-  <hr>
-  <h2>Acknowledgements</h2>
-    <ul class="custBullets">
-      <li>
-        Chess symbols from 
-        <a href="https://commons.wikimedia.org/wiki/Category:SVG_chess_pieces"
-        target="_blank" >
-          Wikimedia Commons</a>, license 
-        <a href="https://creativecommons.org/licenses/by-sa/3.0/"
-        target="_blank" >CC BY-SA 3.0</a>.
-      </li>
-      <li>
-        Sound Effects generated using
-        <a href="https://rxi.itch.io/sfxia" 
-        target="_blank" >sfxia</a>.
-      </li>
-    </ul>
+  <div id="streakContainer" class="noSelect">
+    <span>Streak:&nbsp;<span id="streakNo">0</span></span>
+    <span>Best:&nbsp;<span id="bestNo">0</span></span>
+    <span>All Time:&nbsp;<span id="bestEverNo">0</span></span>
   </div>
+
+  <div id="board" class="noSelect noAnim">
+    <div id="sq1" class="sq bouncing"></div>
+    <div id="sq2" class="sq hider"></div>
+    <div class="pc white rook"   style="--rank:0; --file:0;"></div>
+    <div class="pc white knight" style="--rank:0; --file:1;"></div>
+    <div class="pc white bishop" style="--rank:0; --file:2;"></div>
+    <div class="pc white queen"  style="--rank:0; --file:3;"></div>
+    <div class="pc white king"   style="--rank:0; --file:4;"></div>
+    <div class="pc white bishop" style="--rank:0; --file:5;"></div>
+    <div class="pc white knight" style="--rank:0; --file:6;"></div>
+    <div class="pc white rook"   style="--rank:0; --file:7;"></div>
+    <div class="pc white pawn"   style="--rank:1; --file:0;"></div>
+    <div class="pc white pawn"   style="--rank:1; --file:1;"></div>
+    <div class="pc white pawn"   style="--rank:1; --file:2;"></div>
+    <div class="pc white pawn"   style="--rank:1; --file:3;"></div>
+    <div class="pc white pawn"   style="--rank:1; --file:4;"></div>
+    <div class="pc white pawn"   style="--rank:1; --file:5;"></div>
+    <div class="pc white pawn"   style="--rank:1; --file:6;"></div>
+    <div class="pc white pawn"   style="--rank:1; --file:7;"></div>
+    <div class="pc black rook"   style="--rank:7; --file:0;"></div>
+    <div class="pc black knight" style="--rank:7; --file:1;"></div>
+    <div class="pc black bishop" style="--rank:7; --file:2;"></div>
+    <div class="pc black queen"  style="--rank:7; --file:3;"></div>
+    <div class="pc black king"   style="--rank:7; --file:4;"></div>
+    <div class="pc black bishop" style="--rank:7; --file:5;"></div>
+    <div class="pc black knight" style="--rank:7; --file:6;"></div>
+    <div class="pc black rook"   style="--rank:7; --file:7;"></div>
+    <div class="pc black pawn"   style="--rank:6; --file:0;"></div>
+    <div class="pc black pawn"   style="--rank:6; --file:1;"></div>
+    <div class="pc black pawn"   style="--rank:6; --file:2;"></div>
+    <div class="pc black pawn"   style="--rank:6; --file:3;"></div>
+    <div class="pc black pawn"   style="--rank:6; --file:4;"></div>
+    <div class="pc black pawn"   style="--rank:6; --file:5;"></div>
+    <div class="pc black pawn"   style="--rank:6; --file:6;"></div>
+    <div class="pc black pawn"   style="--rank:6; --file:7;"></div>
+    <div id="quadrants" class="hidden"></div>
+  </div>
+
+  <div id="multiChoice" class="noSelect">
+    <span id="choice1" class="choice"></span>
+    <span id="choice2" class="choice"></span>
+    <span id="choice3" class="choice"></span>
+    <!-- <span id="choice4" class="choice">b2</span> -->
+  </div>
+  <hr>
+  <h2>Options</h2>
+  <div id="options">
+    <span>
+      <input type="checkbox" id="sfx" name="sfx">
+      <label for="sfx"> Sound Effects</label><br>
+      <input type="checkbox" id="flashScreen" name="flashScreen">
+      <label for="flashScreen"> Screen Flashes</label><br>
+      <hr>
+      <input type="checkbox" id="flip" name="flip">
+      <label for="flip"> Flip Board (black POV)</label><br>
+      <input type="checkbox" id="showQuads" name="showQuads">
+      <label for="showQuads"> Show Quadrants</label><br>
+      <hr>
+      <input type="radio" id="normal" name="constrain" checked>
+      <label for="normal"> File &amp; Rank</label><br>
+      <input type="radio" id="fileOnly" name="constrain">
+      <label for="fileOnly"> File Only</label><br>
+      <input type="radio" id="rankOnly" name="constrain">
+      <label for="rankOnly"> Rank Only</label><br>
+      <hr>
+      <input type="radio" id="noPcs" name="showPcs">
+      <label for="noPcs"> No Pieces</label><br>
+      <input type="radio" id="kqOnly" name="showPcs">
+      <label for="kqOnly"> King &amp; Queen</label><br>
+      <input type="radio" id="allPcs" name="showPcs" checked>
+      <label for="allPcs"> Full Starting Position</label>
+      <hr>
+      <span class="actionText" id="resetSettings">Reset Settings</span>
+      <span class="actionText" id="resetHiScore">Reset Best Record</span>
+    </span>
+  </div>
+  <hr>
+  <h2>About</h2>
+  <ul>
+    <li>
+      This training game helps improve your recognition of chessboard
+      coordinates; important for understanding chess theory.
+    </li>
+    <li>
+      <h3>How To Play</h3> Follow the flashing dot and choose the correct 
+      coordinates from the options given.
+    </li>
+    <li>
+      <h3>Keyboard Shortcuts</h3> Use
+      <span class=key>A</span><span class=key>S</span><span class=key>D</span> 
+       or 
+      <span class=key>1</span><span class=key>2</span><span class=key>3</span>
+       to make a multiple choice selection.
+    </li>
+    <li>
+      <h3>No Peeking</h3> For best results, try to formulate your guess
+       before looking at the available options.
+    </li>
+    <li>
+      <h3>Recommended Strategy</h3> Start out in File Only or Rank Only mode to
+      build up intuition. The "Show Quadrants" aid may be helpful at first. 
+    </li>
+    <li>
+      <h3>Privacy</h3> 
+      Settings &amp; high scores are automatically saved in your browser's
+      localStorage. No data is collected or tracked.
+    </li>
+    <li>
+      <h3>Designed for Mobile</h3> Plays best on a touchscreen device.
+      <br>Requires a modern browser.
+    </li>
+ </ul>
+ <hr>
+ <h2>Acknowledgements</h2>
+  <ul class="custBullets">
+    <li>
+      Chess symbols from 
+      <a href="https://commons.wikimedia.org/wiki/Category:SVG_chess_pieces"
+      target="_blank" >
+        Wikimedia Commons</a>, license 
+      <a href="https://creativecommons.org/licenses/by-sa/3.0/"
+      target="_blank" >CC BY-SA 3.0</a>.
+    </li>
+    <li>
+      Sound Effects generated using
+      <a href="https://rxi.itch.io/sfxia" 
+      target="_blank" >sfxia</a>.
+    </li>
+  </ul>
 </body>
