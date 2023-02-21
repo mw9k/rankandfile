@@ -8,8 +8,9 @@ body {
 } 
 
 #centralColumn {
+  display:inline-block;
   width: 65vh;
-  margin: 0 auto;
+  margin: 0;
 }
 
 h1 {  
