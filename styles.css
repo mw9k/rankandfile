@@ -11,6 +11,7 @@ body {
   display:inline-block;
   width: 65vh;
   margin: 0;
+  background: pink;
 }
 
 h1 {  
