@@ -10,8 +10,8 @@ function moveSq() {
   glb.prevRank = chosenRank;
   let sqOld = (glb.count % 2 == 0) ? "sq1" : "sq2";
   let sqNew = (glb.count % 2 == 0) ? "sq2" : "sq1";
-  el(sqOld).classList.remove("gotRight", "bouncing", "hider");
-  el(sqNew).classList.remove("gotRight", "bouncing", "hider");
+  el(sqOld).classList.remove("gotRight", "bouncing", "hider", "gotWrong");
+  el(sqNew).classList.remove("gotRight", "bouncing", "hider", "gotWrong");
   el(sqNew).style.setProperty('--file', chosenFile);
   el(sqNew).style.setProperty('--rank', chosenRank);
   resetAnimation(sqOld);
@@ -20,7 +20,6 @@ function moveSq() {
   el(sqNew).classList.add("bouncing");
   generateChoices();
 }
-
 
 function newRand(lBound, uBound, prevRnd) {
   // choose a random int different from previous choice. Try up to 10000x.
@@ -106,7 +105,10 @@ function makeGuess(guess) {
     moveSq();
   } else {
     if (settings.sfx) sfxWrong.play();
-    if (settings.flashScreen) flashWrong();
+    let sqOld = (glb.count % 2 !== 0) ? "sq1" : "sq2";
+    el(sqOld).classList.remove("gotWrong");
+    resetAnimation(sqOld);
+    el(sqOld).classList.add("gotWrong");
   } 
   updateStreak(gotRight);
 }
@@ -122,14 +124,6 @@ function updateStreak(gotRight) {
   el("bestNo").textContent = glb.best;
   el("bestEverNo").textContent = glb.bestEver;
 }
-
-function flashWrong() {
-  el("board").classList.add("flashWrong");
-  setTimeout(function () { 
-    el("board").classList.remove("flashWrong");
-  }, 300);
-}
-
 
 window.addEventListener("load", (event) => {
   resetSettings();
@@ -225,7 +219,6 @@ function applySettings(firstLoad) {
     }
   }
   if (settings.sfx) el("sfx").checked = true;
-  if (settings.flashScreen) el("flashScreen").checked = true;
   if (!firstLoad) el("board").classList.remove("noAnim");
 }
 
@@ -239,6 +232,6 @@ function resetHiScore() {
 
 function resetSettings(andSave = false) {
   settings = { exists:true, showQuads:false, flip:false, showPcs:"allPcs",
-  constrain: "normal", sfx:true, flashScreen:true };
+  constrain: "normal", sfx:true };
   if (andSave) saveSettings();
 }

@@ -126,25 +126,6 @@ h3 {
   margin: 1rem auto;
 }
 
-#board.flashWrong {
-  outline-color: red;
-}
-
-#board::after {
-  content: "";
-  height: 100%;
-  width: 100%;
-  position:absolute;
-  top:0;
-  left:0;
-  background-color: transparent;
-  transition: background-color .25s cubic-bezier(0.39, 0.575, 0.565, 1);
-}
-
-#board.flashWrong::after {
-  background-color: red;
-}
-
 .sq {
   position:absolute;
   z-index: 3;
@@ -160,7 +141,31 @@ h3 {
   background-color: gold;
 }
 
-.sq.gotRight {
+#board .sq.gotWrong { 
+  animation-name: bounce, flashWrong;
+  animation-duration: 400ms, 130ms;
+  animation-delay: 0ms, 0ms;
+  animation-timing-function: cubic-bezier(0.6, 0.04, 0.98, 0.335), 
+                             cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  animation-iteration-count: infinite, 4;
+  animation-direction: alternate;
+  animation-fill-mode: none,  forwards;
+}
+
+@keyframes flashWrong {
+  from {
+      background-color: gold;
+      border-color: black;    }
+    
+    to {
+      background-color: red;
+      border-color: purple;
+    }
+  }
+
+
+
+#board .sq.gotRight {
   animation: spinOut 525ms cubic-bezier(0.39, 0.575, 0.565, 1), 
              fadeOut 525ms cubic-bezier(0.47, 0, 0.745, 0.715);
   animation-fill-mode: forwards;
