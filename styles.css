@@ -53,6 +53,17 @@ h3 {
   min-width: 20%;
 }
 
+#multiChoice span.clickedDown {
+  animation:clickAnim 200ms ease-in-out;0
+  animation-fill-mode: forwards;
+}
+
+@keyframes clickAnim {
+  0% { transform: scale(1); }
+  50% { transform: scale(0.93); }
+  100% { transform: scale(1); }
+}
+
 @media (hover: hover) { /* only applies on devices w/ actual hover */
   #multiChoice span:hover {
       background-color: darkgreen;

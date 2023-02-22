@@ -139,7 +139,10 @@ window.addEventListener("load", (event) => {
   let allChoices = document.getElementsByClassName("choice");
   for (let choice of allChoices) {
     choice.addEventListener("click", function () {
-        makeGuess(choice.textContent);
+      makeGuess(choice.textContent);
+      choice.classList.remove("clickedDown");
+      resetAnimation(choice.id);
+      choice.classList.add("clickedDown");
     });
   }
   window.addEventListener("click", function (e) {
