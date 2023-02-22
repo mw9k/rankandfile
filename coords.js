@@ -14,8 +14,8 @@ function moveSq() {
   el(sqNew).classList.remove("gotRight", "bouncing", "hider");
   el(sqNew).style.setProperty('--file', chosenFile);
   el(sqNew).style.setProperty('--rank', chosenRank);
-  el(sqOld).offsetHeight; // reflow element; req. to restart animation
-  el(sqNew).offsetHeight;
+  resetAnimation(sqOld);
+  resetAnimation(sqNew);
   el(sqOld).classList.add("gotRight");
   el(sqNew).classList.add("bouncing");
   generateChoices();
@@ -33,6 +33,10 @@ function newRand(lBound, uBound, prevRnd) {
 
 function rndIntInRange(lBound, uBound) {
   return Math.floor(Math.random() * (uBound - lBound + 1)) + lBound;
+}
+
+function resetAnimation(elem) {
+  el(elem).offsetHeight;
 }
 
 

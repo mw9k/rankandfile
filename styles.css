@@ -24,7 +24,6 @@ h2 {
 h3 {
   font-size: 1.1em;
   font-weight: bold;
-  /* display: inline; */
   color: darkgreen;
   margin: 0;
   margin-right: .5rem;
@@ -67,7 +66,7 @@ h3 {
   margin: auto;
   align-items: center;
   justify-content: space-evenly;
-  outline: 1px #D0D0D0 solid;
+  outline: 1px #DCDCDC solid;
 }
 
 #streakContainer>:last-child {
@@ -77,7 +76,7 @@ h3 {
 #streakContainer>* {
   height: 3rem;
   overflow: hidden;
-  border-right: 1px #D0D0D0 solid;
+  border-right: 1px #DCDCDC solid;
   flex-grow: 1;
   flex-shrink: 1;
   display: flex;
@@ -359,5 +358,6 @@ span.actionText {
 
 hr {
   border: none;
-  border-bottom: 1px #C8C8C8 solid;
+  border-bottom: 1px #C0C0C0 solid;
+  max-width: 65vh;
 }
