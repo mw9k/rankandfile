@@ -103,12 +103,14 @@ function makeGuess(guess) {
   if (gotRight) {
     if (settings.sfx) sfxRight.play();
     moveSq();
+    return true;
   } else {
     if (settings.sfx) sfxWrong.play();
     let sqOld = (glb.count % 2 !== 0) ? "sq1" : "sq2";
     el(sqOld).classList.remove("gotWrong");
     resetAnimation(sqOld);
     el(sqOld).classList.add("gotWrong");
+    return false;
   } 
   updateStreak(gotRight);
 }
@@ -133,10 +135,15 @@ window.addEventListener("load", (event) => {
   let allChoices = document.getElementsByClassName("choice");
   for (let choice of allChoices) {
     choice.addEventListener("click", function () {
-      makeGuess(choice.textContent);
-      choice.classList.remove("clickedDown");
-      resetAnimation(choice.id);
-      choice.classList.add("clickedDown");
+      let gotRight = makeGuess(choice.textContent);
+      choice.className = "";
+      if (!gotRight) {
+        resetAnimation(choice.id);
+        choice.classList.add("gotWrong");
+      } else {
+        resetAnimation(choice.id);
+        choice.classList.add("clickedDown");
+      }
     });
   }
   window.addEventListener("click", function (e) {
