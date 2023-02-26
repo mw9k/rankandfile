@@ -92,6 +92,7 @@ h3 {
   flex-shrink: 1;
   display: flex;
   align-items: center;
+  flex-basis: 33%;
   justify-content: center;
 }
 
@@ -167,8 +168,8 @@ h3 {
   }
 
 @keyframes shake {  /* use margin, for simpler combining with translate */
-  from { margin-left: -5px; }
-  to { margin-left: 5px; }
+  from { margin-left: -.2em; }
+  to { margin-left: .2em; }
 }
 
 #board .sq.gotRight {

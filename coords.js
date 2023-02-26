@@ -14,10 +14,8 @@ function moveSq() {
   el(sqNew).classList = "sq";
   el(sqNew).style.setProperty('--file', chosenFile);
   el(sqNew).style.setProperty('--rank', chosenRank);
-  resetAnimation(sqOld);
-  resetAnimation(sqNew);
-  el(sqOld).classList.add("gotRight");
-  el(sqNew).classList.add("zoomInAndBounce");
+  reAnimate(sqOld, "gotRight");
+  reAnimate(sqNew, "zoomInAndBounce");
   generateChoices();
 }
 
@@ -34,8 +32,10 @@ function rndIntInRange(lBound, uBound) {
   return Math.floor(Math.random() * (uBound - lBound + 1)) + lBound;
 }
 
-function resetAnimation(elem) {
+function reAnimate(elem, className) {
+  el(elem).classList.remove(className);
   el(elem).offsetHeight;
+  el(elem).classList.add(className);
 }
 
 
@@ -107,8 +107,7 @@ function makeGuess(guess) {
     if (settings.sfx) sfxWrong.play();
     let sqOld = (glb.count % 2 !== 0) ? "sq1" : "sq2";
     el(sqOld).classList = "sq";
-    resetAnimation(sqOld);
-    el(sqOld).classList.add("gotWrong");
+    reAnimate(sqOld, "gotWrong");
   } 
   return gotRight;
 }
@@ -135,9 +134,7 @@ window.addEventListener("load", (event) => {
     choice.addEventListener("click", function () {
       let gotRight = makeGuess(choice.textContent);
       updateStreak(gotRight);
-      choice.classList.remove("clickedDown");
-      resetAnimation(choice.id);
-      choice.classList.add("clickedDown");
+      reAnimate(choice.id, "clickedDown");
     });
   }
   window.addEventListener("click", function (e) {
