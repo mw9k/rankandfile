@@ -1,5 +1,5 @@
 let settings = {}, 
-  glb = { prevRank:0, prevFile:0, streak:0, best:0, bestEver:0, count:0 },
+  glb = { prevRank:0, prevFile:0, streak:0, best:0, bestEver:0, count:-1 },
   sfxWrong = new Audio("wrong.wav"), sfxRight = new Audio("right.wav");
 
 function moveSq() {
@@ -8,8 +8,8 @@ function moveSq() {
   chosenRank = newRand(0, 7, glb.prevRank);
   glb.prevFile = chosenFile;
   glb.prevRank = chosenRank;
-  let sqOld = (glb.count % 2 == 0) ? "sq1" : "sq2";
-  let sqNew = (glb.count % 2 == 0) ? "sq2" : "sq1";
+  let sqOld = (glb.count % 2) ? "sq2" : "sq1";
+  let sqNew = (glb.count % 2) ? "sq1" : "sq2";
   el(sqOld).classList = "sq";
   el(sqNew).classList = "sq";
   el(sqNew).style.setProperty('--file', chosenFile);
@@ -17,7 +17,7 @@ function moveSq() {
   resetAnimation(sqOld);
   resetAnimation(sqNew);
   el(sqOld).classList.add("gotRight");
-  el(sqNew).classList.add("bouncing", "zoomIn");
+  el(sqNew).classList.add("zoomInAndBounce");
   generateChoices();
 }
 
@@ -106,12 +106,9 @@ function makeGuess(guess) {
   } else {
     if (settings.sfx) sfxWrong.play();
     let sqOld = (glb.count % 2 !== 0) ? "sq1" : "sq2";
-    el(sqOld).classList.remove("gotWrong");
+    el(sqOld).classList = "sq";
     resetAnimation(sqOld);
     el(sqOld).classList.add("gotWrong");
-    window.setTimeout(function () { 
-      el(sqOld).classList.add("bouncing"); },
-      400);
   } 
   return gotRight;
 }
