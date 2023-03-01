@@ -1,6 +1,7 @@
 let settings = {}, 
   glb = { prevRank:0, prevFile:0, streak:0, best:0, bestEver:0, count:-1 },
-  sfxWrong = new Audio("wrong.wav"), sfxRight = new Audio("right.wav");
+  sfx = { wrong: new Audio("wrong.wav"), right: new Audio("right.wav") ,
+          fanfare: new Audio("fanfare.wav")};
 
 function moveSq() {
   glb.count++;
@@ -32,9 +33,9 @@ function rndIntInRange(lBound, uBound) {
   return Math.floor(Math.random() * (uBound - lBound + 1)) + lBound;
 }
 
-function reAnimate(elem, className) {
+function reAnimate(elem, className) { 
   el(elem).classList.remove(className);
-  el(elem).offsetHeight;
+  el(elem).offsetHeight;  // reset, allowing animation to replay
   el(elem).classList.add(className);
 }
 
@@ -90,9 +91,8 @@ function numToFile(num) {
 }
 
 function makeGuess(guess) {
-  guess = String(guess).replace(/\s/g, ""); // trim whitespace
   if (!guess.length) return false;
-  if (settings.constrain == "rankOnly") {
+  if (settings.constrain == "rankOnly") { 
     guess = `${numToFile(glb.prevFile)}${guess}`;
   } else if (settings.constrain == "fileOnly") {
     guess += glb.prevRank + 1;
@@ -100,16 +100,8 @@ function makeGuess(guess) {
   let guessedRank = parseInt(guess[1] - 1);
   let guessedFile = guess[0].toLowerCase().charCodeAt(0) - 97;
   let gotRight = (guessedRank == glb.prevRank && guessedFile == glb.prevFile);
-  if (gotRight) {
-    if (settings.sfx) sfxRight.play();
-    moveSq();
-  } else {
-    if (settings.sfx) sfxWrong.play();
-    let sqOld = (glb.count % 2 !== 0) ? "sq1" : "sq2";
-    el(sqOld).classList = "sq";
-    reAnimate(sqOld, "gotWrong");
-  } 
-  return gotRight;
+  updateStreak(gotRight);
+  processAnswer(gotRight);
 }
 
 function updateStreak(gotRight) {
@@ -124,6 +116,22 @@ function updateStreak(gotRight) {
   el("bestEverNo").textContent = glb.bestEver;
 }
 
+function processAnswer(gotRight) {
+  if (gotRight) {
+    if (glb.streak % 10) {
+      if (settings.sfx) sfx.right.play();
+    } else {
+      if (settings.sfx) sfx.fanfare.play();
+    }
+    moveSq();
+  } else {
+    if (settings.sfx) sfx.wrong.play();
+    let sqOld = (glb.count % 2 !== 0) ? "sq1" : "sq2";
+    el(sqOld).classList = "sq";
+    reAnimate(sqOld, "gotWrong");
+  }
+}
+
 window.addEventListener("load", (event) => {
   resetSettings();
   loadSettings(true);
@@ -133,7 +141,6 @@ window.addEventListener("load", (event) => {
   for (let choice of allChoices) {
     choice.addEventListener("click", function () {
       let gotRight = makeGuess(choice.textContent);
-      updateStreak(gotRight);
       reAnimate(choice.id, "clickedDown");
     });
   }
