@@ -103,10 +103,36 @@ h3 {
   margin-left: .25rem;
 }
 
+#streakNo.bump {
+    animation: bump 120ms ease-in;
+  animation-iteration-count: 2;
+  animation-direction: alternate;
+}
+
+@keyframes bump {
+  from { transform: scale(1); }
+  to { transform: scale(1.2); }
+}
+
+#streakNo.bigBump {
+  animation: bigBump 440ms linear;
+  animation-iteration-count: 2;
+  animation-direction: alternate;
+}
+
+@keyframes bigBump {
+  from {
+      transform: scale(1);
+      color: blue;
+    }
+    to {
+      transform: scale(1.4);
+      color: darkorange;
+    }
+}
+
 #options {
   width: fit-content;
-  /* border: 1px #A8A8A8 solid; */
-  /* padding: 1rem; */
   margin: 1rem auto;
   margin-bottom: 2rem;
   text-align: left;

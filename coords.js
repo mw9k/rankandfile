@@ -11,12 +11,10 @@ function moveSq() {
   glb.prevRank = chosenRank;
   let sqOld = (glb.count % 2) ? "sq2" : "sq1";
   let sqNew = (glb.count % 2) ? "sq1" : "sq2";
-  el(sqOld).classList = "sq";
-  el(sqNew).classList = "sq";
   el(sqNew).style.setProperty('--file', chosenFile);
   el(sqNew).style.setProperty('--rank', chosenRank);
-  reAnimate(sqOld, "gotRight");
-  reAnimate(sqNew, "zoomInAndBounce");
+  reanimate(sqOld, "gotRight", "sq");
+  reanimate(sqNew, "zoomInAndBounce", "sq");
   generateChoices();
 }
 
@@ -33,7 +31,8 @@ function rndIntInRange(lBound, uBound) {
   return Math.floor(Math.random() * (uBound - lBound + 1)) + lBound;
 }
 
-function reAnimate(elem, className) { 
+function reanimate(elem, className, resetTo) { 
+  if (resetTo !== undefined) el(elem).classList = resetTo;
   el(elem).classList.remove(className);
   el(elem).offsetHeight;  // reset, allowing animation to replay
   el(elem).classList.add(className);
@@ -120,15 +119,17 @@ function processAnswer(gotRight) {
   if (gotRight) {
     if (glb.streak % 10) {
       if (settings.sfx) sfx.right.play();
+      reanimate("streakNo", "bump", "bump");
     } else {
       if (settings.sfx) sfx.fanfare.play();
+      reanimate("streakNo", "bigBump", "bigBump");
     }
     moveSq();
   } else {
     if (settings.sfx) sfx.wrong.play();
     let sqOld = (glb.count % 2 !== 0) ? "sq1" : "sq2";
     el(sqOld).classList = "sq";
-    reAnimate(sqOld, "gotWrong");
+    reanimate(sqOld, "gotWrong");
   }
 }
 
@@ -141,7 +142,7 @@ window.addEventListener("load", (event) => {
   for (let choice of allChoices) {
     choice.addEventListener("click", function () {
       let gotRight = makeGuess(choice.textContent);
-      reAnimate(choice.id, "clickedDown");
+      reanimate(choice.id, "clickedDown");
     });
   }
   window.addEventListener("click", function (e) {
