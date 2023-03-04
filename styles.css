@@ -104,14 +104,14 @@ h3 {
 }
 
 #streakNo.bump {
-    animation: bump 120ms ease-in;
+  animation: bump 100ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
   animation-iteration-count: 2;
   animation-direction: alternate;
 }
 
 @keyframes bump {
   from { transform: scale(1); }
-  to { transform: scale(1.2); }
+  to { transform: scale(1.1); }
 }
 
 #streakNo.bigBump {
@@ -419,4 +419,16 @@ hr {
   border: none;
   border-bottom: 1px #C0C0C0 solid;
   max-width: 65vh;
+}
+
+noscript {
+  font-size: 1.2rem;
+  color: red;
+  font-weight: bold;
+  display: block;
+  border: 2px red solid;
+  padding: 1em;
+  margin: 1em auto;
+  width: 65vh; /* Same as board */
+  max-width: 96vw;
 }
