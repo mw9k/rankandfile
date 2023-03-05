@@ -190,10 +190,8 @@ function shuffleArray(arr) {
 
 function loadSettings(firstLoad) {
   let loaded = JSON.parse(localStorage.getItem('rankFileSettings'));
-  if (loaded && loaded.exists) {
-    settings = loaded;
-    applySettings(firstLoad);
-  }
+  if (loaded && loaded.exists) settings = loaded;
+  applySettings(firstLoad);
 }
 
 function saveSettings() {
@@ -217,10 +215,12 @@ function applySettings(firstLoad) {
     el("board").classList.remove("flipped");
     el("flip").checked = false;
   }
-  el("board").classList.remove("noPcs", "allPcs", "kqOnly");
-  el("board").classList.add(settings.showPcs);
-  if (el(settings.showPcs)) {
-    el(settings.showPcs).checked = true;
+  if (settings.showPcs) {
+    el("board").classList.remove("noPcs", "allPcs", "kqOnly");
+    el("board").classList.add(settings.showPcs);
+    if (el(settings.showPcs)) {
+      el(settings.showPcs).checked = true;
+    }
   }
   if (el(settings.constrain)) {
     if (!el(settings.constrain).checked) {
