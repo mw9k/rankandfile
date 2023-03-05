@@ -8,16 +8,16 @@ body {
 } 
 
 h1 {  
-  font-size: 1.6rem;
+  font-size: 1.5rem;
   margin: 0;
   padding: .4rem 0;
   margin-bottom:.9rem;
-  background: whitesmoke;
-  border-bottom: 1px gainsboro solid;
+  background: darkslategray;
+  color: white;
 }
 
 h2 { 
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   margin-top: 1rem;
   margin-bottom: .6rem;
 }
@@ -73,7 +73,6 @@ h3 {
 
 #streakContainer {
   width: 65vh; /* Same as board */
-  height: 2rem;
   max-width: 100vw; 
   display: flex;
   margin: auto;
@@ -87,15 +86,15 @@ h3 {
 }
 
 #streakContainer>* {
-  height: 3rem;
+  border-right: 1px #DCDCDC solid;
+  height: 2rem;
   overflow: hidden;
-  /* border-right: 1px #DCDCDC solid; */
   flex-grow: 1;
   flex-shrink: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-basis: 33%;
+  /* padding-left: 1rem; */
 }
 
 
