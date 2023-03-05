@@ -121,7 +121,7 @@ function updateStreak(gotRight) {
 
 function processAnswer(gotRight) {
   if (gotRight) {
-    if (!state.streak % 10) {
+    if (state.streak % 5 == 0) {
       playSound("fanfare");
       reanimate("streakNo", "bigBump", "bigBump");
     } else {
@@ -241,7 +241,7 @@ function resetHiScore() {
 }
 
 function resetSettings(andSave = false) {
-  settings = { exists:true, showQuads:false, flip:false, showPcs:"kqOnly",
+  settings = { exists:true, showQuads:false, flip:false, showPcs:"allPcs",
   constrain: "normal", sfx:true };
   if (andSave) saveSettings();
 }

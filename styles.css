@@ -67,7 +67,7 @@ h3 {
 
 @media (hover: hover) { /* only applies on devices w/ actual hover */
   #multiChoice span:hover {
-      background-color: darkgreen;
+    background-color: darkgreen;
   }
 }
 
@@ -78,7 +78,6 @@ h3 {
   margin: auto;
   align-items: center;
   justify-content: space-evenly;
-  /* outline: 1px #DCDCDC solid; */
 }
 
 #streakContainer>:last-child {
@@ -88,15 +87,12 @@ h3 {
 #streakContainer>* {
   border-right: 1px #DCDCDC solid;
   height: 2rem;
-  overflow: hidden;
   flex-grow: 1;
   flex-shrink: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  /* padding-left: 1rem; */
 }
-
 
 #streakNo {
   font-size: 2rem;
@@ -117,20 +113,20 @@ h3 {
 }
 
 #streakNo.bigBump {
-  animation: bigBump 440ms linear;
+  animation: bigBump 440ms cubic-bezier(0.175, 0.885, 0.32, 1.275),
+             glow 440ms linear;
   animation-iteration-count: 2;
   animation-direction: alternate;
 }
 
 @keyframes bigBump {
-  from {
-      transform: scale(1);
-      color: blue;
-    }
-    to {
-      transform: scale(1.4);
-      color: darkorange;
-    }
+  from { transform: scale(1); }
+  to { transform: scale(1.4); }
+}
+
+@keyframes glow {
+  from { color: blue; }
+  to {  color: darkorange; }
 }
 
 #options {
