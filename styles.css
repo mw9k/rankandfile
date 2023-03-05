@@ -225,8 +225,8 @@ h3 {
 
 .sq.zoomInAndBounce {
   animation-name: zoomIn, bounce;
-  animation-duration: 350ms, 400ms;
-  animation-delay: 0ms, 500ms;
+  animation-duration: 700ms, 800ms;
+  animation-delay: 0ms, 1000ms;
   animation-timing-function: ease-out, cubic-bezier(0.6, 0.04, 0.98, 0.335);
   animation-iteration-count: 1, infinite;
   animation-direction: alternate;
