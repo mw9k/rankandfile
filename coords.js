@@ -248,6 +248,7 @@ function resetSettings(andSave = false) {
 
 function playSound(sound) {
   if (settings.sfx) {
+    sfx[sound].load();
     sfx[sound].play();
   }
 }
