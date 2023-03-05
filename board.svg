@@ -1,12 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 50  50" xml:space="preserve">
+	 viewBox="0 0 200 200" xml:space="preserve">
 <style type="text/css">
 	.st0{fill:#d1eef5;}
 	.st1{fill:#1ab7d8;}
 </style>
 <rect class="st0" width="25" height="25"/>
 <rect class="st1" x="25"  width="25" height="25"/>
-<rect class="st1" y="25"  width="25" height="25"/>
-<rect class="st0" x="25" y="25"  width="25" height="25"/>
+<rect class="st0" x="50"  width="25" height="25"/>
+<rect class="st1" x="75"  width="25" height="25"/>
+<rect class="st0" x="100"  width="25" height="25"/>
+<rect class="st1" x="125"  width="25" height="25"/>
+<rect class="st0" x="150"  width="25" height="25"/>
+<rect class="st1" x="175"  width="25" height="25"/>
+
+<rect class="st1" x="0"    y="25"  width="25" height="25"/>
+<rect class="st0" x="25"   y="25"  width="25" height="25"/>
+<rect class="st1" x="50"   y="25"  width="25" height="25"/>
+<rect class="st0" x="75"   y="25"  width="25" height="25"/>
+<rect class="st1" x="100"  y="25"  width="25" height="25"/>
+<rect class="st0" x="125"  y="25"  width="25" height="25"/>
+<rect class="st1" x="150"  y="25"  width="25" height="25"/>
+<rect class="st0" x="175"  y="25"  width="25" height="25"/>
+
+<rect class="st0" x="0"    y="50"  width="25" height="25"/>
+<rect class="st1" x="25"   y="50"  width="25" height="25"/>
+<rect class="st0" x="50"   y="50"  width="25" height="25"/>
+<rect class="st1" x="75"   y="50"  width="25" height="25"/>
+<rect class="st0" x="100"  y="50"  width="25" height="25"/>
+<rect class="st1" x="125"  y="50"  width="25" height="25"/>
+<rect class="st0" x="150"  y="50"  width="25" height="25"/>
+<rect class="st1" x="175"  y="50"  width="25" height="25"/>
+
+<rect class="st1" x="0"    y="75"  width="25" height="25"/>
+<rect class="st0" x="25"   y="75"  width="25" height="25"/>
+<rect class="st1" x="50"   y="75"  width="25" height="25"/>
+<rect class="st0" x="75"   y="75"  width="25" height="25"/>
+<rect class="st1" x="100"  y="75"  width="25" height="25"/>
+<rect class="st0" x="125"  y="75"  width="25" height="25"/>
+<rect class="st1" x="150"  y="75"  width="25" height="25"/>
+<rect class="st0" x="175"  y="75"  width="25" height="25"/>
+
+<rect class="st0" x="0"    y="100"  width="25" height="25"/>
+<rect class="st1" x="25"   y="100"  width="25" height="25"/>
+<rect class="st0" x="50"   y="100"  width="25" height="25"/>
+<rect class="st1" x="75"   y="100"  width="25" height="25"/>
+<rect class="st0" x="100"  y="100"  width="25" height="25"/>
+<rect class="st1" x="125"  y="100"  width="25" height="25"/>
+<rect class="st0" x="150"  y="100"  width="25" height="25"/>
+<rect class="st1" x="175"  y="100"  width="25" height="25"/>
+
+<rect class="st1" x="0"    y="125"  width="25" height="25"/>
+<rect class="st0" x="25"   y="125"  width="25" height="25"/>
+<rect class="st1" x="50"   y="125"  width="25" height="25"/>
+<rect class="st0" x="75"   y="125"  width="25" height="25"/>
+<rect class="st1" x="100"  y="125"  width="25" height="25"/>
+<rect class="st0" x="125"  y="125"  width="25" height="25"/>
+<rect class="st1" x="150"  y="125"  width="25" height="25"/>
+<rect class="st0" x="175"  y="125"  width="25" height="25"/>
+
+<rect class="st0" x="0"    y="150"  width="25" height="25"/>
+<rect class="st1" x="25"   y="150"  width="25" height="25"/>
+<rect class="st0" x="50"   y="150"  width="25" height="25"/>
+<rect class="st1" x="75"   y="150"  width="25" height="25"/>
+<rect class="st0" x="100"  y="150"  width="25" height="25"/>
+<rect class="st1" x="125"  y="150"  width="25" height="25"/>
+<rect class="st0" x="150"  y="150"  width="25" height="25"/>
+<rect class="st1" x="175"  y="150"  width="25" height="25"/>
+
+<rect class="st1" x="0"    y="175"  width="25" height="25"/>
+<rect class="st0" x="25"   y="175"  width="25" height="25"/>
+<rect class="st1" x="50"   y="175"  width="25" height="25"/>
+<rect class="st0" x="75"   y="175"  width="25" height="25"/>
+<rect class="st1" x="100"  y="175"  width="25" height="25"/>
+<rect class="st0" x="125"  y="175"  width="25" height="25"/>
+<rect class="st1" x="150"  y="175"  width="25" height="25"/>
+<rect class="st0" x="175"  y="175"  width="25" height="25"/>
+
 </svg>

@@ -139,9 +139,9 @@ h3 {
 
 #board {
   z-index: -1;
+  transform-style: flat;
   background-image: url('board.svg');
-  background-size: 25%;
-  background-repeat: round;
+  background-size: cover;
   height: 65vh;
   width: 65vh;
   max-height: 100vw;
