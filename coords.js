@@ -21,11 +21,11 @@ function moveSq() {
 function newRndInt(lBound, uBound, prevRnd) {  
   // choose a random int different from previous choice
   // bounds are 'inclusive'
-  if (prevRnd > uBound || prevRnd < lBound) {  // if prev rnd not within bounds 
+  if (prevRnd > uBound || prevRnd < lBound) { // if prev rnd not within bounds 
     var newRnd = rndIntInRange(lBound, uBound); // straightforward rndIntInRange
   } else {
     newRnd = rndIntInRange(lBound, uBound - 1); // otherwise, reduce range by 1
-    if (newRnd >= prevRnd) newRnd++;  // shift up to compensate for missing no.
+    if (newRnd >= prevRnd) newRnd++; // shift up to compensate for missing no.
   }
   return newRnd;
 }
@@ -49,21 +49,23 @@ function generateChoices() {
   choices.push(correctChoice); 
   for (let i = 0; i < 10000; i++) { // try up to 10k times
     // Pseudorandomly select a 'file' (x-axis coordinate):
-    let maxDist = (settings.constrain == "fileOnly") ? 3 : 1;
-    let lBound = (state.prevFile - maxDist >= 0) ? state.prevFile - maxDist : 0;
-    let uBound = (state.prevFile + maxDist <= 7) ? state.prevFile + maxDist : 7;
-    let rndFile = rndIntInRange(lBound, uBound);
-    rndFile = numToFile(rndFile);
     if (Math.random() < .75) {
-      rndFile = numToFile(state.prevFile); // ~75% chance of no change 
+      var rndFile = numToFile(state.prevFile); // ~75% chance of no change 
+    } else {
+      var maxDist = (settings.constrain == "fileOnly") ? 3 : 1;
+      var lBound = (state.prevFile - maxDist >= 0) ? state.prevFile - maxDist : 0;
+      var uBound = (state.prevFile + maxDist <= 7) ? state.prevFile + maxDist : 7;
+      var rndFile = rndIntInRange(lBound, uBound);
+      rndFile = numToFile(rndFile);
     }
     // Pseudorandomly select a 'rank' (y-axis coordinate):
-    maxDist = (settings.constrain == "rankOnly") ? 3 : 1;
-    lBound = (state.prevRank - maxDist >= 0) ? state.prevRank - maxDist : 0;
-    uBound = (state.prevRank + maxDist <= 7) ? state.prevRank + maxDist : 7;
-    let rndRank = rndIntInRange(lBound, uBound);
     if (Math.random() < .75) {
-      rndRank = state.prevRank; // ~75% chance of no change 
+      var rndRank = state.prevRank; // ~75% chance of no change 
+    } else {
+      maxDist = (settings.constrain == "rankOnly") ? 3 : 1;
+      lBound = (state.prevRank - maxDist >= 0) ? state.prevRank - maxDist : 0;
+      uBound = (state.prevRank + maxDist <= 7) ? state.prevRank + maxDist : 7;
+      rndRank = rndIntInRange(lBound, uBound);
     }
     rndRank++;  // account for zero indexed
     let rndSq = constrain(rndFile, rndRank);
@@ -76,7 +78,8 @@ function generateChoices() {
   }
 }
 
-function el(elem) {	// Custom shortener for document.getElementById()
+function el(elem) {	
+  // Custom shortener for document.getElementById()
   return document.getElementById(elem);
 }
 
@@ -118,12 +121,12 @@ function updateStreak(gotRight) {
 
 function processAnswer(gotRight) {
   if (gotRight) {
-    if (state.streak % 3) {
-      playSound("right");
-      reanimate("streakNo", "bump", "bump");
-    } else {
+    if (!state.streak % 10) {
       playSound("fanfare");
       reanimate("streakNo", "bigBump", "bigBump");
+    } else {
+      playSound("right");
+      reanimate("streakNo", "bump", "bump");
     }
     moveSq();
   } else {
@@ -238,7 +241,7 @@ function resetHiScore() {
 }
 
 function resetSettings(andSave = false) {
-  settings = { exists:true, showQuads:false, flip:false, showPcs:"allPcs",
+  settings = { exists:true, showQuads:false, flip:false, showPcs:"kqOnly",
   constrain: "normal", sfx:true };
   if (andSave) saveSettings();
 }
