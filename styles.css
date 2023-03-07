@@ -8,14 +8,16 @@ body {
 } 
 
 h1 {  
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   margin: 0;
-  padding: .4rem 0;
+  padding: .45rem 0;
   margin-bottom:.9rem;
   /* background: darkslategray;
   color: white;
   border-bottom: 1px rgba(0,0,0,0.3) solid; */
-  background: #F6F8FA;
+    background: hsl(198, 34%, 23%);
+      color: rgba(255,255,255,0.9);
+  /* background: #F6F8FA; */
   border-bottom: 1px rgba(0,0,0,0.15) solid;
 }
 
@@ -145,12 +147,12 @@ h3 {
   transform-style: flat;
   background-image: url('board.svg');
   background-size: 100%;
-  height: calc(65vh - 4px);;
-  width: calc(65vh - 4px);;
-  max-height: calc(100vw - 4px);;
-  max-width: calc(100vw - 4px);
+  height: 65vh;
+  width: 65vh;
+  max-height: 100vw;
+  max-width: 100vw;
   position:relative;
-  border: 2px #128097 solid;
+  outline: 2px #128097 solid;
   margin: 1rem auto;
 }
 
@@ -420,8 +422,8 @@ span.actionText {
 
 hr {
   border: none;
-  border-bottom: 1px #C0C0C0 solid;
-  max-width: 65vh;
+  border-bottom: 1px rgb(0, 0, 0, 0.30) solid;
+    max-width: 65vh;
 }
 
 noscript {
