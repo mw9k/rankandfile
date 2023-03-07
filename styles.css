@@ -1,38 +1,16 @@
 body {
   text-align: center;
-  font-family: 'DM Sans', sans-serif;
-  line-height: 1.4;
+font-family: 'Roboto Slab', serif;
+  transition: background-color .3s linear;
   padding: 0;
   margin:0;
   font-size: 17px;
 } 
 
-h1 {  
-  font-size: 1.4rem;
-  margin: 0;
-  padding: .45rem 0;
-  margin-bottom:.9rem;
-  /* background: darkslategray;
-  color: white;
-  border-bottom: 1px rgba(0,0,0,0.3) solid; */
-    background: hsl(198, 34%, 23%);
-      color: rgba(255,255,255,0.95);
-  /* background: #F6F8FA; */
-  border-bottom: 1px rgba(0,0,0,0.15) solid;
-}
-
-h2 { 
-  font-size: 1.3rem;
-  margin-top: 1rem;
-  margin-bottom: .6rem;
-}
-
-h3 {
-  font-size: 1.1em;
-  font-weight: bold;
-  color: darkgreen;
-  margin: 0;
-  margin-right: .5rem;
+h1 {
+  font-size: 2rem;
+  margin: .8rem 0;
+  padding: 0;
 }
 
 #multiChoice {
@@ -40,6 +18,7 @@ h3 {
   max-width: 96vw; 
   margin: 1rem auto;
   height: 4rem;
+  /* background: yellow; */
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -59,21 +38,8 @@ h3 {
   min-width: 20%;
 }
 
-#multiChoice span.clickedDown {
-  animation:clickAnim 200ms ease-in-out;
-  animation-fill-mode: forwards;
-}
-
-@keyframes clickAnim {
-  0% { transform: scale(1); }
-  50% { transform: scale(0.93); }
-  100% { transform: scale(1); }
-}
-
-@media (hover: hover) { /* only applies on devices w/ actual hover */
-  #multiChoice span:hover {
-    background-color: darkgreen;
-  }
+#multiChoice span:hover {
+  background-color: darkgreen;
 }
 
 #streakContainer {
@@ -83,6 +49,7 @@ h3 {
   margin: auto;
   align-items: center;
   justify-content: space-evenly;
+  outline: 1px silver solid;
 }
 
 #streakContainer>:last-child {
@@ -90,9 +57,11 @@ h3 {
 }
 
 #streakContainer>* {
-  border-right: 1px rgb(0, 0, 0, 0.15) solid;
-  height: 2rem;
-  flex-grow: 1;
+  height: 3rem;
+  overflow: hidden;
+  border-right: 1px lightgray solid;
+  /* flex-basis: 33%; */
+  flex-grow: 1;sq
   flex-shrink: 1;
   display: flex;
   align-items: center;
@@ -106,165 +75,79 @@ h3 {
   margin-left: .25rem;
 }
 
-#streakNo.bump {
-  animation: bump 100ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  animation-iteration-count: 2;
-  animation-direction: alternate;
-}
-
-@keyframes bump {
-  from { transform: scale(1); }
-  to { transform: scale(1.1); }
-}
-
-#streakNo.bigBump {
-  animation: bigBump 440ms cubic-bezier(0.175, 0.885, 0.32, 1.275),
-             glow 440ms linear;
-  animation-iteration-count: 2;
-  animation-direction: alternate;
-}
-
-@keyframes bigBump {
-  from { transform: scale(1); }
-  to { transform: scale(1.4); }
-}
-
-@keyframes glow {
-  from { color: blue; }
-  to {  color: darkorange; }
-}
-
 #options {
   width: fit-content;
-  margin: 1rem auto;
-  margin-bottom: 2rem;
+  border: 1px gray solid;
+  padding: 1rem;
+  margin: 2rem auto;
   text-align: left;
   border-radius: .25rem;
 }
 
+#options h2 {
+ margin: 0; 
+ margin-bottom: .75rem;
+ width: 100%;
+ text-align: center;
+}
+
 #board {
   z-index: -1;
-  transform-style: flat;
   background-image: url('board.svg');
-  background-size: 100%;
+  background-size: 25%;
+  background-repeat: round;
   height: 65vh;
   width: 65vh;
   max-height: 100vw;
   max-width: 100vw;
   position:relative;
-  outline: 2px #128097 solid;
+  outline: 2px #404040 solid;
   margin: 1rem auto;
 }
 
-.sq {
+#sq {
   position:absolute;
   z-index: 3;
+  transition: bottom .3s ease-in-out, left .3s ease-in-out;
   height: calc(12.5% - 6px);
   width: calc(12.5% - 6px);
   border: 3px black solid;
+  /* background-color: orange; */
+  /* border: 3px black solid; */
+  /* background: rgba(255,255,0,0.5); */
   --rank: 0;
   --file: 0;
+  /* animation: glow .75s linear infinite; */
+  animation-direction: alternate;
   bottom: calc(12.5% * var(--rank));
   left: calc(12.5% * var(--file));
   border-radius: 50%;
   overflow: hidden;
   background-color: gold;
-  animation:none;
+
+  /* margin-left: -3px;
+  margin-bottom: -3px; */
 }
 
-#board .sq.gotWrong { 
-  animation-name: shake, flashWrong, bounce;
-  animation-duration: 66ms, 450ms, 400ms;
-  animation-delay: 0ms, 0ms, 900ms;
-  animation-timing-function: ease-in-out, 
-                             cubic-bezier(0.25, 0.46, 0.45, 0.94),
-                             cubic-bezier(0.6, 0.04, 0.98, 0.335);;
-  animation-iteration-count: 6, 2, infinite;
-  animation-direction: alternate;
-  animation-fill-mode: none, forwards, none;
-}
 
-@keyframes flashWrong {
-  from {
-      background-color: gold;
-      border-color: black;   
-     }
-    
-    to {
-      background-color: red;
-      border-color: purple;
-    }
-  }
-
-@keyframes shake {  /* use margin, for simpler combining with translate */
-  from { margin-left: -.2em; }
-  to { margin-left: .2em; }
-}
-
-#board .sq.gotRight {
-  animation: spinOut 525ms cubic-bezier(0.39, 0.575, 0.565, 1), 
-             fadeOut 525ms cubic-bezier(0.47, 0, 0.745, 0.715);
-  animation-fill-mode: forwards;
-}
-
-@keyframes spinOut {
-  from { transform: scale(1); }
-  to { transform: scale(.8); }
-  /* from { transform: rotateY(0deg) scale(1); }
-  to { transform: rotateY(270deg) scale(.8); } */
-}
-
-@keyframes fadeOut {
-  from { opacity: 1; }
-  to { opacity: 0; }
-}
-
-.sq.bouncing {
-  animation-name: bounce;
-  animation-duration: 400ms;
-  animation-delay: 0ms;
-  animation-timing-function: cubic-bezier(0.6, 0.04, 0.98, 0.335);
-  animation-iteration-count: infinite;
-  animation-direction: alternate;
-} 
-
-.sq.zoomInAndBounce {
-  animation-name: zoomIn, bounce;
-  animation-duration: 700ms, 800ms;
-  animation-delay: 0ms, 1000ms;
-  animation-timing-function: ease-out, cubic-bezier(0.6, 0.04, 0.98, 0.335);
-  animation-iteration-count: 1, infinite;
-  animation-direction: alternate;
-}
-
-.sq.hider {
-  display: none;
-}
-
-@keyframes zoomIn { 
-  from { transform: scale(0); }  
-  to { transform: scale(1); }
-}
-
-@keyframes bounce {
-  /* also reset transforms */
-  from { transform: scale(1) translate(0, 0) translate3d(0, 0, 0); }
-  to { transform: scale(.85) translate(0, 0) translate3d(0, 0, 0); }
-}
-
-#board.flipped .sq, #board.flipped .pc {
+#board.flipped #sq, #board.flipped .pc {
     bottom: calc(100% - (12.5% * (var(--rank) + 1)));
     left: calc(100% - (12.5% * (var(--file) + 1)));
 }
 
-#board.allPcs .pc, 
-#board.kqOnly .pc.queen, 
-#board.kqOnly .pc.king {
+#board.justFlipped #sq {
+  transition: none;
+}
+
+#board.noPcs .pc, #board.kqOnly .pc {
+  opacity: 0;
+}
+
+#board.kqOnly .pc.queen, #board.kqOnly .pc.king {
   opacity: 1;
 }
 
 .pc {
-  opacity: 0;
   transition: opacity .3s ease-out;
   height: 12.5%;
   width: 12.5%;
@@ -273,10 +156,7 @@ h3 {
   left: calc(12.5% * var(--file));
   background-size: 100%;
   z-index: 2;
-}
-
-#board.noAnim .pc {
-  transition: none !important;
+  /* opacity: .6; */
 }
 
 .pc.white.queen {
@@ -317,6 +197,11 @@ h3 {
 
 .pc.black.pawn {
   background-image: url('b_pawn.svg');
+}
+
+@keyframes glow {
+  from { border-color: rgb(0,0,0); }
+  to { border-color: rgb(255, 255, 255); }
 }
 
 #quadrants.hidden {
@@ -367,49 +252,12 @@ h3 {
 
 ul {
   width: 65vh; /* Same as board */
-  max-width: 88vw;
+  max-width: 96vw;
   text-align: left;
   margin: 0 auto;
   margin-bottom: 3rem;
   padding:0;
-  list-style-type: none;
-}
-
-ul.custBullets li {
-  width: calc(100% - 1rem);
-  position:relative;
-  left: 1rem;
-}
-
-ul.custBullets li::before {
-  top:0;
-  left:-1rem;
-  width: 1rem;
-  font-weight: bold;
-  content:"•";
-  color: darkgreen;
-  position: absolute;
-  margin: 0;
-}
-
-ul li {
-  margin-bottom: 1.33rem;
-}
-
-span.key {
-  font-size: .8em;
-  border: 1px black solid;
-  background-color: Gainsboro;
-  font-family: sans-serif;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: 1.25em;
-  width: 1.25em;
-  border-radius: .2em;
-  margin: auto .125rem;
-  position:relative;
-  bottom:.2em;
+  list-style-position: inside;
 }
 
 span.actionText {
@@ -418,22 +266,4 @@ span.actionText {
   text-decoration: underline;
   margin: 1rem 0;
   display:block;
-}
-
-hr {
-  border: none;
-  border-bottom: 1px rgb(0, 0, 0, 0.30) solid;
-    max-width: 65vh;
-}
-
-noscript {
-  font-size: 1.2rem;
-  color: red;
-  font-weight: bold;
-  display: block;
-  border: 2px red solid;
-  padding: 1em;
-  margin: 1em auto;
-  width: 65vh; /* Same as board */
-  max-width: 96vw;
 }
