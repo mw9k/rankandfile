@@ -1,7 +1,8 @@
 let settings = {}, // loaded later
-    state = { prevRank:0, prevFile:0, streak:0, best:0, bestEver:0, count:-1 },
-    sfx = { wrong: new Audio("wrong.wav"), right: new Audio("right.wav"),
-            fanfare: new Audio("fanfare.wav")};
+  state = { prevRank:0, prevFile:0, streak:0, best:0, bestEver:0, count:-1 },
+  sfx = { wrong: new Howl({ src: ['wrong.wav'] }), 
+          right: new Howl({ src: ['right.wav'] }), 
+          fanfare: new Howl({ src: ['fanfare.wav'] }) };
 
 function moveSq() {
   state.count++;
@@ -248,7 +249,6 @@ function resetSettings(andSave = false) {
 
 function playSound(sound) {
   if (settings.sfx) {
-    sfx[sound].load();
     sfx[sound].play();
   }
 }

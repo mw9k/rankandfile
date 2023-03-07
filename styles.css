@@ -12,8 +12,11 @@ h1 {
   margin: 0;
   padding: .4rem 0;
   margin-bottom:.9rem;
-  background: darkslategray;
+  /* background: darkslategray;
   color: white;
+  border-bottom: 1px rgba(0,0,0,0.3) solid; */
+  background: #F6F8FA;
+  border-bottom: 1px #DCDCDC solid;
 }
 
 h2 { 
