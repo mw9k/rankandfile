@@ -12,7 +12,7 @@ h1 {
   margin: 0;
   padding: .45rem 0;
   margin-bottom:.9rem;
-  background: #21505F;
+  background: #133D55;
   color: rgba(255,255,255,.95);
 }
 
@@ -339,8 +339,8 @@ h3 {
   height: 50%;
   width:100%;
   position: absolute;
-  top: -1.5px;  /* half border width */
-  border-bottom: 3px yellow solid;
+  top: -2px;  /* compensate for border thickness */
+  border-bottom: 2px rgba(0,0,0,0.5) solid;
 }
 
 #quadrants::before {
@@ -349,8 +349,8 @@ h3 {
   height: 100%;
   width: 50%;
   position: absolute;
-  left: -1.5px; /* half border width */
-  border-right: 3px yellow solid;
+  left: -2px; /* compensate for border thickness */
+  border-right: 2px rgba(0, 0, 0, 0.5) solid;
 }
 
 #guess {
