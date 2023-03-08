@@ -4,10 +4,10 @@
 <style type="text/css">
 	.st0{fill:#d1eef5;}
 	.st1{fill:#1ab7d8;}
-  .txt1 {font: bold 5px sans-serif; fill: #1ab7d8;}
-  .txt2 {font: bold 5px sans-serif; fill: #d1eef5;}
-  .txt3 {font: bold 5px sans-serif; fill: #1ab7d8; display:none;}
-  .txt4 {font: bold 5px sans-serif; fill: #d1eef5; display:none;}
+  .txt1 {font: bold 5px sans-serif; fill: #1ab7d8; display:none;}
+  .txt2 {font: bold 5px sans-serif; fill: #d1eef5; display:none;}
+  .txt3 {font: bold 5px sans-serif; fill: #1ab7d8;}
+  .txt4 {font: bold 5px sans-serif; fill: #d1eef5;}
 </style>
 <rect class="st0" width="25" height="25"/>
 <rect class="st1" x="25"  width="25" height="25"/>

@@ -12,9 +12,8 @@ h1 {
   margin: 0;
   padding: .45rem 0;
   margin-bottom:.9rem;
-  background: #00394c;
+  background: #21505F;
   color: rgba(255,255,255,.95);
-  border-bottom: 1px rgba(0,0,0,0.25) solid;
 }
 
 h2 { 
@@ -251,6 +250,14 @@ h3 {
 #board.flipped .sq, #board.flipped .pc {
     bottom: calc(100% - (12.5% * (var(--rank) + 1)));
     left: calc(100% - (12.5% * (var(--file) + 1)));
+}
+
+#board.hideLabels {
+  background-image: url('board_no_labels.svg');
+}
+
+#board.flipped {
+  background-image: url('board_flipped.svg');
 }
 
 #board.allPcs .pc, 
