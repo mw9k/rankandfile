@@ -223,6 +223,12 @@ function applySettings(firstLoad) {
       el(settings.showPcs).checked = true;
     }
   }
+  if (settings.showLabels) {
+    el("board").classList.remove("hideLabels");
+  } else {
+    el("board").classList.add("hideLabels");
+  }
+  if (el("showLabels")) { el("showLabels").checked = settings.showLabels; }
   if (el(settings.constrain)) {
     if (!el(settings.constrain).checked) {
       el(settings.constrain).checked = true;
@@ -242,8 +248,8 @@ function resetHiScore() {
 }
 
 function resetSettings(andSave = false) {
-  settings = { exists:true, showQuads:false, flip:false, showPcs:"allPcs",
-  constrain: "normal", sfx:true };
+  settings = { exists: true, showQuads: false, flip: false, showPcs: "allPcs",
+    constrain: "normal", sfx: true, showLabels: true };
   if (andSave) saveSettings();
 }
 
