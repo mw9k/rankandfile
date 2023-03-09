@@ -2,12 +2,12 @@
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 200 200" xml:space="preserve">
 <style type="text/css">
-	.st0{fill:#d1eef5;}
+	.st0{fill:#d6f0f6;}
 	.st1{fill:#1ab7d8;}
   .txt1 {font: bold 5px sans-serif; fill: #1ab7d8; display:none;}
-  .txt2 {font: bold 5px sans-serif; fill: #d1eef5; display:none;}
+  .txt2 {font: bold 5px sans-serif; fill: #d6f0f6; display:none;}
   .txt3 {font: bold 5px sans-serif; fill: #1ab7d8; display:none;}
-  .txt4 {font: bold 5px sans-serif; fill: #d1eef5; display:none;}
+  .txt4 {font: bold 5px sans-serif; fill: #d6f0f6; display:none;}
 </style>
 <rect class="st0" width="25" height="25"/>
 <rect class="st1" x="25"  width="25" height="25"/>
