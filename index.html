@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="author" content="M.G.W.">
+  <meta name="author" content="Matt W">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="keywords" content="chess, coordinates, training">
   <meta name="description"
@@ -31,8 +31,9 @@
   </div>
 
   <div id="board" class="noSelect noAnim">
-    <div id="sq1" class="sq bouncing"></div>
-    <div id="sq2" class="sq hider"></div>
+    <canvas id="sq1" class="sq bouncing" width="100" height="100"></canvas>
+    <canvas id="sq2" class="sq hider" width="100" height="100"></canvas>
+
     <div class="pc white rook"   style="--rank:0; --file:0;"></div>
     <div class="pc white knight" style="--rank:0; --file:1;"></div>
     <div class="pc white bishop" style="--rank:0; --file:2;"></div>
@@ -82,12 +83,16 @@
       <input type="checkbox" id="sfx" name="sfx">
       <label for="sfx"> Sound Effects</label><br>
       <hr>
+        <label for="timeLimit" id="timeLimitLabel">Time Limit:</label><br>
+        <input type="range" id="timeLimit" value="6" min="2" max="15">
+      <hr>
+
       <input type="checkbox" id="flip" name="flip">
       <label for="flip"> Flip Board (black POV)</label><br>
       <input type="checkbox" id="showQuads" name="showQuads">
       <label for="showQuads"> Show Quadrants</label><br>
       <input type="checkbox" id="showLabels" name="showLabels">
-      <label for="showLabels">Show Coordinate Labels</label><br>
+      <label for="showLabels">Axis Labels</label><br>
       <hr>
       <input type="radio" id="normal" name="constrain" checked>
       <label for="normal"> File &amp; Rank</label><br>

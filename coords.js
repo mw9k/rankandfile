@@ -16,6 +16,7 @@ function moveSq() {
   el(sqNew).style.setProperty('--rank', chosenRank);
   reanimate(sqOld, "gotRight", "sq");
   reanimate(sqNew, "zoomInAndBounce", "sq");
+  startCircleTimer(sqNew);
   generateChoices();
 }
 
@@ -36,10 +37,11 @@ function rndIntInRange(lBound, uBound) {
   return Math.floor(Math.random() * (uBound - lBound + 1)) + lBound;
 }
 
-function reanimate(elem, className, resetTo) { 
+function reanimate(elem, className, resetTo) {
+  // reset and re-apply CSS animation, allowing it to replay 
   if (resetTo !== undefined) el(elem).classList = resetTo;
   el(elem).classList.remove(className);
-  el(elem).offsetHeight;  // reset, allowing animation to replay
+  el(elem).offsetHeight;  // resets the animation
   el(elem).classList.add(className);
 }
 
@@ -49,7 +51,7 @@ function generateChoices() {
   let correctChoice = constrain(numToFile(state.prevFile), state.prevRank + 1);
   choices.push(correctChoice); 
   for (let i = 0; i < 10000; i++) { // try up to 10k times
-    // Pseudorandomly select a 'file' (x-axis coordinate):
+    // pseudorandomly select a file (x-axis coordinate):
     if (Math.random() < .75) {
       var rndFile = numToFile(state.prevFile); // ~75% chance of no change 
     } else {
@@ -59,7 +61,7 @@ function generateChoices() {
       var rndFile = rndIntInRange(lBound, uBound);
       rndFile = numToFile(rndFile);
     }
-    // Pseudorandomly select a 'rank' (y-axis coordinate):
+    // pseudorandomly select a rank (y-axis coordinate):
     if (Math.random() < .75) {
       var rndRank = state.prevRank; // ~75% chance of no change 
     } else {
@@ -80,7 +82,7 @@ function generateChoices() {
 }
 
 function el(elem) {	
-  // Custom shortener for document.getElementById()
+  // custom shortener for document.getElementById()
   return document.getElementById(elem);
 }
 
@@ -138,9 +140,62 @@ function processAnswer(gotRight) {
   }
 }
 
+function startCircleTimer(sq="sq1") {
+  let canvas = el(sq),
+      ctx = canvas.getContext("2d");
+  ctx.strokeStyle = "#ee7600";
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  setTimeout(function () {  // small delay before starting timer animation
+    let c = { ticks: 360, startAngle: 270, startTime: Date.now(), drawCount: 0,
+      fullTripMs: settings.timeLimit * 1000, count: state.count };
+    window.requestAnimationFrame(function () { circleStep(canvas, ctx, c) }) 
+  }, 300);
+}
+
+function circleStep(canvas, ctx, c) {
+  // formula for point on outer circle, from origin cx, cy:
+  // x = cx + r * cos(a)
+  // y = cy + r * sin(a)
+
+  if (state.count !== c.count) { return; }  // stop painting if already guessed
+  if (c.fullTripMs / 1000 != settings.timeLimit) {  
+    // restart if settings changed mid-rotate...
+    startCircleTimer(canvas.id);
+    return;
+  } 
+  let timeElapsed = Date.now() - c.startTime;
+  let ticksToDraw = (timeElapsed / c.fullTripMs * c.ticks) - c.drawCount;
+  for (let i = 0; i <= ticksToDraw; i += 180 / c.ticks) {
+    ctx.beginPath();
+    ctx.moveTo(50, 50);
+    var x = 50 + 150 * Math.cos(Math.PI / 180 * (c.drawCount + c.startAngle));
+    var y = 50 + 150 * Math.sin(Math.PI / 180 * (c.drawCount + c.startAngle));
+    ctx.lineWidth = 1;
+    ctx.lineTo(x, y);
+    ctx.stroke();
+    c.drawCount++;
+  }
+  if (c.drawCount >= 360) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    outOfTime();
+  } else {
+    window.requestAnimationFrame(function () { circleStep(canvas, ctx, c) });
+  }
+}
+
+function outOfTime(){
+  startCircleTimer();
+}
+
+
+
+
 window.addEventListener("load", (event) => {
   resetSettings();
   loadSettings(true);
+
+  startCircleTimer();
+  
   state.bestEver = localStorage.getItem('rankFileHiScore');
   el("bestEverNo").textContent = state.bestEver;
   let allChoices = document.getElementsByClassName("choice");
@@ -150,7 +205,7 @@ window.addEventListener("load", (event) => {
       reanimate(choice.id, "clickedDown");
     });
   }
-  window.addEventListener("click", function (e) {
+  document.addEventListener("click", function (e) {
     if (e.target.type == "radio") {
       if (e.target.name == "showPcs") {
         settings.showPcs = e.target.id;
@@ -168,12 +223,18 @@ window.addEventListener("load", (event) => {
     if (e.target.id == "resetHiScore") resetHiScore();
     if (e.target.id == "resetSettings") resetSettings(true);
   });
-  document.addEventListener("keypress", function (event) {
-    if (event.key == "A" || event.key == "a" || event.key == "1") {
+  document.addEventListener("input", function(e) {
+    if (e.target.id == "timeLimit") {
+      settings.timeLimit = e.target.value;
+      saveSettings();
+    }
+  });
+  document.addEventListener("keypress", function (e) {
+    if (e.key == "A" || e.key == "a" || e.key == "1") {
       el("choice1").click();
-    } else if (event.key == "S" || event.key == "s" || event.key == "2") {
+    } else if (e.key == "S" || e.key == "s" || e.key == "2") {
       el("choice2").click();
-    } else if (event.key == "D" || event.key == "d" || event.key == "3") {
+    } else if (e.key == "D" || e.key == "d" || e.key == "3") {
       el("choice3").click();
     }
   });
@@ -208,6 +269,12 @@ function applySettings(firstLoad) {
   } else {
     el("quadrants").classList.add("hidden");
     el("showQuads").checked = false;
+  }
+  if (settings.timeLimit) {
+    if (el("timeLimit")) {
+      el("timeLimit").value = settings.timeLimit;
+      el("timeLimitLabel").innerHTML = `Time Limit: ${el("timeLimit").value}s`;
+    }
   }
   if (settings.flip) {
     el("board").classList.add("flipped");
@@ -249,7 +316,7 @@ function resetHiScore() {
 
 function resetSettings(andSave = false) {
   settings = { exists: true, showQuads: false, flip: false, showPcs: "allPcs",
-    constrain: "normal", sfx: true, showLabels: true };
+    constrain: "normal", sfx: true, showLabels: true, timeLimit: "6" };
   if (andSave) saveSettings();
 }
 

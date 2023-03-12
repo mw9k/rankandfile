@@ -165,6 +165,7 @@ h3 {
   overflow: hidden;
   background-color: gold;
   animation:none;
+  background-size: 100%;
 }
 
 #board .sq.gotWrong { 
@@ -215,7 +216,7 @@ h3 {
 }
 
 .sq.bouncing {
-  animation-name: bounce;
+  /* animation-name: bounce; */
   animation-duration: 400ms;
   animation-delay: 0ms;
   animation-timing-function: cubic-bezier(0.6, 0.04, 0.98, 0.335);
@@ -224,8 +225,9 @@ h3 {
 } 
 
 .sq.zoomInAndBounce {
-  animation-name: zoomIn, bounce;
-  animation-duration: 700ms, 800ms;
+  /* animation-name: zoomIn, bounce; */
+  animation-name: zoomIn;
+  animation-duration: 400ms, 800ms;
   animation-delay: 0ms, 1000ms;
   animation-timing-function: ease-out, cubic-bezier(0.6, 0.04, 0.98, 0.335);
   animation-iteration-count: 1, infinite;
