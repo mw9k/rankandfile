@@ -161,7 +161,12 @@ function circleStep(canvas, ctx, c) {
   // formula for point on outer circle, from origin cx, cy:
   // x = cx + r * cos(a)
   // y = cy + r * sin(a)
-  if (state.count !== c.count) { return; }  // stop if already guessed
+  if (state.count !== c.count) { // stop if already guessed
+    if (state.count == c.count + 1) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+    return;
+  }  
   if (state.wrongCount !== c.wrongCount) {  // stop if got wrong
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     return; 

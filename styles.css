@@ -156,11 +156,11 @@ h3 {
   z-index: 3;
   height: calc(12.5% - 6px);
   width: calc(12.5% - 6px);
-  border: 3px black solid;
+  outline: 3px black solid;
   --rank: 0;
   --file: 0;
-  bottom: calc(12.5% * var(--rank));
-  left: calc(12.5% * var(--file));
+  bottom: calc(12.5% * var(--rank) + 3px);
+  left: calc(12.5% * var(--file) + 3px);
   border-radius: 50%;
   overflow: hidden;
   background-color: gold;
@@ -177,18 +177,6 @@ h3 {
   animation-direction: alternate;
 }
 
-#board .sq.gotWrong::after {
-  content: "";
-  display: block;
-  background-color: #133D55;
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  z-index: 5;
-}
-
 @keyframes shake {  /* use margin, for simpler combining with translate */
   from { margin-left: -.2em; }
   to { margin-left: .2em; }
@@ -196,8 +184,9 @@ h3 {
 
 #board .sq.gotRight {
   animation: spinOut 525ms cubic-bezier(0.39, 0.575, 0.565, 1), 
-             fadeOut 525ms cubic-bezier(0.47, 0, 0.745, 0.715);
+             fadeOut 525ms cubic-bezier(0.95, 0.05, 0.795, 0.035);
   animation-fill-mode: forwards;
+    background-image: url('right.svg');
 }
 
 @keyframes spinOut {
