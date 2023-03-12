@@ -143,7 +143,8 @@ function processAnswer(gotRight) {
 function startCircleTimer(sq="sq1") {
   let canvas = el(sq),
       ctx = canvas.getContext("2d");
-  ctx.strokeStyle = "#ee7600";
+  ctx.strokeStyle = "#F75047";
+  ctx.lineWidth = 1;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   setTimeout(function () {  // small delay before starting timer animation
     let c = { ticks: 360, startAngle: 270, startTime: Date.now(), drawCount: 0,
@@ -156,7 +157,6 @@ function circleStep(canvas, ctx, c) {
   // formula for point on outer circle, from origin cx, cy:
   // x = cx + r * cos(a)
   // y = cy + r * sin(a)
-
   if (state.count !== c.count) { return; }  // stop painting if already guessed
   if (c.fullTripMs / 1000 != settings.timeLimit) {  
     // restart if settings changed mid-rotate...
@@ -170,32 +170,24 @@ function circleStep(canvas, ctx, c) {
     ctx.moveTo(50, 50);
     var x = 50 + 150 * Math.cos(Math.PI / 180 * (c.drawCount + c.startAngle));
     var y = 50 + 150 * Math.sin(Math.PI / 180 * (c.drawCount + c.startAngle));
-    ctx.lineWidth = 1;
     ctx.lineTo(x, y);
     ctx.stroke();
     c.drawCount++;
   }
   if (c.drawCount >= 360) {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    outOfTime();
+    outOfTime(canvas.id);
   } else {
     window.requestAnimationFrame(function () { circleStep(canvas, ctx, c) });
   }
 }
 
-function outOfTime(){
-  startCircleTimer();
+function outOfTime(sq){
+  startCircleTimer(sq);
 }
-
-
-
 
 window.addEventListener("load", (event) => {
   resetSettings();
-  loadSettings(true);
-
-  startCircleTimer();
-  
+  loadSettings(true);  
   state.bestEver = localStorage.getItem('rankFileHiScore');
   el("bestEverNo").textContent = state.bestEver;
   let allChoices = document.getElementsByClassName("choice");
@@ -239,6 +231,7 @@ window.addEventListener("load", (event) => {
     }
   });
   generateChoices();
+  startCircleTimer();
 });
 
 
@@ -316,7 +309,7 @@ function resetHiScore() {
 
 function resetSettings(andSave = false) {
   settings = { exists: true, showQuads: false, flip: false, showPcs: "allPcs",
-    constrain: "normal", sfx: true, showLabels: true, timeLimit: "6" };
+    constrain: "normal", sfx: true, showLabels: true, timeLimit: "5" };
   if (andSave) saveSettings();
 }
 
