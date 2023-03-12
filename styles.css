@@ -169,28 +169,25 @@ h3 {
 }
 
 #board .sq.gotWrong { 
-  animation-name: shake, flashWrong, bounce;
-  animation-duration: 66ms, 450ms, 400ms;
-  animation-delay: 0ms, 0ms, 900ms;
-  animation-timing-function: ease-in-out, 
-                             cubic-bezier(0.25, 0.46, 0.45, 0.94),
-                             cubic-bezier(0.6, 0.04, 0.98, 0.335);;
-  animation-iteration-count: 6, 2, infinite;
+  background-image: url('wrong.svg');
+  animation-name: shake;
+  animation-duration: 66ms;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: 6;
   animation-direction: alternate;
-  animation-fill-mode: none, forwards, none;
 }
 
-@keyframes flashWrong {
-  from {
-      background-color: gold;
-      border-color: black;   
-     }
-    
-    to {
-      background-color: red;
-      border-color: purple;
-    }
-  }
+#board .sq.gotWrong::after {
+  content: "";
+  display: block;
+  background-color: #133D55;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 5;
+}
 
 @keyframes shake {  /* use margin, for simpler combining with translate */
   from { margin-left: -.2em; }

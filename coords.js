@@ -1,5 +1,6 @@
 let settings = {}, // loaded later
-  state = { prevRank:0, prevFile:0, streak:0, best:0, bestEver:0, count:-1 },
+  state = { prevRank:0, prevFile:0, streak:0, best:0, bestEver:0, count:-1,
+            wrongCount:0 },
   sfx = { wrong: new Howl({ src: ['wrong.wav'] }), 
           right: new Howl({ src: ['right.wav'] }), 
           fanfare: new Howl({ src: ['fanfare.wav'] }) };
@@ -137,18 +138,21 @@ function processAnswer(gotRight) {
     let sqOld = (state.count % 2 !== 0) ? "sq1" : "sq2";
     el(sqOld).classList = "sq";
     reanimate(sqOld, "gotWrong");
+    state.wrongCount++;
   }
 }
 
 function startCircleTimer(sq="sq1") {
   let canvas = el(sq),
       ctx = canvas.getContext("2d");
-  ctx.strokeStyle = "#F75047";
-  ctx.lineWidth = 1;
+  ctx.strokeStyle = "#D3702B";
+  ctx.lineWidth = 2;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   setTimeout(function () {  // small delay before starting timer animation
-    let c = { ticks: 360, startAngle: 270, startTime: Date.now(), drawCount: 0,
-      fullTripMs: settings.timeLimit * 1000, count: state.count };
+    let c = { ticks: 200, startAngle: 270, startTime: Date.now(), drawCount: 0,
+              fullTripMs: settings.timeLimit * 1000, count: state.count,
+              wrongCount: state.wrongCount} ;
+    c.tickSize = 360 / c.ticks;
     window.requestAnimationFrame(function () { circleStep(canvas, ctx, c) }) 
   }, 300);
 }
@@ -157,28 +161,37 @@ function circleStep(canvas, ctx, c) {
   // formula for point on outer circle, from origin cx, cy:
   // x = cx + r * cos(a)
   // y = cy + r * sin(a)
-  if (state.count !== c.count) { return; }  // stop painting if already guessed
+  if (state.count !== c.count) { return; }  // stop if already guessed
+  if (state.wrongCount !== c.wrongCount) {  // stop if got wrong
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    return; 
+  } 
   if (c.fullTripMs / 1000 != settings.timeLimit) {  
     // restart if settings changed mid-rotate...
     startCircleTimer(canvas.id);
     return;
   } 
   let timeElapsed = Date.now() - c.startTime;
+  if (timeElapsed > c.fullTripMs + 500) {
+    // stop if dramatically over time, e.g. if tab was left...
+    outOfTime(canvas.id);
+    return;
+  }
   let ticksToDraw = (timeElapsed / c.fullTripMs * c.ticks) - c.drawCount;
-  for (let i = 0; i <= ticksToDraw; i += 180 / c.ticks) {
+  for (let i = 0; i <= ticksToDraw; i += c.tickSize) {
     ctx.beginPath();
     ctx.moveTo(50, 50);
-    var x = 50 + 150 * Math.cos(Math.PI / 180 * (c.drawCount + c.startAngle));
-    var y = 50 + 150 * Math.sin(Math.PI / 180 * (c.drawCount + c.startAngle));
+    var x = 50 + 150 * Math.cos(Math.PI / 180 * (c.drawCount * c.tickSize + c.startAngle));
+    var y = 50 + 150 * Math.sin(Math.PI / 180 * (c.drawCount * c.tickSize + c.startAngle));
     ctx.lineTo(x, y);
     ctx.stroke();
     c.drawCount++;
+    if (c.drawCount >= c.ticks) {
+      outOfTime(canvas.id);
+      return;
+    }
   }
-  if (c.drawCount >= 360) {
-    outOfTime(canvas.id);
-  } else {
-    window.requestAnimationFrame(function () { circleStep(canvas, ctx, c) });
-  }
+  window.requestAnimationFrame(function () { circleStep(canvas, ctx, c) });
 }
 
 function outOfTime(sq){
