@@ -145,7 +145,7 @@ function processAnswer(gotRight) {
 function startCircleTimer(sq="sq1") {
   let canvas = el(sq),
       ctx = canvas.getContext("2d");
-  ctx.strokeStyle = "#D3702B";
+  ctx.strokeStyle = "#F78800";
   ctx.lineWidth = 2;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   setTimeout(function () {  // small delay before starting timer animation
@@ -192,6 +192,7 @@ function circleStep(canvas, ctx, c) {
     ctx.stroke();
     c.drawCount++;
     if (c.drawCount >= c.ticks) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
       outOfTime(canvas.id);
       return;
     }
@@ -200,7 +201,8 @@ function circleStep(canvas, ctx, c) {
 }
 
 function outOfTime(sq){
-  startCircleTimer(sq);
+  playSound("wrong");
+  reanimate(sq, "timeout");
 }
 
 window.addEventListener("load", (event) => {

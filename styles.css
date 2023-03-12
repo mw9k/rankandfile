@@ -152,27 +152,32 @@ h3 {
 }
 
 .sq {
-  position:absolute;
+  position: absolute;
   z-index: 3;
   height: calc(12.5% - 6px);
   width: calc(12.5% - 6px);
-  outline: 3px black solid;
+  border: 3px black solid;
   --rank: 0;
   --file: 0;
-  bottom: calc(12.5% * var(--rank) + 3px);
-  left: calc(12.5% * var(--file) + 3px);
+  bottom: calc(12.5% * var(--rank));
+  left: calc(12.5% * var(--file));
   border-radius: 50%;
   overflow: hidden;
   background-color: gold;
-  animation:none;
+  animation: none;
   background-size: 100%;
+}
+
+#board .sq.timeout {
+  background-image: url('timeout.svg');
+  animation: shake 66ms ease-in-out;
+  animation-iteration-count: 6;
+  animation-direction: alternate;
 }
 
 #board .sq.gotWrong { 
   background-image: url('wrong.svg');
-  animation-name: shake;
-  animation-duration: 66ms;
-  animation-timing-function: ease-in-out;
+  animation: shake 66ms ease-in-out;
   animation-iteration-count: 6;
   animation-direction: alternate;
 }
