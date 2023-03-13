@@ -1,6 +1,6 @@
 let settings = {}, // loaded later
   state = { prevRank:0, prevFile:0, streak:0, best:0, bestEver:0, count:-1,
-            wrongCount:0 },
+            wrongCount:0, blockGuesses:false },
   sfx = { wrong: new Howl({ src: ['wrong.wav'] }), 
           right: new Howl({ src: ['right.wav'] }), 
           fanfare: new Howl({ src: ['fanfare.wav'] }) };
@@ -98,6 +98,7 @@ function numToFile(num) {
 }
 
 function makeGuess(guess) {
+  if (state.blockGuesses) return false;
   if (!guess.length) return false;
   if (settings.constrain == "rankOnly") { 
     guess = `${numToFile(state.prevFile)}${guess}`;
@@ -145,7 +146,7 @@ function processAnswer(gotRight) {
 function startCircleTimer(sq="sq1") {
   let canvas = el(sq),
       ctx = canvas.getContext("2d");
-  ctx.strokeStyle = "#F78800";
+  ctx.strokeStyle = "#AF8F0F";
   ctx.lineWidth = 2;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   setTimeout(function () {  // small delay before starting timer animation
@@ -162,9 +163,7 @@ function circleStep(canvas, ctx, c) {
   // x = cx + r * cos(a)
   // y = cy + r * sin(a)
   if (state.count !== c.count) { // stop if already guessed
-    if (state.count == c.count + 1) {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-    }
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     return;
   }  
   if (state.wrongCount !== c.wrongCount) {  // stop if got wrong
@@ -173,13 +172,13 @@ function circleStep(canvas, ctx, c) {
   } 
   if (c.fullTripMs / 1000 != settings.timeLimit) {  
     // restart if settings changed mid-rotate...
-    startCircleTimer(canvas.id);
+    startCircleTimer(canvas, ctx);
     return;
   } 
   let timeElapsed = Date.now() - c.startTime;
   if (timeElapsed > c.fullTripMs + 500) {
     // stop if dramatically over time, e.g. if tab was left...
-    outOfTime(canvas.id);
+    outOfTime(canvas, ctx);
     return;
   }
   let ticksToDraw = (timeElapsed / c.fullTripMs * c.ticks) - c.drawCount;
@@ -192,17 +191,23 @@ function circleStep(canvas, ctx, c) {
     ctx.stroke();
     c.drawCount++;
     if (c.drawCount >= c.ticks) {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      outOfTime(canvas.id);
+      outOfTime(canvas, ctx); 
       return;
     }
   }
   window.requestAnimationFrame(function () { circleStep(canvas, ctx, c) });
 }
 
-function outOfTime(sq){
+function outOfTime(canvas, ctx){
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
   playSound("wrong");
-  reanimate(sq, "timeout");
+  updateStreak(false);
+  state.wrongCount++;
+  reanimate(canvas.id, "timeout");
+  state.blockGuesses = true; 
+  setTimeout(function () { 
+    state.blockGuesses = false;
+  }, 1000);
 }
 
 window.addEventListener("load", (event) => {
@@ -213,6 +218,7 @@ window.addEventListener("load", (event) => {
   let allChoices = document.getElementsByClassName("choice");
   for (let choice of allChoices) {
     choice.addEventListener("click", function () {
+      if (state.blockGuesses) return false;
       let gotRight = makeGuess(choice.textContent);
       reanimate(choice.id, "clickedDown");
     });
