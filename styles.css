@@ -215,7 +215,7 @@ h3 {
   animation-direction: alternate;
 } 
 
-.sq.zoomInAndBounce {
+.sq.zoomIn {
   /* animation-name: zoomIn, bounce; */
   animation-name: zoomIn;
   animation-duration: 400ms, 800ms;

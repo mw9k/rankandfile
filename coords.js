@@ -1,6 +1,7 @@
 let settings = {}, // loaded later
   state = { prevRank:0, prevFile:0, streak:0, best:0, bestEver:0, count:-1,
-            wrongCount:0, blockGuesses:false },
+            wrongCount:0, blockGuesses:false, lastFrameTime:0, focusCount:0,
+            lastBlurTime:0 },
   sfx = { wrong: new Howl({ src: ['wrong.wav'] }), 
           right: new Howl({ src: ['right.wav'] }), 
           fanfare: new Howl({ src: ['fanfare.wav'] }) };
@@ -16,7 +17,7 @@ function moveSq() {
   el(sqNew).style.setProperty('--file', chosenFile);
   el(sqNew).style.setProperty('--rank', chosenRank);
   reanimate(sqOld, "gotRight", "sq");
-  reanimate(sqNew, "zoomInAndBounce", "sq");
+  reanimate(sqNew, "zoomIn", "sq");
   startCircleTimer(sqNew);
   generateChoices();
 }
@@ -148,12 +149,16 @@ function startCircleTimer(sq="sq1") {
       ctx = canvas.getContext("2d");
   ctx.strokeStyle = "#AF8F0F";
   ctx.lineWidth = 2;
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  clearCanvas(canvas, ctx);
   setTimeout(function () {  // small delay before starting timer animation
     let c = { ticks: 200, startAngle: 270, startTime: Date.now(), drawCount: 0,
-              fullTripMs: settings.timeLimit * 1000, count: state.count,
-              wrongCount: state.wrongCount} ;
+      fullTripMs: settings.timeLimit * 1000, count: state.count,
+      wrongCount: state.wrongCount, focusCount: state.focusCount };
     c.tickSize = 360 / c.ticks;
+    if (canvas.classList.contains("gotWrong") ||
+        canvas.classList.contains("timeout")) { 
+          return; // prevent drawing over wrong symbol or timeout symbol
+     } 
     window.requestAnimationFrame(function () { circleStep(canvas, ctx, c) }) 
   }, 300);
 }
@@ -162,22 +167,35 @@ function circleStep(canvas, ctx, c) {
   // formula for point on outer circle, from origin cx, cy:
   // x = cx + r * cos(a)
   // y = cy + r * sin(a)
+  if (!document.hasFocus()) {
+    // if animation is running offscreen (esp. Firefox), don't advance timer...
+    window.requestAnimationFrame(function () { circleStep(canvas, ctx, c) });
+    return;
+  }
   if (state.count !== c.count) { // stop if already guessed
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    clearCanvas(canvas, ctx);
     return;
   }  
   if (state.wrongCount !== c.wrongCount) {  // stop if got wrong
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    clearCanvas(canvas, ctx);
     return; 
   } 
   if (c.fullTripMs / 1000 != settings.timeLimit) {  
     // restart if settings changed mid-rotate...
     startCircleTimer(canvas.id);
     return;
+  }
+  if (state.focusCount !== c.focusCount && state.lastBlurTime > c.startTime) {
+    // redraw all if window lost focus; to avoid glitchiness...
+    clearCanvas(canvas, ctx);
+    c.drawCount = 0;
+    c.focusCount = state.focusCount;
+    // pick up where left off...
+    c.startTime = Date.now() - (state.lastBlurTime - c.startTime); 
   } 
   let timeElapsed = Date.now() - c.startTime;
   if (timeElapsed > c.fullTripMs + 500) {
-    // stop if dramatically over time, e.g. if tab was left...
+    // stop if dramatically over time somehow...
     outOfTime(canvas, ctx);
     return;
   }
@@ -195,19 +213,24 @@ function circleStep(canvas, ctx, c) {
       return;
     }
   }
+  state.lastFrameTime = Date.now();
   window.requestAnimationFrame(function () { circleStep(canvas, ctx, c) });
 }
 
 function outOfTime(canvas, ctx){
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  clearCanvas(canvas, ctx);
   playSound("wrong");
   updateStreak(false);
   state.wrongCount++;
   reanimate(canvas.id, "timeout");
-  state.blockGuesses = true; 
-  setTimeout(function () { 
+  state.blockGuesses = true;  // temporarily prevent guesses...
+  setTimeout(function () {
     state.blockGuesses = false;
   }, 1000);
+}
+
+function clearCanvas(canvas, ctx = canvas.getContext("2d")) {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 
 window.addEventListener("load", (event) => {
@@ -256,10 +279,20 @@ window.addEventListener("load", (event) => {
       el("choice3").click();
     }
   });
+  window.addEventListener("focus", function (e) {
+    // clear animations on window refocus to prevent oddities...
+    state.focusCount++;
+    if (Date.now() - state.lastFrameTime > settings.timeLimit * 1000) {
+      clearCanvas(el("sq1"));
+      clearCanvas(el("sq2"));
+    }
+  });
+  window.addEventListener("blur", function (e) {
+    state.lastBlurTime = Date.now();
+  });
   generateChoices();
   startCircleTimer();
 });
-
 
 function shuffleArray(arr) { 
   // adapted from https://stackoverflow.com/questions/2450954
