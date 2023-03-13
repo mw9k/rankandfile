@@ -32,7 +32,7 @@ h3 {
 
 #multiChoice {
   width: 65vh; /* Same as board */
-  max-width: 96vw; 
+  max-width: 96vw;
   margin: 1rem auto;
   height: 4rem;
   display: flex;

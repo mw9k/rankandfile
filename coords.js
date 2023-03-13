@@ -172,7 +172,7 @@ function circleStep(canvas, ctx, c) {
   } 
   if (c.fullTripMs / 1000 != settings.timeLimit) {  
     // restart if settings changed mid-rotate...
-    startCircleTimer(canvas, ctx);
+    startCircleTimer(canvas.id);
     return;
   } 
   let timeElapsed = Date.now() - c.startTime;
