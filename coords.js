@@ -147,10 +147,12 @@ function processAnswer(gotRight) {
 function startCircleTimer(sq="sq1") {
   let canvas = el(sq),
       ctx = canvas.getContext("2d");
-  ctx.strokeStyle = "#AF8F0F";
+  ctx.strokeStyle = "#BA990D";
   ctx.lineWidth = 2;
   clearCanvas(canvas, ctx);
-  setTimeout(function () {  // small delay before starting timer animation
+  // small delay: to cover for page load at first; then for zoom in animation
+  let delay = (state.count >= 0) ? 300 : 500; 
+  setTimeout(function () {  
     let c = { ticks: 200, startAngle: 270, startTime: Date.now(), drawCount: 0,
       fullTripMs: settings.timeLimit * 1000, count: state.count,
       wrongCount: state.wrongCount, focusCount: state.focusCount };
@@ -160,7 +162,7 @@ function startCircleTimer(sq="sq1") {
           return; // prevent drawing over wrong symbol or timeout symbol
      } 
     window.requestAnimationFrame(function () { circleStep(canvas, ctx, c) }) 
-  }, 300);
+  }, delay);
 }
 
 function circleStep(canvas, ctx, c) {
@@ -304,7 +306,12 @@ function shuffleArray(arr) {
 
 function loadSettings(firstLoad) {
   let loaded = JSON.parse(localStorage.getItem('rankFileSettings'));
-  if (loaded && loaded.exists) settings = loaded;
+  if (loaded && loaded.exists) {  
+    for (const p in loaded) {
+      // load one property at a time, so future additions won't break saves
+      settings[p] = loaded[p];
+    }    
+  }  
   applySettings(firstLoad);
 }
 
