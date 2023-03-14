@@ -144,15 +144,13 @@ function processAnswer(gotRight) {
   }
 }
 
-function startCircleTimer(sq="sq1") {
+function startCircleTimer(sq="sq1", delay=300) {
   let canvas = el(sq),
       ctx = canvas.getContext("2d");
   ctx.strokeStyle = "#BA990D";
   ctx.lineWidth = 2;
   clearCanvas(canvas, ctx);
-  // small delay: to cover for page load at first; then for zoom in animation
-  let delay = (state.count >= 0) ? 300 : 500; 
-  setTimeout(function () {  
+  setTimeout(function () {  // small delay before starting timer animation
     let c = { ticks: 200, startAngle: 270, startTime: Date.now(), drawCount: 0,
       fullTripMs: settings.timeLimit * 1000, count: state.count,
       wrongCount: state.wrongCount, focusCount: state.focusCount };
@@ -184,7 +182,7 @@ function circleStep(canvas, ctx, c) {
   } 
   if (c.fullTripMs / 1000 != settings.timeLimit) {  
     // restart if settings changed mid-rotate...
-    startCircleTimer(canvas.id);
+    startCircleTimer(canvas.id, 100);
     return;
   }
   if (state.focusCount !== c.focusCount && state.lastBlurTime > c.startTime) {
@@ -210,7 +208,7 @@ function circleStep(canvas, ctx, c) {
     ctx.lineTo(x, y);
     ctx.stroke();
     c.drawCount++;
-    if (c.drawCount >= c.ticks) {
+    if (c.drawCount >= c.ticks) {  // if time's up (timer circle fully drawn)
       outOfTime(canvas, ctx); 
       return;
     }
@@ -293,7 +291,7 @@ window.addEventListener("load", (event) => {
     state.lastBlurTime = Date.now();
   });
   generateChoices();
-  startCircleTimer();
+  startCircleTimer("sq1", 100);
 });
 
 function shuffleArray(arr) { 
