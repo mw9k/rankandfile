@@ -219,14 +219,25 @@ function circleStep(canvas, ctx, c) {
 
 function outOfTime(canvas, ctx){
   clearCanvas(canvas, ctx);
-  playSound("wrong");
   updateStreak(false);
   state.wrongCount++;
   reanimate(canvas.id, "timeout");
   state.blockGuesses = true;  // temporarily prevent guesses...
   setTimeout(function () {
     state.blockGuesses = false;
-  }, 1000);
+  }, 800);
+  if (state.count < 0) {
+    // loop the animation; on initial load only
+    setTimeout(function () {
+      if (state.count < 0) {
+        console.log(state.count);
+        canvas.classList.remove("timeout");
+        startCircleTimer();
+      }
+    }, 2500);    
+  } else {
+    playSound("wrong"); // no sound in initial loop, would get annoying
+  }
 }
 
 function clearCanvas(canvas, ctx = canvas.getContext("2d")) {

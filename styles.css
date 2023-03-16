@@ -7,12 +7,35 @@ body {
   font-size: 17px;
 } 
 
-h1 {  
+header {
+  background: #133D55;
+  padding: 0;
+  margin: 0;
+  margin-bottom: .9rem;
+}
+
+header div {
+  width: 65vh;
+  /* Same as board */
+  max-width: 96vw;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+header span {
+  color: rgba(255, 255, 255, .6);
+  font-size: .9rem;
+  margin-left: 1.5rem;
+}
+
+header h1 {  
+  display: inline;
   font-size: 1.4rem;
   margin: 0;
   padding: .4rem 0;
-  margin-bottom:.9rem;
-  background: #133D55;
   color: rgba(255,255,255,.95);
 }
 
