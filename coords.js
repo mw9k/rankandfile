@@ -4,6 +4,7 @@ let settings = {}, // loaded later
             lastBlurTime:0 },
   sfx = { wrong: new Howl({ src: ['wrong.wav'] }), 
           right: new Howl({ src: ['right.wav'] }), 
+          timeout: new Howl({ src: ['timeout.wav'] }), 
           fanfare: new Howl({ src: ['fanfare.wav'] }) };
 
 function moveSq() {
@@ -236,7 +237,7 @@ function outOfTime(canvas, ctx){
       }
     }, 2500);    
   } else {
-    playSound("wrong"); // no sound in initial loop, would get annoying
+    playSound("timeout"); // no sound in initial loop, would get annoying
   }
 }
 
