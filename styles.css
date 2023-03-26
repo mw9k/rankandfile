@@ -115,7 +115,7 @@ h3 {
 }
 
 #streakContainer>* {
-  border-right: 1px rgb(0, 0, 0, 0.15) solid;
+  border-right: 1px rgb(0, 0, 0, 0.30) solid;
   height: 2rem;
   flex-grow: 1;
   flex-shrink: 1;
