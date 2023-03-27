@@ -246,6 +246,7 @@ function clearCanvas(canvas, ctx = canvas.getContext("2d")) {
 }
 
 window.addEventListener("load", (event) => {
+  sizeBorders();
   resetSettings();
   loadSettings(true);  
   state.bestEver = localStorage.getItem('rankFileHiScore');
@@ -304,6 +305,10 @@ window.addEventListener("load", (event) => {
   });
   generateChoices();
   startCircleTimer("sq1", 100);
+  window.addEventListener('resize', function (event) {
+    sizeBorders();
+  }, true);
+
 });
 
 function shuffleArray(arr) { 
@@ -393,4 +398,11 @@ function playSound(sound) {
   if (settings.sfx) {
     sfx[sound].play();
   }
+}
+
+function sizeBorders() {
+  // hack to size borders + outlines relative to container (using ems in CSS)
+  let boardSz = el("board").clientWidth;
+  let fontSz = Math.ceil(boardSz / 10);
+  el("board").style.fontSize = `${fontSz}px`;
 }
