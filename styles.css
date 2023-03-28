@@ -13,7 +13,7 @@ body {
 } 
 
 header, footer {
-  background: rgba(0,0,0, .1);
+  background: rgba(0,0,0, .15);
   margin: 0;
   font-size: 1rem;
 }
@@ -42,11 +42,15 @@ header div {
 
 header h1 {  
   display: inline;
-  font-size: 1.3rem;
+  font-size: 1.15rem;
   margin: 0;
   margin-right: 1.5rem;
   padding: .4rem 0;
-  /* color: rgba(255, 255, 255, .95); */
+  color: rgba(255, 255, 255, .8);
+}
+
+header span {
+  color: rgba(255, 255, 255, .4);
 }
 
 h2 { 
@@ -123,7 +127,7 @@ h3 {
 }
 
 #streakContainer>* {
-  border-right: 1px rgba(255, 255, 255, .1) solid;
+  border-right: 1px rgba(255, 255, 255, .15) solid;
   height: 2rem;
   flex-grow: 1;
   flex-shrink: 1;
@@ -453,7 +457,7 @@ span.actionText {
 
 hr {
   border: none;
-  border-bottom: 1px rgba(255, 255, 255, .2) dashed;
+  border-bottom: 1px rgba(255, 255, 255, .2) solid;
   max-width: 65vh;
 }
 
