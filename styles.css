@@ -1,7 +1,7 @@
 html {
   font-family: 'DM Sans', sans-serif;
   font-size: 17px;
-  background-color: dimgray;
+  background: #333436;
   color: rgba(255, 255, 255, .75);
 }
 
@@ -13,7 +13,7 @@ body {
 } 
 
 header, footer {
-  background: rgba(0,0,0, .2);
+  background: rgba(0,0,0, .1);
   margin: 0;
   font-size: 1rem;
 }
@@ -73,8 +73,7 @@ h3 {
   justify-content: center;
   align-items: center;
   padding: .5rem 0;
-  outline: 1px white solid;
-  background: black;
+  background: rgba(0, 0, 0, .5);
 }
 
 #multiChoice span {
@@ -114,10 +113,9 @@ h3 {
   margin: auto;
   align-items: center;
   justify-content: space-evenly;
-  outline: 1px white solid;
-  padding: .5rem 0;
-  background-color: black;
-  color: silver;
+  padding: .75rem 0;
+  background: rgba(0, 0, 0, .5);
+  color: rgba(255, 255, 255, .55);
 }
 
 #streakContainer>:last-child {
@@ -125,7 +123,7 @@ h3 {
 }
 
 #streakContainer>* {
-  border-right: 1px dimgray solid;
+  border-right: 1px rgba(255, 255, 255, .1) solid;
   height: 2rem;
   flex-grow: 1;
   flex-shrink: 1;
@@ -183,8 +181,7 @@ h3 {
   max-width: 100vw;
   position:relative;
   font-size: 50px; /* overridden by JS hack */
-  outline: 1px white solid;
-  margin: 0 auto;
+  margin: 1px auto;
 }
 
 .sq {
@@ -422,7 +419,7 @@ ul.custBullets li::before {
   width: 1rem;
   font-weight: bold;
   content:"•";
-  color: darkgreen;
+  color: rgba(255, 255, 255, .2);
   position: absolute;
   margin: 0;
 }
@@ -433,8 +430,7 @@ ul li {
 
 span.key {
   font-size: .8em;
-  border: 1px black solid;
-  background-color: black;
+  background: rgba(0, 0, 0, .5);
   font-family: sans-serif;
   display: inline-flex;
   align-items: center;
@@ -448,7 +444,7 @@ span.key {
 }
 
 span.actionText {
-  color:cornflowerblue;
+  color: cornflowerblue;
   cursor: pointer;
   text-decoration: underline;
   margin: 1rem 0;
@@ -457,7 +453,7 @@ span.actionText {
 
 hr {
   border: none;
-  border-bottom: 1px rgba(255, 255, 255, .2) solid;
+  border-bottom: 1px rgba(255, 255, 255, .2) dashed;
   max-width: 65vh;
 }
 
@@ -475,4 +471,8 @@ noscript {
 
 a {
   color: cornflowerblue;
+}
+
+img {
+  opacity: .1;
 }
