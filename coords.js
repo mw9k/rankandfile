@@ -173,11 +173,8 @@ function circleStep(canvas, ctx, c) {
     window.requestAnimationFrame(function () { circleStep(canvas, ctx, c) });
     return;
   }
-  if (state.count !== c.count) { // stop if already guessed
-    clearCanvas(canvas, ctx);
-    return;
-  }  
-  if (state.wrongCount !== c.wrongCount) {  // stop if got wrong
+  if (state.count !== c.count ||             // stop if already guessed
+      state.wrongCount !== c.wrongCount) {   // stop if got wrong
     clearCanvas(canvas, ctx);
     return; 
   } 
@@ -209,7 +206,7 @@ function circleStep(canvas, ctx, c) {
     ctx.lineTo(x, y);
     ctx.stroke();
     c.drawCount++;
-    if (c.drawCount >= c.ticks) {  // if time's up (timer circle fully drawn)
+    if (c.drawCount >= c.ticks) {  // if time's up (& timer circle fully drawn)
       outOfTime(canvas, ctx); 
       return;
     }
@@ -246,7 +243,7 @@ function clearCanvas(canvas, ctx = canvas.getContext("2d")) {
 }
 
 window.addEventListener("load", (event) => {
-  sizeBorders();
+  resizeElements();
   resetSettings();
   loadSettings(true);  
   state.bestEver = localStorage.getItem('rankFileHiScore');
@@ -306,7 +303,7 @@ window.addEventListener("load", (event) => {
   generateChoices();
   startCircleTimer("sq1", 100);
   window.addEventListener('resize', function (event) {
-    sizeBorders();
+    resizeElements();
   }, true);
 
 });
@@ -400,9 +397,11 @@ function playSound(sound) {
   }
 }
 
-function sizeBorders() {
-  // hack to size borders + outlines relative to container (using ems in CSS)
+function resizeElements() {
+  // hack to size borders / outlines relative to container (using ems in CSS)
   let boardSz = el("board").clientWidth;
   let fontSz = Math.ceil(boardSz / 10);
   el("board").style.fontSize = `${fontSz}px`;
+  // other CSS sizing...
+  el("board").style.height = `${boardSz}px`;
 }
