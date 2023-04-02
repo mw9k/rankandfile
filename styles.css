@@ -65,14 +65,14 @@ header span {
 }
 
 h2 { 
-  color: rgba(255, 255, 255, .6);
+  color: rgba(255, 255, 255, .9);
   font-size: 1.3rem;
   margin-top: 1rem;
   margin-bottom: .6rem;
 }
 
 h3 {
-  color: rgba(255, 255, 255, .6);
+  color: rgba(255, 255, 255, .9);
   font-size: 1.1em;
   font-weight: bold;
   margin: 0;
@@ -81,6 +81,7 @@ h3 {
 
 #multiChoice {
   width: 100%;
+  height: 4.75em;
   margin: 0;
   display: flex;
   flex-direction: row;
@@ -94,13 +95,16 @@ h3 {
   background-color: green;
   color: white;
   letter-spacing: .1em;
-  text-align: center;
-  padding: .5em 0;
+  padding: 0;
   font-size: 1.3em;
   border-radius: .3em;
   cursor: pointer;
   width: 28%;
-  margin: .6em 0;
+  margin: 0;
+  height: 65%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 #multiChoice span.clickedDown {
