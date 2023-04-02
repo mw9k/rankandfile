@@ -23,20 +23,27 @@ body {
 }
 
 header, footer {
-  background: rgba(0,0,0, .2);
   margin: 0;
   font-size: 1rem;
-  /* outline: 1px rgba(255, 255, 255, .075) solid; */
 }
 
 header {
+  background: rgba(0,0,0, .2);
   margin-bottom: .9rem;
   padding: 0;
   margin-bottom: 2rem;
 }
 
 footer {
-  padding: 1rem 0;
+  padding: .5rem 0;
+  background: #2a2d2f;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  z-index: 100;
+  outline: 1px rgba(255, 255, 255, .075) solid;
 }
 
 header div {
@@ -378,7 +385,8 @@ div#board.hideLabels {
   height: 50%;
   width:100%;
   position: absolute;
-  top: -.03em;  /* compensate for border thickness */
+  left: 0;
+  top: -.02em;  /* compensate for border thickness */
   border-bottom: .04em darkslateblue solid;
 }
 
@@ -388,7 +396,8 @@ div#board.hideLabels {
   height: 100%;
   width: 50%;
   position: absolute;
-  left: -.03em;  /* compensate for border thickness */
+  top: 0;
+  left: -.02em;  /* compensate for border thickness */
   border-right: .04em darkslateblue solid;
 }
 
@@ -399,6 +408,9 @@ div#board.hideLabels {
   padding: .25rem;
   margin: .5rem;
 }
+
+
+
 
 .noSelect {
   user-select: none;
