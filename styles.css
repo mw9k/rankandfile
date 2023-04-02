@@ -90,12 +90,6 @@ h3 {
   background: rgba(0, 0, 0, .5);
 }
 
-#multiChoice:before {
-  /* hack to get specific aspect ratio; overwritten by JS */
-  content: "";
-  display: block;
-  padding-bottom: 15%;
-}
 
 #multiChoice span {
   background-color: green;
