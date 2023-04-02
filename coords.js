@@ -399,7 +399,6 @@ function resizeElements() {
   let fontSz = Math.ceil(boardSz / 10);
   el("board").style.fontSize = `${fontSz}px`;
   // other CSS sizing...
-  el("board").style.height = `${boardSz}px`;
   fontSz = Math.ceil(boardSz / 28);
   el("gameArea").style.fontSize = `${fontSz}px`;
 }
