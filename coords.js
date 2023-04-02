@@ -1,6 +1,6 @@
 let settings = {}, // loaded later
   state = { prevRank:0, prevFile:0, streak:0, best:0, bestEver:0, count:-1,
-            wrongCount:0, blockGuesses:false, lastFrameTime:0, focusCount:0,
+            wrongCount:0, blockGuessesUntil:0, lastFrameTime:0, focusCount:0,
             lastBlurTime:0 },
   sfx = { wrong: new Howl({ src: ['wrong.mp3'] }), 
           right: new Howl({ src: ['right.mp3'] }), 
@@ -100,7 +100,7 @@ function numToFile(num) {
 }
 
 function makeGuess(guess) {
-  if (state.blockGuesses) return false;
+  if (state.blockGuessesUntil > Date.now()) return false;
   if (!guess.length) return false;
   if (settings.constrain == "rankOnly") { 
     guess = `${numToFile(state.prevFile)}${guess}`;
@@ -220,19 +220,15 @@ function outOfTime(canvas, ctx){
   updateStreak(false);
   state.wrongCount++;
   reanimate(canvas.id, "timeout");
-  state.blockGuesses = true;  // temporarily prevent guesses...
-  setTimeout(function () {
-    state.blockGuesses = false;
-  }, 800);
+  state.blockGuessesUntil = Date.now() + 600;
   if (state.count < 0) {
     // loop the animation; on initial load only
     setTimeout(function () {
       if (state.count < 0) {
-        console.log(state.count);
         canvas.classList.remove("timeout");
         startCircleTimer();
       }
-    }, 2500);    
+    }, 2500);
   } else {
     playSound("timeout"); // no sound in initial loop, would get annoying
   }
@@ -251,7 +247,7 @@ window.addEventListener("load", (event) => {
   let allChoices = document.getElementsByClassName("choice");
   for (let choice of allChoices) {
     choice.addEventListener("click", function () {
-      if (state.blockGuesses) return false;
+      if (state.blockGuessesUntil > Date.now()) return false;
       let gotRight = makeGuess(choice.textContent);
       reanimate(choice.id, "clickedDown");
     });
@@ -404,4 +400,6 @@ function resizeElements() {
   el("board").style.fontSize = `${fontSz}px`;
   // other CSS sizing...
   el("board").style.height = `${boardSz}px`;
+  fontSz = Math.ceil(boardSz / 28);
+  el("gameArea").style.fontSize = `${fontSz}px`;
 }

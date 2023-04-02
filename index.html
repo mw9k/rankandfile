@@ -28,56 +28,58 @@
   <div id=centralColumn>
     <noscript>Your browser does not support JavaScript (required).</noscript>
 
-    <div id="streakContainer" class="noSelect">
-      <span>Streak:&nbsp;<span id="streakNo">0</span></span>
-      <span>Best:&nbsp;<span id="bestNo">0</span></span>
-      <span>All Time:&nbsp;<span id="bestEverNo">0</span></span>
-    </div>
+    <div id=gameArea>
+      <div id="streakContainer" class="noSelect">
+        <span>Streak:&nbsp;<span id="streakNo">0</span></span>
+        <span>Best:&nbsp;<span id="bestNo">0</span></span>
+        <span>All Time:&nbsp;<span id="bestEverNo">0</span></span>
+      </div>
 
-    <div id="board" class="noSelect noAnim">
-      <canvas id="sq1" class="sq bouncing" width="100" height="100"></canvas>
-      <canvas id="sq2" class="sq hider" width="100" height="100"></canvas>
+      <div id="board" class="noSelect noAnim">
+        <canvas id="sq1" class="sq bouncing" width="100" height="100"></canvas>
+        <canvas id="sq2" class="sq hider" width="100" height="100"></canvas>
 
-      <div class="pc white rook"   style="--rank:0; --file:0;"></div>
-      <div class="pc white knight" style="--rank:0; --file:1;"></div>
-      <div class="pc white bishop" style="--rank:0; --file:2;"></div>
-      <div class="pc white queen"  style="--rank:0; --file:3;"></div>
-      <div class="pc white king"   style="--rank:0; --file:4;"></div>
-      <div class="pc white bishop" style="--rank:0; --file:5;"></div>
-      <div class="pc white knight" style="--rank:0; --file:6;"></div>
-      <div class="pc white rook"   style="--rank:0; --file:7;"></div>
-      <div class="pc white pawn"   style="--rank:1; --file:0;"></div>
-      <div class="pc white pawn"   style="--rank:1; --file:1;"></div>
-      <div class="pc white pawn"   style="--rank:1; --file:2;"></div>
-      <div class="pc white pawn"   style="--rank:1; --file:3;"></div>
-      <div class="pc white pawn"   style="--rank:1; --file:4;"></div>
-      <div class="pc white pawn"   style="--rank:1; --file:5;"></div>
-      <div class="pc white pawn"   style="--rank:1; --file:6;"></div>
-      <div class="pc white pawn"   style="--rank:1; --file:7;"></div>
-      <div class="pc black rook"   style="--rank:7; --file:0;"></div>
-      <div class="pc black knight" style="--rank:7; --file:1;"></div>
-      <div class="pc black bishop" style="--rank:7; --file:2;"></div>
-      <div class="pc black queen"  style="--rank:7; --file:3;"></div>
-      <div class="pc black king"   style="--rank:7; --file:4;"></div>
-      <div class="pc black bishop" style="--rank:7; --file:5;"></div>
-      <div class="pc black knight" style="--rank:7; --file:6;"></div>
-      <div class="pc black rook"   style="--rank:7; --file:7;"></div>
-      <div class="pc black pawn"   style="--rank:6; --file:0;"></div>
-      <div class="pc black pawn"   style="--rank:6; --file:1;"></div>
-      <div class="pc black pawn"   style="--rank:6; --file:2;"></div>
-      <div class="pc black pawn"   style="--rank:6; --file:3;"></div>
-      <div class="pc black pawn"   style="--rank:6; --file:4;"></div>
-      <div class="pc black pawn"   style="--rank:6; --file:5;"></div>
-      <div class="pc black pawn"   style="--rank:6; --file:6;"></div>
-      <div class="pc black pawn"   style="--rank:6; --file:7;"></div>
-      <div id="quadrants" class="hidden"></div>
-    </div>
+        <div class="pc white rook"   style="--rank:0; --file:0;"></div>
+        <div class="pc white knight" style="--rank:0; --file:1;"></div>
+        <div class="pc white bishop" style="--rank:0; --file:2;"></div>
+        <div class="pc white queen"  style="--rank:0; --file:3;"></div>
+        <div class="pc white king"   style="--rank:0; --file:4;"></div>
+        <div class="pc white bishop" style="--rank:0; --file:5;"></div>
+        <div class="pc white knight" style="--rank:0; --file:6;"></div>
+        <div class="pc white rook"   style="--rank:0; --file:7;"></div>
+        <div class="pc white pawn"   style="--rank:1; --file:0;"></div>
+        <div class="pc white pawn"   style="--rank:1; --file:1;"></div>
+        <div class="pc white pawn"   style="--rank:1; --file:2;"></div>
+        <div class="pc white pawn"   style="--rank:1; --file:3;"></div>
+        <div class="pc white pawn"   style="--rank:1; --file:4;"></div>
+        <div class="pc white pawn"   style="--rank:1; --file:5;"></div>
+        <div class="pc white pawn"   style="--rank:1; --file:6;"></div>
+        <div class="pc white pawn"   style="--rank:1; --file:7;"></div>
+        <div class="pc black rook"   style="--rank:7; --file:0;"></div>
+        <div class="pc black knight" style="--rank:7; --file:1;"></div>
+        <div class="pc black bishop" style="--rank:7; --file:2;"></div>
+        <div class="pc black queen"  style="--rank:7; --file:3;"></div>
+        <div class="pc black king"   style="--rank:7; --file:4;"></div>
+        <div class="pc black bishop" style="--rank:7; --file:5;"></div>
+        <div class="pc black knight" style="--rank:7; --file:6;"></div>
+        <div class="pc black rook"   style="--rank:7; --file:7;"></div>
+        <div class="pc black pawn"   style="--rank:6; --file:0;"></div>
+        <div class="pc black pawn"   style="--rank:6; --file:1;"></div>
+        <div class="pc black pawn"   style="--rank:6; --file:2;"></div>
+        <div class="pc black pawn"   style="--rank:6; --file:3;"></div>
+        <div class="pc black pawn"   style="--rank:6; --file:4;"></div>
+        <div class="pc black pawn"   style="--rank:6; --file:5;"></div>
+        <div class="pc black pawn"   style="--rank:6; --file:6;"></div>
+        <div class="pc black pawn"   style="--rank:6; --file:7;"></div>
+        <div id="quadrants" class="hidden"></div>
+      </div>
 
-    <div id="multiChoice" class="noSelect">
-      <span id="choice1" class="choice"></span>
-      <span id="choice2" class="choice"></span>
-      <span id="choice3" class="choice"></span>
-      <!-- <span id="choice4" class="choice">b2</span> -->
+      <div id="multiChoice" class="noSelect">
+        <span id="choice1" class="choice"></span>
+        <span id="choice2" class="choice"></span>
+        <span id="choice3" class="choice"></span>
+        <!-- <span id="choice4" class="choice">b2</span> -->
+      </div>
     </div>
     </noscript>
     <h2>Options&hellip;</h2>
