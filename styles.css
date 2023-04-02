@@ -81,7 +81,6 @@ h3 {
 
 #multiChoice {
   width: 100%;
-  height: 4.75em;
   margin: 0;
   display: flex;
   flex-direction: row;
@@ -91,17 +90,24 @@ h3 {
   background: rgba(0, 0, 0, .5);
 }
 
+#multiChoice:before {
+  /* hack to get specific aspect ratio; overwritten by JS */
+  content: "";
+  display: block;
+  padding-bottom: 15%;
+}
+
 #multiChoice span {
   background-color: green;
   color: white;
   letter-spacing: .1em;
   padding: 0;
-  font-size: 1.3em;
+  font-size: 1.3rem;
   border-radius: .3em;
   cursor: pointer;
-  width: 28%;
+  width: 28.5%;
   margin: 0;
-  height: 65%;
+  height: 70%;
   display: flex;
   align-items: center;
   justify-content: center;

@@ -401,4 +401,6 @@ function resizeElements() {
   // other CSS sizing...
   fontSz = Math.ceil(boardSz / 28);
   el("gameArea").style.fontSize = `${fontSz}px`;
+  let howHigh = Math.ceil(boardSz / 6.5);
+  el("multiChoice").style.height = `${howHigh}px`;
 }
