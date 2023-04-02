@@ -1,7 +1,7 @@
 html {
   font-family: 'DM Sans', sans-serif;
   font-size: 17px;
-  background: #333333;
+  background: #35383b;
   color: rgba(255, 255, 255, .75);
 }
 
@@ -19,7 +19,7 @@ body {
 }
 
 #gameArea {
-  outline: 1px cornflowerblue solid;
+  /* outline: 1px cornflowerblue solid; */
 }
 
 header, footer {
@@ -65,14 +65,14 @@ header span {
 }
 
 h2 { 
-  color: rgba(255, 255, 255, .9);
+  color: rgba(255, 255, 255, .6);
   font-size: 1.3rem;
   margin-top: 1rem;
   margin-bottom: .6rem;
 }
 
 h3 {
-  color: rgba(255, 255, 255, .9);
+  color: rgba(255, 255, 255, .6);
   font-size: 1.1em;
   font-weight: bold;
   margin: 0;
@@ -82,12 +82,11 @@ h3 {
 #multiChoice {
   width: 100%;
   margin: 0;
-  height: 4em;
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
   align-items: center;
-  padding: .5rem 0;
+  padding: 0;
   background: rgba(0, 0, 0, .5);
 }
 
@@ -100,7 +99,8 @@ h3 {
   font-size: 1.3em;
   border-radius: .3em;
   cursor: pointer;
-  width: 26%;
+  width: 28%;
+  margin: .6em 0;
 }
 
 #multiChoice span.clickedDown {
