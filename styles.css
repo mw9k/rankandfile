@@ -1,7 +1,7 @@
 html {
   font-family: 'DM Sans', sans-serif;
   font-size: 17px;
-  background: #183153;
+  background: #35383b;
   color: rgba(255, 255, 255, .75);
 }
 
@@ -13,17 +13,30 @@ body {
 } 
 
 #centralColumn {
+  position:relative;
   width: 65vh;
   max-width: 100vw;
   margin: 0 auto;
+  margin-top: 100vh;
+  background: hsl(210, 5%, 22%);
+  outline: 1vh #35383b solid;
+  z-index: 1;
 }
 
 #gameArea {
+  position:fixed;
+  z-index: -10;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  height:100vh;
-  width: 100%;
+  width: 65vh;
+  max-width: 100vw;
+  top:0;
+  left: 0;
+      position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
   /* outline: 1px cornflowerblue solid; */
 }
 
@@ -34,7 +47,6 @@ header, footer {
 
 header {
   padding: 0;
-  background: rgba(0,0,0, .25);
   position: absolute;
   top: 0;
   width: 100%;
@@ -43,13 +55,13 @@ header {
 footer {
   padding: .5rem 0;
   position: fixed;
-  bottom: 0;
+  top: 0;
   left: 0;
   width: 100%;
   text-align: center;
   z-index: 100;
   outline: 1px rgba(255, 255, 255, .075) solid;
-  background: #183153;
+  background: #35383b;
 }
 
 footer::after {
@@ -65,20 +77,19 @@ footer::after {
 }
 
 footer nav {
-  display:flex;
+  display:inline-flex;
   align-items: center;
   justify-content: center;
   z-index: 1;
 }
 
 footer nav span {
-  border-left: 1px rgba(255, 255, 255, .15) solid;
   padding: 0 .5em;
   cursor: pointer;
 }
 
 footer nav span:first-child {
-  border: none;
+  border-left: 1px rgba(255, 255, 255, .15) solid;
 }
 
 span.sideways {
@@ -95,19 +106,16 @@ header div {
   align-items: center;
 }
 
-header h1 {  
-  display: inline;
+footer h1 {  
+  display: inline-block;
   font-size: 1.15rem;
   margin: 0;
-  margin-right: 1.5rem;
-  padding: .4rem 0;
   color: rgba(255, 255, 255, .8);
-  transform: skew(-7deg); /* make slightly italic */
+  transform: skew(-7deg) !important; /* make slightly italic */
 }
 
-header span {
-  font-size: .8rem;
-  color: rgba(255, 255, 255, .4);
+span.faded {
+  color: rgba(255, 255, 255, .3);
 }
 
 h2 { 
