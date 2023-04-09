@@ -1,7 +1,7 @@
 html {
   font-family: 'DM Sans', sans-serif;
   font-size: 17px;
-  background: #35383b;
+  background: #183153;
   color: rgba(255, 255, 255, .75);
 }
 
@@ -19,6 +19,11 @@ body {
 }
 
 #gameArea {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height:100vh;
+  width: 100%;
   /* outline: 1px cornflowerblue solid; */
 }
 
@@ -28,15 +33,15 @@ header, footer {
 }
 
 header {
-  background: rgba(0,0,0, .2);
-  margin-bottom: .9rem;
   padding: 0;
-  margin-bottom: 2rem;
+  background: rgba(0,0,0, .25);
+  position: absolute;
+  top: 0;
+  width: 100%;
 }
 
 footer {
   padding: .5rem 0;
-  background: #2a2d2f;
   position: fixed;
   bottom: 0;
   left: 0;
@@ -44,6 +49,40 @@ footer {
   text-align: center;
   z-index: 100;
   outline: 1px rgba(255, 255, 255, .075) solid;
+  background: #183153;
+}
+
+footer::after {
+  content: "";
+  display: block;
+  position:absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background: rgba(0, 0, 0, .25);
+}
+
+footer nav {
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+footer nav span {
+  border-left: 1px rgba(255, 255, 255, .15) solid;
+  padding: 0 .5em;
+  cursor: pointer;
+}
+
+footer nav span:first-child {
+  border: none;
+}
+
+span.sideways {
+  transform: rotate(270deg);
 }
 
 header div {

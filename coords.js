@@ -301,7 +301,9 @@ window.addEventListener("load", (event) => {
   window.addEventListener('resize', function (event) {
     resizeElements();
   }, true);
-
+  window.addEventListener("scroll", function (event) {
+    highlightNav();
+  });
 });
 
 function shuffleArray(arr) { 
@@ -403,4 +405,25 @@ function resizeElements() {
   el("gameArea").style.fontSize = `${fontSz}px`;
   let howHigh = Math.ceil(boardSz / 6.5);
   el("multiChoice").style.height = `${howHigh}px`;
+}
+
+function highlightNav() {
+  // highlight currently viewed section in nav bar,
+  // calculated by which h2 is closest to top of screen
+  // and scrolled past (minus 1/8th screen height)
+  let offsetY = window.innerHeight / 8;
+  let sections = ['secTop','secOptions','secAbout','secCredits','secMe',];
+  let nearestTop = 10000000000;
+  let nearestTopId;
+  for (let section of sections) {
+    let top = Math.abs(el(section).getBoundingClientRect().top);
+    if (top < nearestTop) {
+      nearestTop = top;
+      nearestTopId = section;
+    } 
+    // console.log(section, top);
+  }
+  if (nearestTopId) console.log(nearestTopId);
+  // let h2Options = el('h2Options').getBoundingClientRect().top;
+  // console.log(top - offsetY);
 }

@@ -16,10 +16,11 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body>
-  <header>
+  <header id="secTop">
     <div>
       <h1>Rank &amp; File</h1> 
       <span>Chess Coordinates Trainer</span>
@@ -83,7 +84,8 @@
     </div>
   </div>
   </noscript>
-  <h2>Options&hellip;</h2>
+  <hr>
+  <h2 id="secOptions">Options</h2>
   <div id="options">
     <span>
       <input type="checkbox" id="sfx" name="sfx">
@@ -119,7 +121,7 @@
     </span>
   </div>
   <hr>
-  <h2>About</h2>
+  <h2 id="secAbout">About</h2>
   <ul>
     <li>
       This training game helps improve quick recognition of chessboard
@@ -157,7 +159,7 @@
     </li>
   </ul>
   <hr>
-  <h2>Acknowledgements</h2>
+  <h2 id="secCredits">Acknowledgements</h2>
     <ul class="custBullets">
       <li>
         Chess symbols from 
@@ -197,6 +199,8 @@
       </li>
     </ul>
 
+    <h2 id="secMe">Author</h2>
+
     <!-- preload svg backgrounds...  -->
     <image src="board.svg" width="1" height="1" border="0">
     <image src="board_flipped.svg" width="1" height="1" border="0">
@@ -208,7 +212,11 @@
 
   <footer>
     <nav>
-      Options | About | Acknowledgements | Author
+      <span><i class="fa fa-arrow-circle-up"></i>
+      </span> <span>Options</span>
+      <span>About</span>
+      <span>Credits</span>
+      <span><i class="fa fa-envelope"></i></span>
     </nav>
   </footer>
 
