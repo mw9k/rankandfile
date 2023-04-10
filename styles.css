@@ -12,11 +12,23 @@ body {
   margin: 0;
 }
 
+header {
+  padding-bottom: 1rem;
+  color: rgba(255, 255, 255, .35);
+}
+
+h1 {
+  color: rgba(255, 255, 255, .75);
+  margin: 0;
+  margin-top: .25rem;
+  font-size: 1.2rem;
+  transform: skew(-5deg); /* make slightly italic */
+}
+
 #centralColumn {
   width: 65vh;
   max-width: 100vw;
   margin: 0 auto;
-  margin-top: 10vh;
 }
 
 #gameArea {
@@ -28,29 +40,18 @@ body {
   /* outline: 1px cornflowerblue solid; */
 }
 
-header,
 footer {
   margin: 0;
   font-size: 1rem;
-}
-
-header {
-  padding: 0;
-  position: absolute;
-  top: 0;
-  width: 100%;
-}
-
-footer {
+  outline: 1px rgba(255, 255, 255, .075) solid;
+  background: #35383b;
+  z-index: 100;
   padding: .5rem 0;
   position: fixed;
-  top: 0;
+  bottom: 0;
   left: 0;
   width: 100%;
   text-align: center;
-  z-index: 100;
-  outline: 1px rgba(255, 255, 255, .075) solid;
-  background: #35383b;
 }
 
 footer::after {
@@ -84,39 +85,12 @@ footer h1 {
 
 footer .viewed {
   color: lightgreen;
-}
-
-
-footer nav span:first-child {
-  border-left: 1px rgba(255, 255, 255, .15) solid;
-}
-
-span.sideways {
-  transform: rotate(270deg);
-}
-
-header div {
-  width: 65vh;
-  /* Same as central column */
-  max-width: 96vw;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-}
-
-footer h1 {
-  display: inline-block;
-  font-size: 1.15rem;
-  margin: 0;
-  color: rgba(255, 255, 255, .8);
-  transform: skew(-7deg) !important;
-  /* make slightly italic */
+  border-bottom: 2px lightgreen solid;
 }
 
 span.faded {
   color: rgba(255, 255, 255, .3);
+  font-size: .8em;
 }
 
 h2 {
