@@ -301,9 +301,6 @@ window.addEventListener("load", (event) => {
   window.addEventListener('resize', function (event) {
     resizeElements();
   }, true);
-  window.addEventListener("scroll", function (event) {
-    highlightNav();
-  });
 });
 
 function shuffleArray(arr) { 
@@ -405,28 +402,4 @@ function resizeElements() {
   el("gameArea").style.fontSize = `${fontSz}px`;
   let howHigh = Math.ceil(boardSz / 6.5);
   el("multiChoice").style.height = `${howHigh}px`;
-}
-
-function highlightNav() {
-  // highlight currently viewed section in nav bar,
-  let screenHeight = window.innerHeight;
-  let sections = ['secTop','secOptions','secAbout','secCredits','secMe',];
-  let nearestTop = 0;
-  let nearestTopId;
-  for (let section of sections) {
-    let top = el(section).getBoundingClientRect().top;
-    if (top < screenHeight / 2 && top > nearestTop) {
-      nearestTop = top;
-      nearestTopId = section;
-    } 
-  }
-  if (nearestTopId) {
-    for (let elem of document.getElementsByClassName("viewed")) {
-      elem.classList.remove("viewed");  // remove "viewed" class from all elems
-    }
-    let navId = `nav${nearestTopId.substring(3)}`;
-    if (el(navId)) { 
-      el(navId).classList.add("viewed");
-     }
-  }
 }

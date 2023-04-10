@@ -1,7 +1,7 @@
 html {
   font-family: 'DM Sans', sans-serif;
   font-size: 17px;
-  background: #35383b;
+  background: #030303;
   color: rgba(255, 255, 255, .75);
 }
 
@@ -14,16 +14,33 @@ body {
 
 header {
   padding-bottom: 1rem;
+  width: 100%;
   color: rgba(255, 255, 255, .35);
+  outline: 1px rgba(255, 255, 255, .2) solid;
+  background: #1A1A1B;
+  z-index: 100;
+  padding: .5rem 0;
+  margin-bottom: 2rem;
+  /* position: fixed; */
+}
+
+header>span {
+  display:block;
+  font-size: .8rem;
 }
 
 h1 {
   color: rgba(255, 255, 255, .75);
+  display: inline-block;
   margin: 0;
-  margin-top: .25rem;
   font-size: 1.2rem;
+  margin-right: 1rem;
   transform: skew(-5deg); /* make slightly italic */
 }
+
+nav {
+  display: inline;
+} 
 
 #centralColumn {
   width: 65vh;
@@ -37,60 +54,7 @@ h1 {
   justify-content: center;
   width: 100%;
   height: auto;
-  /* outline: 1px cornflowerblue solid; */
-}
-
-footer {
-  margin: 0;
-  font-size: 1rem;
-  outline: 1px rgba(255, 255, 255, .075) solid;
-  background: #35383b;
-  z-index: 100;
-  padding: .5rem 0;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  text-align: center;
-}
-
-footer::after {
-  content: "";
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-  background: rgba(0, 0, 0, .25);
-}
-
-footer nav {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1;
-}
-
-footer nav span {
-  padding: 0 .5em;
-  cursor: pointer;
-}
-
-footer nav span,
-footer h1 {
-  cursor: pointer;
-}
-
-footer .viewed {
-  color: lightgreen;
-  border-bottom: 2px lightgreen solid;
-}
-
-span.faded {
-  color: rgba(255, 255, 255, .3);
-  font-size: .8em;
+  outline: 1px rgba(255, 255, 255, .2) solid;
 }
 
 h2 {
@@ -116,7 +80,7 @@ h3 {
   justify-content: space-evenly;
   align-items: center;
   padding: 0;
-  background: rgba(0, 0, 0, .5);
+  background: #1A1A1B;
 }
 
 
@@ -169,7 +133,7 @@ h3 {
   align-items: center;
   justify-content: space-evenly;
   padding: .75rem 0;
-  background: rgba(0, 0, 0, .5);
+  background: #1A1A1B;
   color: rgba(255, 255, 255, .55);
 }
 
