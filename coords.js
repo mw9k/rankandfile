@@ -409,21 +409,24 @@ function resizeElements() {
 
 function highlightNav() {
   // highlight currently viewed section in nav bar,
-  // calculated by which h2 is closest to top of screen
-  // and scrolled past (minus 1/8th screen height)
-  let offsetY = window.innerHeight / 8;
+  let screenHeight = window.innerHeight;
   let sections = ['secTop','secOptions','secAbout','secCredits','secMe',];
-  let nearestTop = 10000000000;
+  let nearestTop = 0;
   let nearestTopId;
   for (let section of sections) {
-    let top = Math.abs(el(section).getBoundingClientRect().top);
-    if (top < nearestTop) {
+    let top = el(section).getBoundingClientRect().top;
+    if (top < screenHeight / 2 && top > nearestTop) {
       nearestTop = top;
       nearestTopId = section;
     } 
-    // console.log(section, top);
   }
-  if (nearestTopId) console.log(nearestTopId);
-  // let h2Options = el('h2Options').getBoundingClientRect().top;
-  // console.log(top - offsetY);
+  if (nearestTopId) {
+    for (let elem of document.getElementsByClassName("viewed")) {
+      elem.classList.remove("viewed");  // remove "viewed" class from all elems
+    }
+    let navId = `nav${nearestTopId.substring(3)}`;
+    if (el(navId)) { 
+      el(navId).classList.add("viewed");
+     }
+  }
 }

@@ -16,73 +16,78 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/all.min.css"
+  integrity="sha512-BnbUDfEUfV0Slx6TunuB042k9tuKe3xrD6q4mg5Ed72LTgzDIcLPxg6yI2gcMFRyomt+yJJxE+zJwNmxki6/RA=="
+  crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
 <body>
-  <!-- <header>
+  <!-- <header id="secTop">
     <div>
-    
+      <h1>Rank &amp; File</h1> 
+      <span>Chess Coordinates Trainer</span>
     </div>
   </header> -->
-  <footer  id="secTop">
-    <h1>Rank &amp; File</h1> 
-    <nav>
-      <span><i class="fa fa-cog"></i></span>
-      <span><i class="fa fa-info-circle"></i></span>
-      <span><i class="fa fa-envelope"></i></span>
-    </nav><br>
-    <span class="faded">Chess Coordinates Trainer</span>
-  </footer>
+    <footer>
+      <h1 id="navTop"><b>Rank &amp; File</b></h1>
+      <nav>
+        <span id="navOptions"><i class="fa fa-cog"></i></span>
+        <span id="navAbout"><i class="fa fa-info-circle"></i></span>
+        <span id="navMe"><i class="fa fa-envelope"></i></span>
+        <span id="navCredits"><i class="fas fa-praying-hands"></i></span>
+
+      </nav>
+    </footer>
+  <div id=centralColumn>
 
   <noscript>Your browser does not support JavaScript (required).</noscript>
-  
+
   <div id=gameArea>
     <div id="streakContainer" class="noSelect">
-      <span>Streak:&nbsp;<span id="streakNo">0</span></span>
+      <span id="secTop">Streak:&nbsp;<span id="streakNo">0</span></span>
       <span>Best:&nbsp;<span id="bestNo">0</span></span>
       <span>All Time:&nbsp;<span id="bestEverNo">0</span></span>
     </div>
-  
+
     <div id="board" class="noSelect noAnim">
       <div id="quadrants" class="hidden"></div>
       <canvas id="sq1" class="sq bouncing" width="100" height="100"></canvas>
       <canvas id="sq2" class="sq hider" width="100" height="100"></canvas>
-  
-      <div class="pc white rook" style="--rank:0; --file:0;"></div>
+
+      <div class="pc white rook"   style="--rank:0; --file:0;"></div>
       <div class="pc white knight" style="--rank:0; --file:1;"></div>
       <div class="pc white bishop" style="--rank:0; --file:2;"></div>
-      <div class="pc white queen" style="--rank:0; --file:3;"></div>
-      <div class="pc white king" style="--rank:0; --file:4;"></div>
+      <div class="pc white queen"  style="--rank:0; --file:3;"></div>
+      <div class="pc white king"   style="--rank:0; --file:4;"></div>
       <div class="pc white bishop" style="--rank:0; --file:5;"></div>
       <div class="pc white knight" style="--rank:0; --file:6;"></div>
-      <div class="pc white rook" style="--rank:0; --file:7;"></div>
-      <div class="pc white pawn" style="--rank:1; --file:0;"></div>
-      <div class="pc white pawn" style="--rank:1; --file:1;"></div>
-      <div class="pc white pawn" style="--rank:1; --file:2;"></div>
-      <div class="pc white pawn" style="--rank:1; --file:3;"></div>
-      <div class="pc white pawn" style="--rank:1; --file:4;"></div>
-      <div class="pc white pawn" style="--rank:1; --file:5;"></div>
-      <div class="pc white pawn" style="--rank:1; --file:6;"></div>
-      <div class="pc white pawn" style="--rank:1; --file:7;"></div>
-      <div class="pc black rook" style="--rank:7; --file:0;"></div>
+      <div class="pc white rook"   style="--rank:0; --file:7;"></div>
+      <div class="pc white pawn"   style="--rank:1; --file:0;"></div>
+      <div class="pc white pawn"   style="--rank:1; --file:1;"></div>
+      <div class="pc white pawn"   style="--rank:1; --file:2;"></div>
+      <div class="pc white pawn"   style="--rank:1; --file:3;"></div>
+      <div class="pc white pawn"   style="--rank:1; --file:4;"></div>
+      <div class="pc white pawn"   style="--rank:1; --file:5;"></div>
+      <div class="pc white pawn"   style="--rank:1; --file:6;"></div>
+      <div class="pc white pawn"   style="--rank:1; --file:7;"></div>
+      <div class="pc black rook"   style="--rank:7; --file:0;"></div>
       <div class="pc black knight" style="--rank:7; --file:1;"></div>
       <div class="pc black bishop" style="--rank:7; --file:2;"></div>
-      <div class="pc black queen" style="--rank:7; --file:3;"></div>
-      <div class="pc black king" style="--rank:7; --file:4;"></div>
+      <div class="pc black queen"  style="--rank:7; --file:3;"></div>
+      <div class="pc black king"   style="--rank:7; --file:4;"></div>
       <div class="pc black bishop" style="--rank:7; --file:5;"></div>
       <div class="pc black knight" style="--rank:7; --file:6;"></div>
-      <div class="pc black rook" style="--rank:7; --file:7;"></div>
-      <div class="pc black pawn" style="--rank:6; --file:0;"></div>
-      <div class="pc black pawn" style="--rank:6; --file:1;"></div>
-      <div class="pc black pawn" style="--rank:6; --file:2;"></div>
-      <div class="pc black pawn" style="--rank:6; --file:3;"></div>
-      <div class="pc black pawn" style="--rank:6; --file:4;"></div>
-      <div class="pc black pawn" style="--rank:6; --file:5;"></div>
-      <div class="pc black pawn" style="--rank:6; --file:6;"></div>
-      <div class="pc black pawn" style="--rank:6; --file:7;"></div>
+      <div class="pc black rook"   style="--rank:7; --file:7;"></div>
+      <div class="pc black pawn"   style="--rank:6; --file:0;"></div>
+      <div class="pc black pawn"   style="--rank:6; --file:1;"></div>
+      <div class="pc black pawn"   style="--rank:6; --file:2;"></div>
+      <div class="pc black pawn"   style="--rank:6; --file:3;"></div>
+      <div class="pc black pawn"   style="--rank:6; --file:4;"></div>
+      <div class="pc black pawn"   style="--rank:6; --file:5;"></div>
+      <div class="pc black pawn"   style="--rank:6; --file:6;"></div>
+      <div class="pc black pawn"   style="--rank:6; --file:7;"></div>
     </div>
-  
+
     <div id="multiChoice" class="noSelect">
       <span id="choice1" class="choice"></span>
       <span id="choice2" class="choice"></span>
@@ -91,7 +96,6 @@
     </div>
   </div>
   </noscript>
-  <div id=centralColumn>
   <h2 id="secOptions">Options</h2>
   <div id="options">
     <span>
@@ -166,6 +170,8 @@
     </li>
   </ul>
   <hr>
+  <h2 id="secMe">Author</h2>
+  <hr>
   <h2 id="secCredits">Acknowledgements</h2>
     <ul class="custBullets">
       <li>
@@ -205,8 +211,6 @@
         <a href="https://creativecommons.org/licenses/by-sa/3.0/deed.en" target="_blank">CC BY-SA 3.0</a>.
       </li>
     </ul>
-
-    <h2 id="secMe">Author</h2>
 
     <!-- preload svg backgrounds...  -->
     <image src="board.svg" width="1" height="1" border="0">
