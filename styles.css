@@ -12,17 +12,25 @@ body {
   margin: 0;
 }
 
+.surface {
+  background: #1F1F1F;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.section {
+  padding: 1rem 0;
+  margin: 1rem 0;
+}
+
+
+
 header {
   padding-bottom: 1rem;
   width: 100%;
   color: rgba(255, 255, 255, .35);
-  /* outline: 1px rgba(255, 255, 255, .2) solid; */
-  background: #1F1F1F;
   z-index: 100;
   padding: .5rem 0;
   margin-bottom: 2rem;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-  /* position: fixed; */
 }
 
 header>span {
@@ -45,7 +53,7 @@ nav {
 
 nav>span {
   color: rgba(255, 255, 255, .5);
-  margin: 0 .15rem;
+  margin-left: .15rem;
   cursor: pointer;
 }
 
@@ -61,8 +69,6 @@ nav>span {
   justify-content: center;
   width: 100%;
   height: auto;
-  /* outline: 1px rgba(255, 255, 255, .2) solid; */
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
 h2 {
@@ -88,12 +94,12 @@ h3 {
   justify-content: space-evenly;
   align-items: center;
   padding: 0;
-  background: #1F1F1F;
 }
 
 
 #multiChoice span {
-  background-color: #2a742a;
+  background-color: #478547;
+  outline:1px mediumseagreen solid;
   color: white;
   letter-spacing: .1em;
   padding: 0;
@@ -131,7 +137,7 @@ h3 {
   
   /* only applies on devices w/ actual hover */
   #multiChoice span:hover {
-    background-color: #225e22;
+    background-color: #3b6d3b;
   }
 }
 
@@ -142,7 +148,6 @@ h3 {
   justify-content: space-evenly;
   padding: .5rem 0;
   color: rgba(255, 255, 255, .55);
-  background: #1F1F1F;
 }
 
 #streakContainer>:last-child {
@@ -208,7 +213,7 @@ h3 {
 }
 
 #board {
-  z-index: -1;
+  z-index: 0;
   transform-style: flat;
   background-image: url('board.svg');
   background-size: 100%;
