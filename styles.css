@@ -3,6 +3,38 @@ html {
   font-size: 17px;
   background: #121212;
   color: rgba(255, 255, 255, .75);
+  scroll-behavior: smooth;
+}
+
+input#sfx {
+  appearance: none;
+  -webkit-appearance: none;
+  margin: 0;
+  color: rgba(255, 255, 255, .75);
+  display: inline-block;
+}
+
+input#sfx:checked::before {
+  content:"\f028";
+  color: cornflowerblue;
+}
+
+input#sfx::before {
+  position: relative;
+  vertical-align: middle;
+  font-family: "Font Awesome 5 Free";
+  font-size: 1.25rem;
+  content: "\f6a9";
+  display: inline-block;
+  padding-right: 3px;
+  vertical-align: middle;
+  font-weight: 900;
+  color: dimgray;
+  margin-right: .25em;
+}
+
+#sfxLabel {
+  display: flex;
 }
 
 body {
@@ -13,24 +45,25 @@ body {
 }
 
 .surface {
-  background: #1F1F1F;
+  background: #242424;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
 .section {
-  padding: 1rem 0;
+  width: calc(100% -2rem);
+  padding: .5rem 1rem;
   margin: 1rem 0;
 }
 
-
-
-header {
-  padding-bottom: 1rem;
+header, footer {
   width: 100%;
   color: rgba(255, 255, 255, .35);
   z-index: 100;
   padding: .5rem 0;
-  margin-bottom: 2rem;
+}
+
+header {
+  margin-bottom: 1rem;
 }
 
 header>span {
@@ -51,10 +84,11 @@ nav {
   display: inline;
 } 
 
-nav>span {
-  color: rgba(255, 255, 255, .5);
-  margin-left: .15rem;
+nav>a {
+  color: cornflowerblue;
+  text-decoration: none;
   cursor: pointer;
+  margin-left: .15rem;
 }
 
 #centralColumn {
@@ -99,7 +133,6 @@ h3 {
 
 #multiChoice span {
   background-color: #478547;
-  outline:1px mediumseagreen solid;
   color: white;
   letter-spacing: .1em;
   padding: 0;
@@ -134,10 +167,12 @@ h3 {
 }
 
 @media (hover: hover) {
-  
-  /* only applies on devices w/ actual hover */
+  /* only applies on devices w/ actual hover, preventing issues on mobile */
   #multiChoice span:hover {
     background-color: #3b6d3b;
+  }
+  nav>a:hover {
+    color: lightseagreen;
   }
 }
 
@@ -167,7 +202,7 @@ h3 {
 #streakNo {
   font-size: 2em;
   font-weight: bold;
-  color: cornflowerblue;
+  color: rgba(255, 255, 255, .8);
   margin-left: .25em;
 }
 
@@ -204,7 +239,7 @@ h3 {
   }
 }
 
-#options {
+#options>div {
   width: fit-content;
   margin: 1rem auto;
   margin-bottom: 2rem;
@@ -471,7 +506,6 @@ div#board.hideLabels {
 }
 
 ul {
-  width: 94%;
   text-align: left;
   margin: 0 auto;
   margin-bottom: 3rem;

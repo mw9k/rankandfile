@@ -25,8 +25,8 @@
   <header class="surface">
     <h1>Rank &amp; File</h1>
     <nav>
-      <span id="navOptions"><i class="fa fa-cog"></i></span>
-      <span id="navAbout"><i class="fa fa-info-circle"></i></span>
+      <a href="#options"><i class="fa fa-cog"></i></a>
+      <a href="#about"><i class="fa fa-info-circle"></i></a>
     </nav>
     <span>
       Chess Coordinates Training
@@ -89,45 +89,44 @@
     </div>
   </div>
   </noscript>
-  <div class="surface section">
+  <div id="options" class="surface section">
     <h2>Options</h2>
-    <div id="options">
-      <span>
-        <input type="checkbox" id="sfx" name="sfx">
-        <label for="sfx"> Sound Effects</label><br>
-        <hr>
-          <label for="timeLimit" id="timeLimitLabel">Time Limit:</label><br>
-          <input type="range" id="timeLimit" value="5" min="2" max="10">
-        <hr>
+    <div>
+      <label for="sfx" id="sfxLabel"> 
+        <input type="checkbox" id="sfx" name="sfx"> Sound Effects
+      </label>
+      <hr>
+        <label for="timeLimit" id="timeLimitLabel">Time Limit:</label><br>
+        <input type="range" id="timeLimit" value="5" min="2" max="10">
+      <hr>
 
-        <input type="checkbox" id="flip" name="flip">
-        <label for="flip"> Flip Board</label><br>
-        <input type="checkbox" id="showQuads" name="showQuads">
-        <label for="showQuads"> Show Quadrants</label><br>
-        <input type="checkbox" id="showLabels" name="showLabels">
-        <label for="showLabels">Board Labels</label><br>
-        <hr>
-        <input type="radio" id="normal" name="constrain" checked>
-        <label for="normal"> File &amp; Rank</label><br>
-        <input type="radio" id="fileOnly" name="constrain">
-        <label for="fileOnly"> File Only mode</label><br>
-        <input type="radio" id="rankOnly" name="constrain">
-        <label for="rankOnly"> Rank Only mode</label><br>
-        <hr>
-        <input type="radio" id="noPcs" name="showPcs">
-        <label for="noPcs"> No Pieces</label><br>
-        <input type="radio" id="kqOnly" name="showPcs">
-        <label for="kqOnly"> King &amp; Queen</label><br>
-        <input type="radio" id="allPcs" name="showPcs" checked>
-        <label for="allPcs"> Full Starting Position</label>
-        <hr>
-        <span class="actionText" id="resetSettings">Reset Settings</span>
-        <span class="actionText" id="resetHiScore">Reset Best Record</span>
-      </span>
+      <input type="checkbox" id="flip" name="flip">
+      <label for="flip"> Flip Board</label><br>
+      <input type="checkbox" id="showQuads" name="showQuads">
+      <label for="showQuads"> Show Quadrants</label><br>
+      <input type="checkbox" id="showLabels" name="showLabels">
+      <label for="showLabels">Board Labels</label><br>
+      <hr>
+      <input type="radio" id="normal" name="constrain" checked>
+      <label for="normal"> File &amp; Rank</label><br>
+      <input type="radio" id="fileOnly" name="constrain">
+      <label for="fileOnly"> File Only mode</label><br>
+      <input type="radio" id="rankOnly" name="constrain">
+      <label for="rankOnly"> Rank Only mode</label><br>
+      <hr>
+      <input type="radio" id="noPcs" name="showPcs">
+      <label for="noPcs"> No Pieces</label><br>
+      <input type="radio" id="kqOnly" name="showPcs">
+      <label for="kqOnly"> King &amp; Queen</label><br>
+      <input type="radio" id="allPcs" name="showPcs" checked>
+      <label for="allPcs"> Full Starting Position</label>
+      <hr>
+      <span class="actionText" id="resetSettings">Reset Settings</span>
+      <span class="actionText" id="resetHiScore">Reset Best Record</span>
     </div>
   </div>
 
-  <div class="surface section">
+  <div id="about" class="surface section">
     <h2>About</h2>
     <ul>
       <li>
@@ -165,9 +164,6 @@
         <br>Requires a modern browser.
       </li>
     </ul>
-  </div>
-  <div class="surface section">
-    <h2>Author</h2>
   </div>
   <div class="surface section">
     <h2>Acknowledgements</h2>
@@ -219,5 +215,9 @@
   <image src="right.svg" width="1" height="1" border="0">
   <image src="timeout.svg" width="1" height="1" border="0">
   </div>
+
+  <footer class="surface">
+    By mw9k 2023.
+  </footer>
 
 </body>
