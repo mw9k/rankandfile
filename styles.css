@@ -57,7 +57,7 @@ body {
 
 header, footer {
   width: 100%;
-  color: rgba(255, 255, 255, .35);
+  color: rgba(255, 255, 255, .4);
   z-index: 100;
   padding: .5rem 0;
 }
@@ -73,22 +73,33 @@ header>span {
 
 h1 {
   color: rgba(255, 255, 255, .75);
-  display: inline-block;
+  display: block;
   margin: 0;
-  font-size: 1.2rem;
+  font-size: 1.25rem;
   margin-right: 1rem;
   transform: skew(-5deg); /* make slightly italic */
 }
 
+header>div {
+  margin: 0 auto;
+  position: relative;
+  width: 65vh;  /* same as central column */
+  max-width: 100vw;
+}
+
 nav {
-  display: inline;
-} 
+  display: block;
+  position: absolute;
+  top: 0;
+  right: .25rem;
+  z-index: 200;
+}
 
 nav>a {
   color: cornflowerblue;
   text-decoration: none;
   cursor: pointer;
-  margin-left: .15rem;
+  margin: .1rem;
 }
 
 #centralColumn {
@@ -107,14 +118,14 @@ nav>a {
 
 h2 {
   color: rgba(255, 255, 255, .9);
-  font-size: 1.3rem;
+  font-size: 1.25rem;
   margin-top: 1rem;
   margin-bottom: .6rem;
 }
 
 h3 {
   color: rgba(255, 255, 255, .9);
-  font-size: 1.1em;
+  font-size: 1.075em;
   font-weight: bold;
   margin: 0;
   margin-right: .5rem;
