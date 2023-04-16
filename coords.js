@@ -2,10 +2,10 @@ let settings = {}, // loaded later
   state = { prevRank:0, prevFile:0, streak:0, best:0, bestEver:0, count:-1,
             wrongCount:0, blockGuessesUntil:0, lastFrameTime:0, focusCount:0,
             lastBlurTime:0 },
-  sfx = { wrong: new Howl({ src: ['wrong.mp3'] }), 
-          right: new Howl({ src: ['right.mp3'] }), 
-          timeout: new Howl({ src: ['timeout.mp3'] }), 
-          fanfare: new Howl({ src: ['fanfare.mp3'] }) };
+  sfx = { wrong: new Howl({ src: ["wrong.mp3"] }), 
+          right: new Howl({ src: ["right.mp3"] }), 
+          timeout: new Howl({ src: ["timeout.mp3"] }), 
+          fanfare: new Howl({ src: ["fanfare.mp3"] }) };
 
 function moveSq() {
   state.count++;
@@ -15,8 +15,8 @@ function moveSq() {
   state.prevRank = chosenRank;
   let sqOld = (state.count % 2) ? "sq2" : "sq1";
   let sqNew = (state.count % 2) ? "sq1" : "sq2";
-  el(sqNew).style.setProperty('--file', chosenFile);
-  el(sqNew).style.setProperty('--rank', chosenRank);
+  el(sqNew).style.setProperty("--file", chosenFile);
+  el(sqNew).style.setProperty("--rank", chosenRank);
   reanimate(sqOld, "gotRight", "sq");
   reanimate(sqNew, "zoomIn", "sq");
   startCircleTimer(sqNew);
@@ -26,8 +26,9 @@ function moveSq() {
 function newRndInt(lBound, uBound, prevRnd) {  
   // choose a random int different from previous choice
   // bounds are 'inclusive'
+  let newRnd;
   if (prevRnd > uBound || prevRnd < lBound) { // if prev rnd not within bounds 
-    var newRnd = rndIntInRange(lBound, uBound); // straightforward rndIntInRange
+    newRnd = rndIntInRange(lBound, uBound);   // straightforward rndIntInRange
   } else {
     newRnd = rndIntInRange(lBound, uBound - 1); // otherwise, reduce range by 1
     if (newRnd >= prevRnd) newRnd++; // shift up to compensate for missing no.
@@ -54,19 +55,23 @@ function generateChoices() {
   let correctChoice = constrain(numToFile(state.prevFile), state.prevRank + 1);
   choices.push(correctChoice); 
   for (let i = 0; i < 10000; i++) { // try up to 10k times
+    let lockAxis, rndRank, rndFile, maxDist, lBound, uBound;
+    if (settings.constrain == "normal") { // 50% chance to lock x/y axis...
+      lockAxis = (Math.random() < .5) ? "x" : "y";  
+    }
     // pseudorandomly select a file (x-axis coordinate):
-    if (Math.random() < .75) {
-      var rndFile = numToFile(state.prevFile); // ~75% chance of no change 
+    if (lockAxis == "x") {
+      rndFile = numToFile(state.prevFile); // if locked axis, use actual answer
     } else {
-      var maxDist = (settings.constrain == "fileOnly") ? 3 : 1;
-      var lBound = (state.prevFile - maxDist >= 0) ? state.prevFile - maxDist : 0;
-      var uBound = (state.prevFile + maxDist <= 7) ? state.prevFile + maxDist : 7;
-      var rndFile = rndIntInRange(lBound, uBound);
+      maxDist = (settings.constrain == "fileOnly") ? 3 : 1;
+      lBound = (state.prevFile - maxDist >= 0) ? state.prevFile - maxDist : 0;
+      uBound = (state.prevFile + maxDist <= 7) ? state.prevFile + maxDist : 7;
+      rndFile = rndIntInRange(lBound, uBound);
       rndFile = numToFile(rndFile);
     }
     // pseudorandomly select a rank (y-axis coordinate):
-    if (Math.random() < .75) {
-      var rndRank = state.prevRank; // ~75% chance of no change 
+    if (lockAxis == "y") {
+      rndRank = state.prevRank; // if locked axis, use actual answer
     } else {
       maxDist = (settings.constrain == "rankOnly") ? 3 : 1;
       lBound = (state.prevRank - maxDist >= 0) ? state.prevRank - maxDist : 0;
@@ -107,9 +112,9 @@ function makeGuess(guess) {
   } else if (settings.constrain == "fileOnly") {
     guess += state.prevRank + 1;
   }
-  let guessedRank = parseInt(guess[1] - 1);
-  let guessedFile = guess[0].toLowerCase().charCodeAt(0) - 97;
-  let gotRight = (guessedRank == state.prevRank && guessedFile == state.prevFile);
+  let guessRank = parseInt(guess[1] - 1);
+  let guessFile = guess[0].toLowerCase().charCodeAt(0) - 97;
+  let gotRight = (guessRank == state.prevRank && guessFile == state.prevFile);
   updateStreak(gotRight);
   processAnswer(gotRight);
 }
@@ -119,7 +124,7 @@ function updateStreak(gotRight) {
   if (state.streak > state.best) state.best = state.streak;
   if (state.best > state.bestEver) {
     state.bestEver = state.best;
-    localStorage.setItem('rankFileHiScore', state.bestEver);
+    localStorage.setItem("rankFileHiScore", state.bestEver);
   }
   el("streakNo").textContent = state.streak;
   el("bestNo").textContent = state.best;
@@ -242,7 +247,7 @@ window.addEventListener("load", (event) => {
   resizeElements();
   resetSettings();
   loadSettings(true);  
-  state.bestEver = localStorage.getItem('rankFileHiScore');
+  state.bestEver = localStorage.getItem("rankFileHiScore");
   el("bestEverNo").textContent = state.bestEver;
   let allChoices = document.getElementsByClassName("choice");
   for (let choice of allChoices) {
@@ -253,6 +258,11 @@ window.addEventListener("load", (event) => {
     });
   }
   document.addEventListener("click", function (e) {
+    let target = e.target.dataset.target;
+    if (target !== undefined) {
+      e.preventDefault();
+      el(target).scrollIntoView({ behavior: "smooth", block: "start"});
+    }
     if (e.target.type == "radio") {
       if (e.target.name == "showPcs") {
         settings.showPcs = e.target.id;
@@ -298,7 +308,7 @@ window.addEventListener("load", (event) => {
   });
   generateChoices();
   startCircleTimer("sq1", 100);
-  window.addEventListener('resize', function (event) {
+  window.addEventListener("resize", function (event) {
     resizeElements();
   }, true);
 });
@@ -312,7 +322,7 @@ function shuffleArray(arr) {
 }
 
 function loadSettings(firstLoad) {
-  let loaded = JSON.parse(localStorage.getItem('rankFileSettings'));
+  let loaded = JSON.parse(localStorage.getItem("rankFileSettings"));
   if (loaded && loaded.exists) {  
     for (const p in loaded) {
       // load one property at a time, so future additions won't break saves
@@ -323,7 +333,7 @@ function loadSettings(firstLoad) {
 }
 
 function saveSettings() {
-  localStorage.setItem('rankFileSettings', JSON.stringify(settings));
+  localStorage.setItem("rankFileSettings", JSON.stringify(settings));
   applySettings();
 }
 
@@ -375,7 +385,7 @@ function applySettings(firstLoad) {
 function resetHiScore() {
   if (confirm(`Are you sure you want to erase your 'All Time' Best Score?`)) {
     state.bestEver = 0;
-    localStorage.setItem('rankFileHiScore', state.bestEver);
+    localStorage.setItem("rankFileHiScore", state.bestEver);
     el("bestEverNo").textContent = state.bestEver;
   }
 }

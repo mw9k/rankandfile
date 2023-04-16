@@ -25,8 +25,8 @@
   <header class="surface">
     <div>
       <nav>
-        <a href="#options"><i class="fa fa-cog"></i></a>
-        <a href="#about"><i class="fa fa-info-circle"></i></a>
+        <a href="#" data-target="options"><i class="fa fa-cog"></i></a>
+        <a href="#" data-target="about"><i class="fa fa-info-circle"></i></a>
       </nav>
       <h1>Rank &amp; File</h1>
       <span>
@@ -37,18 +37,17 @@
   <div id=centralColumn>
   <noscript>Your browser does not support JavaScript (required).</noscript>
 
-  <div id=gameArea class="surface">
-    <div id="streakContainer" class="noSelect">
+  <div id=gameArea class="surface noSelect">
+    <div id="streakContainer">
       <span>Streak:&nbsp;<span id="streakNo">0</span></span>
       <span>Best:&nbsp;<span id="bestNo">0</span></span>
       <span>All Time:&nbsp;<span id="bestEverNo">0</span></span>
     </div>
 
-    <div id="board" class="noSelect noAnim">
+    <div id="board" class="noAnim">
       <div id="quadrants" class="hidden"></div>
       <canvas id="sq1" class="sq bouncing" width="100" height="100"></canvas>
       <canvas id="sq2" class="sq hider" width="100" height="100"></canvas>
-
       <div class="pc white rook"   style="--rank:0; --file:0;"></div>
       <div class="pc white knight" style="--rank:0; --file:1;"></div>
       <div class="pc white bishop" style="--rank:0; --file:2;"></div>
@@ -83,7 +82,7 @@
       <div class="pc black pawn"   style="--rank:6; --file:7;"></div>
     </div>
 
-    <div id="multiChoice" class="noSelect">
+    <div id="multiChoice">
       <span id="choice1" class="choice"></span>
       <span id="choice2" class="choice"></span>
       <span id="choice3" class="choice"></span>
@@ -91,7 +90,7 @@
     </div>
   </div>
   </noscript>
-  <div id="options" class="surface section">
+  <div id="options" class="surface section noSelect">
     <h2>Options</h2>
     <div>
       <label for="sfx" id="sfxLabel"> 

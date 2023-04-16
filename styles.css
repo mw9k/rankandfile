@@ -3,38 +3,6 @@ html {
   font-size: 17px;
   background: #121212;
   color: rgba(255, 255, 255, .75);
-  scroll-behavior: smooth;
-}
-
-input#sfx {
-  appearance: none;
-  -webkit-appearance: none;
-  margin: 0;
-  color: rgba(255, 255, 255, .75);
-  display: inline-block;
-}
-
-input#sfx:checked::before {
-  content:"\f028";
-  color: cornflowerblue;
-}
-
-input#sfx::before {
-  position: relative;
-  vertical-align: middle;
-  font-family: "Font Awesome 5 Free";
-  font-size: 1.25rem;
-  content: "\f6a9";
-  display: inline-block;
-  padding-right: 3px;
-  vertical-align: middle;
-  font-weight: 900;
-  color: dimgray;
-  margin-right: .25em;
-}
-
-#sfxLabel {
-  display: flex;
 }
 
 body {
@@ -97,9 +65,15 @@ nav {
 
 nav>a {
   color: cornflowerblue;
+  color: rgba(255, 255, 255, .4);
   text-decoration: none;
   cursor: pointer;
   margin: .1rem;
+  font-size: 1.1em;
+}
+
+i {
+  pointer-events: none; /* so FA icons don't obscure mouse events */
 }
 
 #centralColumn {
@@ -147,7 +121,7 @@ h3 {
   color: white;
   letter-spacing: .1em;
   padding: 0;
-  font-size: 1.3rem;
+  font-size: 1.3em;
   border-radius: .3em;
   cursor: pointer;
   width: 28.5%;
@@ -250,14 +224,6 @@ h3 {
   }
 }
 
-#options>div {
-  width: fit-content;
-  margin: 1rem auto;
-  margin-bottom: 2rem;
-  text-align: left;
-  border-radius: .25rem;
-}
-
 #board {
   z-index: 0;
   transform-style: flat;
@@ -311,13 +277,8 @@ h3 {
 }
 
 @keyframes shake {
-  from {
-    transform: translateX(-.075em)
-  }
-
-  to {
-    transform: translateX(.075em)
-  }
+  from { transform: translateX(-.075em) }
+  to { transform: translateX(.075em) }
 }
 
 #board .sq.gotRight {
@@ -329,23 +290,13 @@ h3 {
 }
 
 @keyframes zoomOut {
-  from {
-    transform: scale(1);
-  }
-
-  to {
-    transform: scale(.8);
-  }
+  from { transform: scale(1); }
+  to { transform: scale(.8); }
 }
 
 @keyframes fadeOut {
-  from {
-    opacity: 1;
-  }
-
-  to {
-    opacity: 0;
-  }
+  from { opacity: 1; }
+  to { opacity: 0; }
 }
 
 .sq.bouncing {
@@ -370,13 +321,8 @@ h3 {
 }
 
 @keyframes zoomIn {
-  from {
-    transform: scale(0);
-  }
-
-  to {
-    transform: scale(1);
-  }
+  from { transform: scale(0); }
+  to { transform: scale(1); }
 }
 
 #board.flipped .sq,
@@ -506,9 +452,6 @@ div#board.hideLabels {
   margin: .5rem;
 }
 
-
-
-
 .noSelect {
   user-select: none;
   -webkit-touch-callout: none;
@@ -545,7 +488,7 @@ ul li {
   margin-bottom: 1.33rem;
 }
 
-span.key {
+span.key { /* keyboard illustrations */
   font-size: .8em;
   background: rgba(0, 0, 0, .5);
   border: 1px rgba(255, 255, 255, .25) solid;
@@ -567,6 +510,45 @@ span.actionText {
   text-decoration: underline;
   margin: 1rem 0;
   display: block;
+}
+
+#options>div {
+  width: fit-content;
+  margin: 1rem auto;
+  margin-bottom: 2rem;
+  text-align: left;
+  border-radius: .25rem;
+}
+
+input#sfx {
+  appearance: none;
+  -webkit-appearance: none;
+  margin: 0;
+  color: rgba(255, 255, 255, .75);
+  display: inline-block;
+}
+
+input#sfx:checked::before {
+  content: "\f028";
+  color: cornflowerblue;
+}
+
+input#sfx::before {
+  position: relative;
+  vertical-align: middle;
+  font-family: "Font Awesome 5 Free";
+  font-size: 1.25rem;
+  content: "\f6a9";
+  display: inline-block;
+  padding-right: 3px;
+  vertical-align: middle;
+  font-weight: 900;
+  color: dimgray;
+  margin-right: .25em;
+}
+
+#sfxLabel {
+  display: flex;
 }
 
 hr {
