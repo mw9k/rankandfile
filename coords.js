@@ -122,13 +122,13 @@ function makeGuess(guess) {
 function updateStreak(gotRight) {
   state.streak = (gotRight) ? state.streak + 1 : 0;
   if (state.streak > state.best) state.best = state.streak;
-  if (state.best > state.bestEver) {
-    state.bestEver = state.best;
+  if (state[`best`] > state[`bestEver`]) {
+    state[`bestEver`] = state.state[`best`];
     localStorage.setItem("rankFileHiScore", state.bestEver);
   }
-  el("streakNo").textContent = state.streak;
-  el("bestNo").textContent = state.best;
-  el("bestEverNo").textContent = state.bestEver;
+  el("streakNo").textContent = state[`streak`];
+  el("bestNo").textContent = state[`best`];
+  el("bestEverNo").textContent = state[`bestEver`];
 }
 
 function processAnswer(gotRight) {
@@ -269,6 +269,7 @@ window.addEventListener("load", (event) => {
         saveSettings();
       } else if (e.target.name == "constrain") {
         settings.constrain = e.target.id;
+        resetCurrentScore();
         saveSettings();
         generateChoices();
       }
@@ -278,7 +279,7 @@ window.addEventListener("load", (event) => {
       saveSettings();
     }
     if (e.target.id == "resetHiScore") resetHiScore();
-    if (e.target.id == "resetSettings") resetSettings(true);
+    if (e.target.id == "resetSettings") resetSettings(true, true);
   });
   document.addEventListener("input", function(e) {
     if (e.target.id == "timeLimit") {
@@ -382,6 +383,12 @@ function applySettings(firstLoad) {
   if (!firstLoad) el("board").classList.remove("noAnim");
 }
 
+function resetCurrentScore() {
+  state.best = 0;
+  state.streak = 0;
+  updateStreak(false);
+}
+
 function resetHiScore() {
   if (confirm(`Are you sure you want to erase your 'All Time' Best Score?`)) {
     state.bestEver = 0;
@@ -390,9 +397,14 @@ function resetHiScore() {
   }
 }
 
-function resetSettings(andSave = false) {
-  settings = { exists: true, showQuads: false, flip: false, showPcs: "allPcs",
-    constrain: "normal", sfx: true, showLabels: true, timeLimit: "5" };
+function resetSettings(andSave = false, askConfirm = false) {
+  if (askConfirm) {
+    if (!confirm(`Reset all settings to default?`)) return;
+  }
+  settings = {
+    exists: true, showQuads: false, flip: false, showPcs: "allPcs",
+    constrain: "normal", sfx: true, showLabels: true, timeLimit: "5"
+  };
   if (andSave) saveSettings();
 }
 
