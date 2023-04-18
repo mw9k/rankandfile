@@ -13,7 +13,7 @@ body {
 }
 
 .surface {
-  background: #242424;
+  background: #282828;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
@@ -40,7 +40,7 @@ header>span {
 }
 
 h1 {
-  color: rgba(255, 255, 255, .75);
+  color: rgba(255, 255, 255, .8);
   display: block;
   margin: 0;
   font-size: 1.25rem;
@@ -56,23 +56,24 @@ header>div {
 }
 
 nav {
-  display: block;
+  display: flex;
+  align-items: center;
   position: absolute;
   top: 0;
   right: .25rem;
   z-index: 200;
+  height: 100%;
 }
 
 nav>a {
-  color: cornflowerblue;
   color: rgba(255, 255, 255, .4);
   text-decoration: none;
   cursor: pointer;
-  margin: .1rem;
+  margin: .2em;
   font-size: 1.1em;
 }
 
-i {
+i.fa {
   pointer-events: none; /* so FA icons don't obscure mouse events */
 }
 
@@ -156,7 +157,7 @@ h3 {
     background-color: #3b6d3b;
   }
   nav>a:hover {
-    color: lightseagreen;
+    color: cornflowerblue;
   }
 }
 
@@ -186,7 +187,7 @@ h3 {
 #streakNo {
   font-size: 2em;
   font-weight: bold;
-  color: rgba(255, 255, 255, .8);
+  color: lightblue;
   margin-left: .25em;
 }
 

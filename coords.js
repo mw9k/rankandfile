@@ -9,8 +9,8 @@ let settings = {}, // loaded later
 
 function moveSq() {
   state.count++;
-  chosenFile = newRndInt(0, 7, state.prevFile);
-  chosenRank = newRndInt(0, 7, state.prevRank);
+  chosenFile = diffRndInt(0, 7, state.prevFile);
+  chosenRank = diffRndInt(0, 7, state.prevRank);
   state.prevFile = chosenFile;
   state.prevRank = chosenRank;
   let sqOld = (state.count % 2) ? "sq2" : "sq1";
@@ -23,7 +23,7 @@ function moveSq() {
   generateChoices();
 }
 
-function newRndInt(lBound, uBound, prevRnd) {  
+function diffRndInt(lBound, uBound, prevRnd) {  
   // choose a random int different from previous choice
   // bounds are 'inclusive'
   let newRnd;
@@ -55,17 +55,18 @@ function generateChoices() {
   let correctChoice = constrain(numToFile(state.prevFile), state.prevRank + 1);
   choices.push(correctChoice); 
   for (let i = 0; i < 10000; i++) { // try up to 10k times
-    let lockAxis, rndRank, rndFile, maxDist, lBound, uBound;
-    if (settings.constrain == "normal") { // 50% chance to lock x/y axis...
-      lockAxis = (Math.random() < .5) ? "x" : "y";  
-    }
+    let lockAxis, rndRank, rndFile;
+    let maxDist = 3;
+    if (settings.constrain == "normal") { 
+      maxDist = 1;
+      lockAxis = (Math.random() < .5) ? "x" : "y"; // lock either axis
+    } 
+    let lBound = (state.prevRank - maxDist >= 0) ? state.prevRank - maxDist : 0;
+    let uBound = (state.prevRank + maxDist <= 7) ? state.prevRank + maxDist : 7;
     // pseudorandomly select a file (x-axis coordinate):
     if (lockAxis == "x") {
       rndFile = numToFile(state.prevFile); // if locked axis, use actual answer
     } else {
-      maxDist = (settings.constrain == "fileOnly") ? 3 : 1;
-      lBound = (state.prevFile - maxDist >= 0) ? state.prevFile - maxDist : 0;
-      uBound = (state.prevFile + maxDist <= 7) ? state.prevFile + maxDist : 7;
       rndFile = rndIntInRange(lBound, uBound);
       rndFile = numToFile(rndFile);
     }
@@ -73,13 +74,9 @@ function generateChoices() {
     if (lockAxis == "y") {
       rndRank = state.prevRank; // if locked axis, use actual answer
     } else {
-      maxDist = (settings.constrain == "rankOnly") ? 3 : 1;
-      lBound = (state.prevRank - maxDist >= 0) ? state.prevRank - maxDist : 0;
-      uBound = (state.prevRank + maxDist <= 7) ? state.prevRank + maxDist : 7;
       rndRank = rndIntInRange(lBound, uBound);
     }
-    rndRank++;  // account for zero indexed
-    let rndSq = constrain(rndFile, rndRank);
+    let rndSq = constrain(rndFile, rndRank + 1);
     if (choices.indexOf(rndSq) == -1) choices.push(rndSq);  // add if unique
     if (choices.length >= 3) break;
   }
@@ -122,28 +119,28 @@ function makeGuess(guess) {
 function updateStreak(gotRight) {
   state.streak = (gotRight) ? state.streak + 1 : 0;
   if (state.streak > state.best) state.best = state.streak;
-  if (state[`best`] > state[`bestEver`]) {
-    state[`bestEver`] = state.state[`best`];
+  if (state.best > state.bestEver) {
+    state.bestEver = state.best;
     localStorage.setItem("rankFileHiScore", state.bestEver);
   }
-  el("streakNo").textContent = state[`streak`];
-  el("bestNo").textContent = state[`best`];
-  el("bestEverNo").textContent = state[`bestEver`];
+  el("streakNo").textContent = state.streak;
+  el("bestNo").textContent = state.best;
+  el("bestEverNo").textContent = state.bestEver;
 }
 
 function processAnswer(gotRight) {
   if (gotRight) {
-    if (state.streak % 5 == 0) {
-      playSound("fanfare");
-      reanimate("streakNo", "bigBump", "bigBump");
-    } else {
+    if (state.streak % 5) {
       playSound("right");
       reanimate("streakNo", "bump", "bump");
+    } else {
+      playSound("fanfare");
+      reanimate("streakNo", "bigBump", "bigBump");
     }
     moveSq();
   } else {
     playSound("wrong");
-    let sqOld = (state.count % 2 !== 0) ? "sq1" : "sq2";
+    let sqOld = (state.count % 2) ? "sq1" : "sq2";
     el(sqOld).classList = "sq";
     reanimate(sqOld, "gotWrong");
     state.wrongCount++;
@@ -183,7 +180,7 @@ function circleStep(canvas, ctx, c) {
     clearCanvas(canvas, ctx);
     return; 
   } 
-  if (c.fullTripMs / 1000 != settings.timeLimit) {  
+  if (settings.timeLimit * 1000 != c.fullTripMs) {
     // restart if settings changed mid-rotate...
     startCircleTimer(canvas.id, 100);
     return;
@@ -211,7 +208,7 @@ function circleStep(canvas, ctx, c) {
     ctx.lineTo(x, y);
     ctx.stroke();
     c.drawCount++;
-    if (c.drawCount >= c.ticks) {  // if time's up (& timer circle fully drawn)
+    if (timeElapsed > c.fullTripMs && c.drawCount >= c.ticks) {
       outOfTime(canvas, ctx); 
       return;
     }
