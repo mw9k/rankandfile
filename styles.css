@@ -40,7 +40,7 @@ header>span {
 }
 
 h1 {
-  color: mediumspringgreen;
+  color: rgba(255, 255, 255, .8);
   display: block;
   margin: 0;
   font-size: 1.25rem;

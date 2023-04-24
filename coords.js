@@ -58,12 +58,13 @@ function generateChoices() {
     let lockAxis, rndRank, rndFile;
     let maxDist = 3;
     if (settings.constrain == "normal") { 
+      console.log('norm');
       maxDist = 1;
       lockAxis = (Math.random() < .5) ? "x" : "y"; // lock either axis
     } 
-    let lBound = (state.prevRank - maxDist >= 0) ? state.prevRank - maxDist : 0;
-    let uBound = (state.prevRank + maxDist <= 7) ? state.prevRank + maxDist : 7;
     // pseudorandomly select a file (x-axis coordinate):
+    let lBound = (state.prevFile - maxDist >= 0) ? state.prevFile - maxDist : 0;
+    let uBound = (state.prevFile + maxDist <= 7) ? state.prevFile + maxDist : 7;
     if (lockAxis == "x") {
       rndFile = numToFile(state.prevFile); // if locked axis, use actual answer
     } else {
@@ -71,6 +72,8 @@ function generateChoices() {
       rndFile = numToFile(rndFile);
     }
     // pseudorandomly select a rank (y-axis coordinate):
+    lBound = (state.prevRank - maxDist >= 0) ? state.prevRank - maxDist : 0;
+    uBound = (state.prevRank + maxDist <= 7) ? state.prevRank + maxDist : 7;
     if (lockAxis == "y") {
       rndRank = state.prevRank; // if locked axis, use actual answer
     } else {
