@@ -40,7 +40,7 @@ header>span {
 }
 
 h1 {
-  color: rgba(255, 255, 255, .8);
+  color: mediumspringgreen;
   display: block;
   margin: 0;
   font-size: 1.25rem;
@@ -56,13 +56,13 @@ header>div {
 }
 
 nav {
-  display: flex;
-  align-items: center;
+  /* display: flex;
+  height: 100%;
+  align-items: center; */
   position: absolute;
   top: 0;
   right: .25rem;
   z-index: 200;
-  height: 100%;
 }
 
 nav>a {
@@ -99,7 +99,7 @@ h2 {
 }
 
 h3 {
-  color: rgba(255, 255, 255, .9);
+  color: mediumspringgreen;
   font-size: 1.075em;
   font-weight: bold;
   margin: 0;
@@ -157,7 +157,7 @@ h3 {
     background-color: #3b6d3b;
   }
   nav>a:hover {
-    color: cornflowerblue;
+    color: mediumspringgreen;
   }
 }
 
@@ -187,7 +187,7 @@ h3 {
 #streakNo {
   font-size: 2em;
   font-weight: bold;
-  color: lightblue;
+  color: mediumspringgreen;
   margin-left: .25em;
 }
 
@@ -530,7 +530,7 @@ input#sfx {
 
 input#sfx:checked::before {
   content: "\f028";
-  color: cornflowerblue;
+  color: mediumspringgreen;
 }
 
 input#sfx::before {
