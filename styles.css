@@ -1,7 +1,7 @@
 html {
   font-family: 'DM Sans', sans-serif;
   font-size: 17px;
-  background: #35383b;
+  background: #121212;
   color: rgba(255, 255, 255, .75);
 }
 
@@ -12,17 +12,74 @@ body {
   margin: 0;
 }
 
+.surface {
+  background: #282828;
+  outline: 1px rgba(255, 255, 255, .25) solid;
+  /* box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; */
+}
+
+div.surface {
+  border-radius: 2px;
+}
+
+.section {
+  width: calc(100% -2rem);
+  padding: .5rem 1rem;
+  margin: 1.3rem 0;
+}
+
+header, footer {
+  width: 100%;
+  color: rgba(255, 255, 255, .5);
+  z-index: 100;
+  padding: .5rem 0;
+}
+
 header {
-  padding-bottom: 1rem;
-  color: rgba(255, 255, 255, .35);
+  margin-bottom: 1.3rem;
+}
+
+header>span {
+  display:block;
+  font-size: .8rem;
 }
 
 h1 {
-  color: rgba(255, 255, 255, .75);
+  color: rgba(255, 255, 255, .8);
+  display: block;
   margin: 0;
-  margin-top: .25rem;
-  font-size: 1.2rem;
+  font-size: 1.25rem;
+  margin-right: 1rem;
   transform: skew(-5deg); /* make slightly italic */
+}
+
+header>div {
+  margin: 0 auto;
+  position: relative;
+  width: 65vh;  /* same as central column */
+  max-width: 100vw;
+}
+
+nav {
+  /* display: flex;
+  height: 100%;
+  align-items: center; */
+  position: absolute;
+  top: 0;
+  right: .25rem;
+  z-index: 200;
+}
+
+nav>a {
+  color: rgba(255, 255, 255, .4);
+  text-decoration: none;
+  cursor: pointer;
+  margin: .2em;
+  font-size: 1.1em;
+}
+
+i.fa {
+  pointer-events: none; /* so FA icons don't obscure mouse events */
 }
 
 #centralColumn {
@@ -37,72 +94,18 @@ h1 {
   justify-content: center;
   width: 100%;
   height: auto;
-  /* outline: 1px cornflowerblue solid; */
-}
-
-footer {
-  margin: 0;
-  font-size: 1rem;
-  outline: 1px rgba(255, 255, 255, .075) solid;
-  background: #35383b;
-  z-index: 100;
-  padding: .5rem 0;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  text-align: center;
-}
-
-footer::after {
-  content: "";
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-  background: rgba(0, 0, 0, .25);
-}
-
-footer nav {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1;
-}
-
-footer nav span {
-  padding: 0 .5em;
-  cursor: pointer;
-}
-
-footer nav span,
-footer h1 {
-  cursor: pointer;
-}
-
-footer .viewed {
-  color: lightgreen;
-  border-bottom: 2px lightgreen solid;
-}
-
-span.faded {
-  color: rgba(255, 255, 255, .3);
-  font-size: .8em;
 }
 
 h2 {
   color: rgba(255, 255, 255, .9);
-  font-size: 1.3rem;
+  font-size: 1.25rem;
   margin-top: 1rem;
   margin-bottom: .6rem;
 }
 
 h3 {
   color: rgba(255, 255, 255, .9);
-  font-size: 1.1em;
+  font-size: 1.075em;
   font-weight: bold;
   margin: 0;
   margin-right: .5rem;
@@ -116,16 +119,15 @@ h3 {
   justify-content: space-evenly;
   align-items: center;
   padding: 0;
-  background: rgba(0, 0, 0, .5);
+  padding-top: 1px;
 }
 
-
 #multiChoice span {
-  background-color: green;
+  background-color: #478547;
   color: white;
   letter-spacing: .1em;
   padding: 0;
-  font-size: 1.3rem;
+  font-size: 1.3em;
   border-radius: .3em;
   cursor: pointer;
   width: 28.5%;
@@ -145,21 +147,23 @@ h3 {
   0% {
     transform: scale(1);
   }
-
+  
   50% {
     transform: scale(0.93);
   }
-
+  
   100% {
     transform: scale(1);
   }
 }
 
 @media (hover: hover) {
-
-  /* only applies on devices w/ actual hover */
+  /* only applies on devices w/ actual hover, preventing issues on mobile */
   #multiChoice span:hover {
-    background-color: darkgreen;
+    background-color: #3b6d3b;
+  }
+  nav>a:hover {
+    color: #c8d5bb;
   }
 }
 
@@ -168,8 +172,7 @@ h3 {
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-  padding: .75rem 0;
-  background: rgba(0, 0, 0, .5);
+  padding: .5rem 0;
   color: rgba(255, 255, 255, .55);
 }
 
@@ -190,7 +193,7 @@ h3 {
 #streakNo {
   font-size: 2em;
   font-weight: bold;
-  color: cornflowerblue;
+  color: #c8d5bb;
   margin-left: .25em;
 }
 
@@ -227,24 +230,17 @@ h3 {
   }
 }
 
-#options {
-  width: fit-content;
-  margin: 1rem auto;
-  margin-bottom: 2rem;
-  text-align: left;
-  border-radius: .25rem;
-}
-
 #board {
-  z-index: -1;
+  z-index: 0;
   transform-style: flat;
   background-image: url('board.svg');
   background-size: 100%;
   width: 100%;
   position: relative;
-  font-size: 50px;
-  /* overridden by JS */
+  font-size: 50px;  /* overridden by JS */
   margin: 0;
+  /* width: calc(100% - 2px); */
+  outline: 1px white solid;
 }
 
 #board:before {
@@ -288,41 +284,26 @@ h3 {
 }
 
 @keyframes shake {
-  from {
-    transform: translateX(-.075em)
-  }
-
-  to {
-    transform: translateX(.075em)
-  }
+  from { transform: translateX(-.075em) }
+  to { transform: translateX(.075em) }
 }
 
 #board .sq.gotRight {
   animation: zoomOut 525ms cubic-bezier(0.39, 0.575, 0.565, 1),
-    fadeOut 525ms cubic-bezier(0.95, 0.05, 0.795, 0.035);
+  fadeOut 525ms cubic-bezier(0.95, 0.05, 0.795, 0.035);
   animation-fill-mode: forwards;
   background-color: green;
   background-image: url('right.svg');
 }
 
 @keyframes zoomOut {
-  from {
-    transform: scale(1);
-  }
-
-  to {
-    transform: scale(.8);
-  }
+  from { transform: scale(1); }
+  to { transform: scale(.8); }
 }
 
 @keyframes fadeOut {
-  from {
-    opacity: 1;
-  }
-
-  to {
-    opacity: 0;
-  }
+  from { opacity: 1; }
+  to { opacity: 0; }
 }
 
 .sq.bouncing {
@@ -347,13 +328,8 @@ h3 {
 }
 
 @keyframes zoomIn {
-  from {
-    transform: scale(0);
-  }
-
-  to {
-    transform: scale(1);
-  }
+  from { transform: scale(0); }
+  to { transform: scale(1); }
 }
 
 #board.flipped .sq,
@@ -483,9 +459,6 @@ div#board.hideLabels {
   margin: .5rem;
 }
 
-
-
-
 .noSelect {
   user-select: none;
   -webkit-touch-callout: none;
@@ -494,7 +467,6 @@ div#board.hideLabels {
 }
 
 ul {
-  width: 94%;
   text-align: left;
   margin: 0 auto;
   margin-bottom: 3rem;
@@ -523,7 +495,7 @@ ul li {
   margin-bottom: 1.33rem;
 }
 
-span.key {
+span.key { /* keyboard illustrations */
   font-size: .8em;
   background: rgba(0, 0, 0, .5);
   border: 1px rgba(255, 255, 255, .25) solid;
@@ -545,6 +517,45 @@ span.actionText {
   text-decoration: underline;
   margin: 1rem 0;
   display: block;
+}
+
+#options>div {
+  width: fit-content;
+  margin: 1rem auto;
+  margin-bottom: 2rem;
+  text-align: left;
+  border-radius: .25rem;
+}
+
+input#sfx {
+  appearance: none;
+  -webkit-appearance: none;
+  margin: 0;
+  color: rgba(255, 255, 255, .75);
+  display: inline-block;
+}
+
+input#sfx:checked::before {
+  content: "\f028";
+  color: #c8d5bb;
+}
+
+input#sfx::before {
+  position: relative;
+  vertical-align: middle;
+  font-family: "Font Awesome 5 Free";
+  font-size: 1.25rem;
+  content: "\f6a9";
+  display: inline-block;
+  padding-right: 3px;
+  vertical-align: middle;
+  font-weight: 900;
+  color: dimgray;
+  margin-right: .25em;
+}
+
+#sfxLabel {
+  display: flex;
 }
 
 hr {
