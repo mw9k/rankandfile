@@ -14,24 +14,29 @@ body {
 
 .surface {
   background: #282828;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  outline: 1px rgba(255, 255, 255, .25) solid;
+  /* box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; */
+}
+
+div.surface {
+  border-radius: 2px;
 }
 
 .section {
   width: calc(100% -2rem);
   padding: .5rem 1rem;
-  margin: 1rem 0;
+  margin: 1.3rem 0;
 }
 
 header, footer {
   width: 100%;
-  color: rgba(255, 255, 255, .4);
+  color: rgba(255, 255, 255, .5);
   z-index: 100;
   padding: .5rem 0;
 }
 
 header {
-  margin-bottom: 1rem;
+  margin-bottom: 1.3rem;
 }
 
 header>span {
@@ -99,7 +104,7 @@ h2 {
 }
 
 h3 {
-  color: mediumspringgreen;
+  color: rgba(255, 255, 255, .9);
   font-size: 1.075em;
   font-weight: bold;
   margin: 0;
@@ -157,7 +162,7 @@ h3 {
     background-color: #3b6d3b;
   }
   nav>a:hover {
-    color: mediumspringgreen;
+    color: #c8d5bb;
   }
 }
 
@@ -187,7 +192,7 @@ h3 {
 #streakNo {
   font-size: 2em;
   font-weight: bold;
-  color: mediumspringgreen;
+  color: #c8d5bb;
   margin-left: .25em;
 }
 
@@ -229,12 +234,12 @@ h3 {
   transform-style: flat;
   background-image: url('board.svg');
   background-size: 100%;
-  width: calc(100% - 4px);
+  width: 100%;
   position: relative;
-  font-size: 50px;
-  /* overridden by JS */
+  font-size: 50px;  /* overridden by JS */
   margin: 0;
-  border: 2px white solid;
+  /* width: calc(100% - 4px); */
+  /* border: 2px white solid; */
 }
 
 #board:before {
@@ -531,7 +536,7 @@ input#sfx {
 
 input#sfx:checked::before {
   content: "\f028";
-  color: mediumspringgreen;
+  color: #c8d5bb;
 }
 
 input#sfx::before {
