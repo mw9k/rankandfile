@@ -30,7 +30,7 @@ div.surface {
 
 header, footer {
   width: 100%;
-  color: rgba(255, 255, 255, .5);
+  color: rgba(255, 255, 255, .55);
   z-index: 100;
   padding: .5rem 0;
 }
@@ -173,7 +173,7 @@ h3 {
   align-items: center;
   justify-content: space-evenly;
   padding: .5rem 0;
-  color: rgba(255, 255, 255, .55);
+  color: rgba(255, 255, 255, .6);
 }
 
 #streakContainer>:last-child {
@@ -240,7 +240,8 @@ h3 {
   font-size: 50px;  /* overridden by JS */
   margin: 0;
   /* width: calc(100% - 2px); */
-  outline: 1px white solid;
+  border-top: 1px #121212 solid;
+  border-bottom: 1px #121212 solid;
 }
 
 #board:before {
