@@ -1,7 +1,11 @@
 html {
   font-family: 'DM Sans', sans-serif;
   font-size: 17px;
-  background: #121212;
+background-color: #121212;
+background-color: #121212;
+  background-image: url("https://www.transparenttextures.com/patterns/diagonales-decalees.png");
+  /* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
+  
   color: rgba(255, 255, 255, .75);
 }
 
@@ -89,6 +93,7 @@ i.fa {
 }
 
 #gameArea {
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -119,7 +124,6 @@ h3 {
   justify-content: space-evenly;
   align-items: center;
   padding: 0;
-  padding-top: 1px;
 }
 
 #multiChoice span {
@@ -160,10 +164,10 @@ h3 {
 @media (hover: hover) {
   /* only applies on devices w/ actual hover, preventing issues on mobile */
   #multiChoice span:hover {
-    background-color: #3b6d3b;
+    background-color: #407840;
   }
   nav>a:hover {
-    color: #c8d5bb;
+    color: #2ad081;
   }
 }
 
@@ -193,7 +197,7 @@ h3 {
 #streakNo {
   font-size: 2em;
   font-weight: bold;
-  color: #c8d5bb;
+  color: #2ad081;
   margin-left: .25em;
 }
 
@@ -204,13 +208,8 @@ h3 {
 }
 
 @keyframes bump {
-  from {
-    transform: scale(1);
-  }
-
-  to {
-    transform: scale(1.1);
-  }
+  from { transform: scale(1); }
+  to { transform: scale(1.1); }
 }
 
 #streakNo.bigBump {
@@ -221,13 +220,8 @@ h3 {
 }
 
 @keyframes bigBump {
-  from {
-    transform: scale(1);
-  }
-
-  to {
-    transform: scale(1.4);
-  }
+  from { transform: scale(1); }
+  to { transform: scale(1.4); }
 }
 
 #board {
@@ -238,10 +232,8 @@ h3 {
   width: 100%;
   position: relative;
   font-size: 50px;  /* overridden by JS */
-  margin: 0;
-  /* width: calc(100% - 2px); */
-  border-top: 1px #121212 solid;
-  border-bottom: 1px #121212 solid;
+  margin: 1px 0;
+  outline: 1px #121212 solid;
 }
 
 #board:before {
@@ -538,7 +530,7 @@ input#sfx {
 
 input#sfx:checked::before {
   content: "\f028";
-  color: #c8d5bb;
+  color: #2ad081;
 }
 
 input#sfx::before {
@@ -576,7 +568,7 @@ noscript {
 }
 
 a {
-  color: cornflowerblue;
+  color: #89b3f7;
 }
 
 img {
