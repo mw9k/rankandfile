@@ -1,11 +1,7 @@
 html {
   font-family: 'DM Sans', sans-serif;
   font-size: 17px;
-background-color: #121212;
-background-color: #121212;
-  background-image: url("https://www.transparenttextures.com/patterns/diagonales-decalees.png");
-  /* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
-  
+  background-color: #121212;
   color: rgba(255, 255, 255, .75);
 }
 
