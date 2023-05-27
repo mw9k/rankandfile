@@ -15,7 +15,7 @@ body {
 .surface {
   background: rgba(0, 0, 0, 0.4);
   /* outline: 1px rgba(255, 255, 255, .2) solid; */
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  /* box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; */
 }
 
 div.surface {
