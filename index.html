@@ -34,54 +34,57 @@
       </span>
     </div>
   </header>
-  <div id=centralColumn>
-  <noscript>Your browser does not support JavaScript (required).</noscript>
-
+  <div id="zoomBox" class="noSelect">
+    Board Size:<br>
+    <span id="zoomIn"><i class="fas fa-search-plus actionText"></i></span>
+    <span id="zoomPercent">100%</span>
+    <span id="zoomOut"><i class="fas fa-search-minus actionText"></i></span>
+  </div>
+  <div id="centerCover">&nbsp;</div>
   <div id=gameArea class="surface noSelect">
     <div id="streakContainer">
       <span>Streak:&nbsp;<span id="streakNo">0</span></span>
       <span>Best:&nbsp;<span id="bestNo">0</span></span>
       <span>All Time:&nbsp;<span id="bestEverNo">0</span></span>
-    </div>
-
+    </div>  
     <div id="board" class="noAnim">
       <div id="quadrants" class="hidden"></div>
-      <canvas id="sq1" class="sq bouncing" width="100" height="100"></canvas>
+      <canvas id="sq1" class="sq" width="100" height="100"></canvas>
       <canvas id="sq2" class="sq hider" width="100" height="100"></canvas>
-      <div class="pc white rook"   style="--rank:0; --file:0;"></div>
+      <div class="pc white rook" style="--rank:0; --file:0;"></div>
       <div class="pc white knight" style="--rank:0; --file:1;"></div>
       <div class="pc white bishop" style="--rank:0; --file:2;"></div>
-      <div class="pc white queen"  style="--rank:0; --file:3;"></div>
-      <div class="pc white king"   style="--rank:0; --file:4;"></div>
+      <div class="pc white queen" style="--rank:0; --file:3;"></div>
+      <div class="pc white king" style="--rank:0; --file:4;"></div>
       <div class="pc white bishop" style="--rank:0; --file:5;"></div>
       <div class="pc white knight" style="--rank:0; --file:6;"></div>
-      <div class="pc white rook"   style="--rank:0; --file:7;"></div>
-      <div class="pc white pawn"   style="--rank:1; --file:0;"></div>
-      <div class="pc white pawn"   style="--rank:1; --file:1;"></div>
-      <div class="pc white pawn"   style="--rank:1; --file:2;"></div>
-      <div class="pc white pawn"   style="--rank:1; --file:3;"></div>
-      <div class="pc white pawn"   style="--rank:1; --file:4;"></div>
-      <div class="pc white pawn"   style="--rank:1; --file:5;"></div>
-      <div class="pc white pawn"   style="--rank:1; --file:6;"></div>
-      <div class="pc white pawn"   style="--rank:1; --file:7;"></div>
-      <div class="pc black rook"   style="--rank:7; --file:0;"></div>
+      <div class="pc white rook" style="--rank:0; --file:7;"></div>
+      <div class="pc white pawn" style="--rank:1; --file:0;"></div>
+      <div class="pc white pawn" style="--rank:1; --file:1;"></div>
+      <div class="pc white pawn" style="--rank:1; --file:2;"></div>
+      <div class="pc white pawn" style="--rank:1; --file:3;"></div>
+      <div class="pc white pawn" style="--rank:1; --file:4;"></div>
+      <div class="pc white pawn" style="--rank:1; --file:5;"></div>
+      <div class="pc white pawn" style="--rank:1; --file:6;"></div>
+      <div class="pc white pawn" style="--rank:1; --file:7;"></div>
+      <div class="pc black rook" style="--rank:7; --file:0;"></div>
       <div class="pc black knight" style="--rank:7; --file:1;"></div>
       <div class="pc black bishop" style="--rank:7; --file:2;"></div>
-      <div class="pc black queen"  style="--rank:7; --file:3;"></div>
-      <div class="pc black king"   style="--rank:7; --file:4;"></div>
+      <div class="pc black queen" style="--rank:7; --file:3;"></div>
+      <div class="pc black king" style="--rank:7; --file:4;"></div>
       <div class="pc black bishop" style="--rank:7; --file:5;"></div>
       <div class="pc black knight" style="--rank:7; --file:6;"></div>
-      <div class="pc black rook"   style="--rank:7; --file:7;"></div>
-      <div class="pc black pawn"   style="--rank:6; --file:0;"></div>
-      <div class="pc black pawn"   style="--rank:6; --file:1;"></div>
-      <div class="pc black pawn"   style="--rank:6; --file:2;"></div>
-      <div class="pc black pawn"   style="--rank:6; --file:3;"></div>
-      <div class="pc black pawn"   style="--rank:6; --file:4;"></div>
-      <div class="pc black pawn"   style="--rank:6; --file:5;"></div>
-      <div class="pc black pawn"   style="--rank:6; --file:6;"></div>
-      <div class="pc black pawn"   style="--rank:6; --file:7;"></div>
+      <div class="pc black rook" style="--rank:7; --file:7;"></div>
+      <div class="pc black pawn" style="--rank:6; --file:0;"></div>
+      <div class="pc black pawn" style="--rank:6; --file:1;"></div>
+      <div class="pc black pawn" style="--rank:6; --file:2;"></div>
+      <div class="pc black pawn" style="--rank:6; --file:3;"></div>
+      <div class="pc black pawn" style="--rank:6; --file:4;"></div>
+      <div class="pc black pawn" style="--rank:6; --file:5;"></div>
+      <div class="pc black pawn" style="--rank:6; --file:6;"></div>
+      <div class="pc black pawn" style="--rank:6; --file:7;"></div>
     </div>
-
+  
     <div id="multiChoice">
       <span id="choice1" class="choice"></span>
       <span id="choice2" class="choice"></span>
@@ -89,18 +92,19 @@
       <!-- <span id="choice4" class="choice">b2</span> -->
     </div>
   </div>
-  </noscript>
+  <div id=centralColumn>
+    <noscript>Your browser does not support JavaScript (required).</noscript>
   <div id="options" class="surface section noSelect">
     <h2>Options</h2>
-    <div>
-      <label for="sfx" id="sfxLabel"> 
-        <input type="checkbox" id="sfx" name="sfx"> Sound Effects
+    <div id="optionsContainer">
+      <label id="sfxLabel"> 
+        <input type="checkbox" id="sfx" name="sfx">
+        <span>Sound Effects</span>
       </label>
       <hr>
         <label for="timeLimit" id="timeLimitLabel">Time Limit:</label><br>
-        <input type="range" id="timeLimit" value="5" min="2" max="10">
+        <input type="range" id="timeLimit" value="5" min="1" max="10">
       <hr>
-
       <input type="checkbox" id="flip" name="flip">
       <label for="flip"> Flip Board</label><br>
       <input type="checkbox" id="showQuads" name="showQuads">
@@ -152,8 +156,8 @@
         before looking at the available options.
       </li>
       <li>
-        <h3>Recommended Strategy</h3> Start out in File Only or Rank Only mode to
-        build up intuition. The "Show Quadrants" aid may be helpful at first. 
+        <h3>Recommended Strategy</h3> Start out in File Only or Rank Only mode 
+        to build up intuition. The "Show Quadrants" aid may be helpful at first. 
       </li>
       <li>
         <h3>Privacy</h3> 
@@ -180,7 +184,7 @@
       <li>
         Sound Effects generated using
         <a href="https://sfbgames.itch.io/chiptone" 
-        target="_blank" >Chiptone</a> by Tom Vian.
+        target="_blank" >Chiptone</a> by SFB Games.
       </li>
       <li>
       Alarm clock symbol adapted from Material Design Icons by Google Inc, found at

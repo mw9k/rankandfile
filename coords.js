@@ -2,10 +2,10 @@ let settings = {}, // loaded later
   state = { prevRank:0, prevFile:0, streak:0, best:0, bestEver:0, count:-1,
             wrongCount:0, blockGuessesUntil:0, lastFrameTime:0, focusCount:0,
             lastBlurTime:0 },
-  sfx = { wrong: new Howl({ src: ["wrong.mp3"] }), 
-          right: new Howl({ src: ["right.mp3"] }), 
+  sfx = { wrong: new Howl({ src: ["wrong.wav"] }), 
+          right: new Howl({ src: ["right.wav"] }), 
           timeout: new Howl({ src: ["timeout.mp3"] }), 
-          fanfare: new Howl({ src: ["fanfare.mp3"] }) };
+          fanfare: new Howl({ src: ["fanfare.wav"] }) };
 
 function moveSq() {
   state.count++;
@@ -54,7 +54,8 @@ function generateChoices() {
   // first add correct answer, then generate near-correct wrong answers...
   let correctChoice = constrain(numToFile(state.prevFile), state.prevRank + 1);
   choices.push(correctChoice); 
-  for (let i = 0; i < 10000; i++) { // try up to 10k times
+  let i = 0;
+  while (choices.length < 3 && i < 10000) { // try <10k, as failsafe
     let lockAxis, rndRank, rndFile;
     let maxDist = 3;
     if (settings.constrain == "normal") { 
@@ -78,7 +79,7 @@ function generateChoices() {
     }
     let rndSq = constrain(rndFile, rndRank + 1);
     if (choices.indexOf(rndSq) == -1) choices.push(rndSq);  // add if unique
-    if (choices.length >= 3) break;
+    i++;
   }
   shuffleArray(choices);
   for (let [i, choice] of choices.entries()) {
@@ -86,8 +87,16 @@ function generateChoices() {
   }
 }
 
+function shuffleArray(arr) {
+  // adapted from https://stackoverflow.com/questions/2450954
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+}
+
 function el(elem) {	
-  // custom shortener for document.getElementById()
+  // 'shortcut' for document.getElementById()
   return document.getElementById(elem);
 }
 
@@ -102,7 +111,7 @@ function numToFile(num) {
 }
 
 function makeGuess(guess) {
-  if (state.blockGuessesUntil > Date.now()) return false;
+  if (state.blockGuessesUntil > performance.now()) return false;
   if (!guess.length) return false;
   if (settings.constrain == "rankOnly") { 
     guess = `${numToFile(state.prevFile)}${guess}`;
@@ -121,11 +130,38 @@ function updateStreak(gotRight) {
   if (state.streak > state.best) state.best = state.streak;
   if (state.best > state.bestEver) {
     state.bestEver = state.best;
-    localStorage.setItem("rankFileHiScore", state.bestEver);
+    try {
+      localStorage.setItem("rankFileHiScore", state.bestEver);
+    } catch (e) {
+      console.error(`Error setting high score in localStorage:`, e);
+      alert("An error occurred accessing localStorage.");
+    }
   }
   el("streakNo").textContent = state.streak;
   el("bestNo").textContent = state.best;
   el("bestEverNo").textContent = state.bestEver;
+}
+
+function setLocalStorage(key, value) { 
+   // (with error handling)
+   try {
+     localStorage.setItem(key, value);
+  } catch (e) {
+    console.error(`Error setting ${key} in localStorage:`, e);
+    alert("Something went wrong. LocalStorage may be unavailable, or the" +
+    " storage quota may have been exceeded. Please check your browser" +
+    " settings and try again.");
+  }
+}
+
+function getLocalStorage(key) {
+  // (with error handling)
+  try {
+    return localStorage.getItem(key);
+  } catch (e) {
+    console.error(`Error getting ${key} from localStorage:`, e);
+    return null;
+  }
 }
 
 function processAnswer(gotRight) {
@@ -150,26 +186,26 @@ function processAnswer(gotRight) {
 function startCircleTimer(sq="sq1", delay=300) {
   let canvas = el(sq),
       ctx = canvas.getContext("2d");
-  ctx.strokeStyle = "#BA990D";
-  ctx.lineWidth = 2;
+  ctx.fillStyle = "#BA990D";
   clearCanvas(canvas, ctx);
-  setTimeout(function () {  // small delay before starting timer animation
-    let c = { ticks: 200, startAngle: 270, startTime: Date.now(), drawCount: 0,
-      fullTripMs: settings.timeLimit * 1000, count: state.count,
-      wrongCount: state.wrongCount, focusCount: state.focusCount };
-    c.tickSize = 360 / c.ticks;
-    if (canvas.classList.contains("gotWrong") ||
-        canvas.classList.contains("timeout")) { 
-          return; // prevent drawing over wrong symbol or timeout symbol
-     } 
+  setTimeout(() => {  // small delay before starting timer animation
+    // prevent drawing over BGs, if user button mashes:
+    if (canvas.classList.contains("gotWrong", "gotRight","timeout")) return;
+    let c = { startTime: performance.now(), fullTripMs: settings.timeLimit * 1000,
+      count: state.count, wrongCount: state.wrongCount, drawCount: 0,
+      focusCount: state.focusCount };
     window.requestAnimationFrame(function () { circleStep(canvas, ctx, c) }) 
-  }, delay);
+ }, delay);
 }
 
 function circleStep(canvas, ctx, c) {
-  // formula for point on outer circle, from origin cx, cy:
-  // x = cx + r * cos(a)
-  // y = cy + r * sin(a)
+  // if (c.drawCount % 10 == 0) {
+  //   if (canvas.classList.contains("gotWrong")){
+  //     console.log(canvas.classList);
+  //     clearCanvas(canvas, ctx);
+  //     return; 
+  //   } 
+  // }
   if (!document.hasFocus()) {
     // if animation is running offscreen (esp. Firefox), don't advance timer...
     window.requestAnimationFrame(function () { circleStep(canvas, ctx, c) });
@@ -188,32 +224,34 @@ function circleStep(canvas, ctx, c) {
   if (state.focusCount !== c.focusCount && state.lastBlurTime > c.startTime) {
     // redraw all if window lost focus; to avoid glitchiness...
     clearCanvas(canvas, ctx);
-    c.drawCount = 0;
     c.focusCount = state.focusCount;
     // pick up where left off...
-    c.startTime = Date.now() - (state.lastBlurTime - c.startTime); 
+    c.startTime = performance.now() - (state.lastBlurTime - c.startTime); 
   } 
-  let timeElapsed = Date.now() - c.startTime;
-  if (timeElapsed > c.fullTripMs + 500) {
-    // stop if dramatically over time somehow...
+  let timeElapsed = performance.now() - c.startTime;
+  let progress = timeElapsed / c.fullTripMs;
+  if (timeElapsed > c.fullTripMs) {
     outOfTime(canvas, ctx);
     return;
   }
-  let ticksToDraw = (timeElapsed / c.fullTripMs * c.ticks) - c.drawCount;
-  for (let i = 0; i <= ticksToDraw; i += c.tickSize) {
-    ctx.beginPath();
-    ctx.moveTo(50, 50);
-    var x = 50 + 150 * Math.cos(Math.PI / 180 * (c.drawCount * c.tickSize + c.startAngle));
-    var y = 50 + 150 * Math.sin(Math.PI / 180 * (c.drawCount * c.tickSize + c.startAngle));
-    ctx.lineTo(x, y);
-    ctx.stroke();
-    c.drawCount++;
-    if (timeElapsed > c.fullTripMs && c.drawCount >= c.ticks) {
-      outOfTime(canvas, ctx); 
-      return;
-    }
-  }
-  state.lastFrameTime = Date.now();
+  // formula for point on outer circle, from origin cx, cy:
+  // x = cx + r * cos(a)
+  // y = cy + r * sin(a)
+  let angle = (360 * progress) - 90;
+  var x = 50 + 100 * Math.cos(Math.PI / 180 * angle);
+  var y = 50 + 100 * Math.sin(Math.PI / 180 * angle);
+  ctx.beginPath();
+  ctx.moveTo(50, 50);
+  ctx.lineTo(50, -150);
+  if (angle + 90 > 45) ctx.lineTo(150, -50);
+  if (angle + 90 > 135) ctx.lineTo(150, 150);
+  if (angle + 90 > 225) ctx.lineTo(-50, 150);
+  if (angle + 90 > 315) ctx.lineTo(-50, -50);
+  ctx.lineTo(x, y);
+  ctx.closePath();
+  ctx.fill();
+  state.lastFrameTime = performance.now();
+  c.drawCount++;
   window.requestAnimationFrame(function () { circleStep(canvas, ctx, c) });
 }
 
@@ -222,7 +260,7 @@ function outOfTime(canvas, ctx){
   updateStreak(false);
   state.wrongCount++;
   reanimate(canvas.id, "timeout");
-  state.blockGuessesUntil = Date.now() + 600;
+  state.blockGuessesUntil = performance.now() + 600;
   if (state.count < 0) {
     // loop the animation; on initial load only
     setTimeout(function () {
@@ -249,11 +287,25 @@ window.addEventListener("load", (event) => {
   let allChoices = document.getElementsByClassName("choice");
   for (let choice of allChoices) {
     choice.addEventListener("click", function () {
-      if (state.blockGuessesUntil > Date.now()) return false;
+      if (state.blockGuessesUntil > performance.now()) return false;
       let gotRight = makeGuess(choice.textContent);
       reanimate(choice.id, "clickedDown");
     });
   }
+  el("zoomIn").addEventListener("click", function (e) {
+    zoom(1);
+    saveSettings();
+  });
+  el("zoomOut").addEventListener("click", function (e) {
+    zoom(-1);
+    saveSettings();
+  });
+  el("resetHiScore").addEventListener("click", function (e) {
+     resetHiScore();
+  });
+  el("resetSettings").addEventListener("click", function (e) {
+    resetSettings(true, true);
+  });
   document.addEventListener("click", function (e) {
     let target = e.target.dataset.target;
     if (target !== undefined) {
@@ -275,14 +327,11 @@ window.addEventListener("load", (event) => {
       settings[e.target.id] = e.target.checked;
       saveSettings();
     }
-    if (e.target.id == "resetHiScore") resetHiScore();
-    if (e.target.id == "resetSettings") resetSettings(true, true);
   });
-  document.addEventListener("input", function(e) {
-    if (e.target.id == "timeLimit") {
-      settings.timeLimit = e.target.value;
-      saveSettings();
-    }
+  el("timeLimit").addEventListener("input", function(e) {
+    settings.timeLimit = Number(e.target.value);
+    if (settings.timeLimit == 1) settings.timeLimit = 1.5;
+    saveSettings();
   });
   document.addEventListener("keypress", function (e) {
     if (e.key == "A" || e.key == "a" || e.key == "1") {
@@ -296,13 +345,13 @@ window.addEventListener("load", (event) => {
   window.addEventListener("focus", function (e) {
     // clear animations on window refocus to prevent oddities...
     state.focusCount++;
-    if (Date.now() - state.lastFrameTime > settings.timeLimit * 1000) {
+    if (this.performance.now() - state.lastFrameTime > settings.timeLimit * 1000) {
       clearCanvas(el("sq1"));
       clearCanvas(el("sq2"));
     }
   });
   window.addEventListener("blur", function (e) {
-    state.lastBlurTime = Date.now();
+    state.lastBlurTime = this.performance.now();
   });
   generateChoices();
   startCircleTimer("sq1", 100);
@@ -311,22 +360,14 @@ window.addEventListener("load", (event) => {
   }, true);
 });
 
-function shuffleArray(arr) { 
-  // adapted from https://stackoverflow.com/questions/2450954
-  for (let i = arr.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [arr[i], arr[j]] = [arr[j], arr[i]];
-  }
-}
-
 function loadSettings(firstLoad) {
   let loaded = JSON.parse(localStorage.getItem("rankFileSettings"));
-  if (loaded && loaded.exists) {  
+  if (loaded && loaded.exists) {
     for (const p in loaded) {
       // load one property at a time, so future additions won't break saves
       settings[p] = loaded[p];
-    }    
-  }  
+    }
+  }
   applySettings(firstLoad);
 }
 
@@ -346,8 +387,10 @@ function applySettings(firstLoad) {
   }
   if (settings.timeLimit) {
     if (el("timeLimit")) {
-      el("timeLimit").value = settings.timeLimit;
-      el("timeLimitLabel").innerHTML = `Time Limit: ${el("timeLimit").value}s`;
+      let timeLimit = Math.floor(settings.timeLimit);
+      el("timeLimit").value = timeLimit;
+      if (timeLimit == 1) timeLimit = 1.5;
+      el("timeLimitLabel").innerHTML = `Time Limit: ${timeLimit}s`;
     }
   }
   if (settings.flip) {
@@ -363,6 +406,15 @@ function applySettings(firstLoad) {
     if (el(settings.showPcs)) {
       el(settings.showPcs).checked = true;
     }
+  }
+  if (settings.zoom) {
+    const zoomLevel = Math.round(65 * settings.zoom);
+    if (zoomLevel > 300 || zoomLevel < 15) return;
+    let zoomPercent = Math.round(100 *(settings.zoom));
+    el("zoomPercent").textContent = `${zoomPercent}%`;
+    el("gameArea").style.width = `${zoomLevel}vh`;
+    el("centerCover").style.width = `${zoomLevel}vh`;
+    resizeElements();
   }
   if (settings.showLabels) {
     el("board").classList.remove("hideLabels");
@@ -389,7 +441,12 @@ function resetCurrentScore() {
 function resetHiScore() {
   if (confirm(`Are you sure you want to erase your 'All Time' Best Score?`)) {
     state.bestEver = 0;
-    localStorage.setItem("rankFileHiScore", state.bestEver);
+    try {
+      localStorage.setItem("rankFileHiScore", state.bestEver);
+    } catch (e) {
+      console.error(`Error setting high score in localStorage:`, e);
+      alert("An error occurred accessing localStorage.");
+    }
     el("bestEverNo").textContent = state.bestEver;
   }
 }
@@ -400,7 +457,8 @@ function resetSettings(andSave = false, askConfirm = false) {
   }
   settings = {
     exists: true, showQuads: false, flip: false, showPcs: "allPcs",
-    constrain: "normal", sfx: true, showLabels: true, timeLimit: "5"
+    constrain: "normal", sfx: true, showLabels: true, timeLimit: "5",
+    zoom: 1
   };
   if (andSave) saveSettings();
 }
@@ -409,6 +467,11 @@ function playSound(sound) {
   if (settings.sfx) {
     sfx[sound].play();
   }
+}
+
+function zoom(direction) {  // 1 or -1
+  const stepSize = ((100 / 65) - 1) / 8;  // assuming 65vh width & 8 steps
+  settings.zoom += (stepSize * direction);
 }
 
 function resizeElements() {
