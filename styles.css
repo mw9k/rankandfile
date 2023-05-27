@@ -37,7 +37,7 @@ header, footer {
 }
 
 header {
-  margin-bottom: 1.3rem;
+  margin-bottom: 2rem;
 }
 
 header>span {
@@ -615,6 +615,10 @@ a {
   color: #89b3f7;
 }
 
-img {
-  opacity: .1;
+.preload {
+  position: absolute;
+  top: -9999px;
+  left: -9999px;
+  width: 0;
+  height: 0;
 }
