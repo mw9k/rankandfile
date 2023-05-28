@@ -9,8 +9,8 @@
   <meta name="description"
     content="A training game to help improve your recognition of chessboard coordinates.">
   <title>Coordinates Training</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
-  <script src="coords.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js" defer></script>
+  <script src="coords.js" defer></script>
   <link rel="stylesheet" href="styles.css?v=1.0">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -208,12 +208,12 @@
   </div>
 
   <!-- preload svg backgrounds...  -->
-  <image src="board.svg" width="1" height="1" border="0">
-  <image src="board_flipped.svg" width="1" height="1" border="0">
-  <image src="board_no_labels.svg" width="1" height="1" border="0">
-  <image src="wrong.svg" width="1" height="1" border="0">
-  <image src="right.svg" width="1" height="1" border="0">
-  <image src="timeout.svg" width="1" height="1" border="0">
+  <img class="preload" src="board.svg" width="1" height="1" border="0" alt="preloading for background image.">
+  <img class="preload" src="board_flipped.svg" width="1" height="1" border="0" alt="preloading for background image.">
+  <img class="preload" src="board_no_labels.svg" width="1" height="1" border="0" alt="preloading for background image.">
+  <img class="preload" src="wrong.svg" width="1" height="1" border="0" alt="preloading for background image.">
+  <img class="preload" src="right.svg" width="1" height="1" border="0" alt="preloading for background image.">
+  <img class="preload" src="timeout.svg" width="1" height="1" border="0" alt="preloading for background image.">
   </div>
 
   <footer class="surface">

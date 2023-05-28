@@ -287,11 +287,15 @@ window.addEventListener("load", (event) => {
   let allChoices = document.getElementsByClassName("choice");
   for (let choice of allChoices) {
     choice.addEventListener("click", function () {
+      el("gameArea").scrollIntoView({ behavior: "smooth", block: "center" });
       if (state.blockGuessesUntil > performance.now()) return false;
       let gotRight = makeGuess(choice.textContent);
       reanimate(choice.id, "clickedDown");
     });
   }
+  el("board").addEventListener("click", function (e) {
+    el("gameArea").scrollIntoView({ behavior: "smooth", block: "center" });
+  });
   el("zoomIn").addEventListener("click", function (e) {
     zoom(1);
     saveSettings();
