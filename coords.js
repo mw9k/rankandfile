@@ -4,7 +4,7 @@ let settings = {}, // loaded later
             lastBlurTime:0 },
   sfx = { wrong: new Howl({ src: ["wrong.wav"] }), 
           right: new Howl({ src: ["right.wav"] }), 
-          timeout: new Howl({ src: ["timeout.mp3"] }), 
+          timeout: new Howl({ src: ["timeout.wav"] }), 
           fanfare: new Howl({ src: ["fanfare.wav"] }) };
 
 function moveSq() {
@@ -189,23 +189,23 @@ function startCircleTimer(sq="sq1", delay=300) {
   ctx.fillStyle = "#BA990D";
   clearCanvas(canvas, ctx);
   setTimeout(() => {  // small delay before starting timer animation
-    // prevent drawing over BGs, if user button mashes:
-    if (canvas.classList.contains("gotWrong", "gotRight","timeout")) return;
-    let c = { startTime: performance.now(), fullTripMs: settings.timeLimit * 1000,
-      count: state.count, wrongCount: state.wrongCount, drawCount: 0,
-      focusCount: state.focusCount };
-    window.requestAnimationFrame(function () { circleStep(canvas, ctx, c) }) 
+    let c = { 
+      startTime: performance.now(), fullTripMs: settings.timeLimit * 1000,
+      focusCount: state.focusCount, count: state.count, 
+      wrongCount: state.wrongCount, drawCount: 0 
+    };
+    const sqCurrent = (state.count % 2) ? "sq1" : "sq2";
+    if (sqCurrent !== canvas.id) {
+      return; // if delay causes mismatch
+    } else {
+      canvas.classList.remove("gotWrong", "timeout", "gotRight");
+      window.requestAnimationFrame(function () { circleStep(canvas, ctx, c) });
+    }
  }, delay);
 }
 
 function circleStep(canvas, ctx, c) {
-  // if (c.drawCount % 10 == 0) {
-  //   if (canvas.classList.contains("gotWrong")){
-  //     console.log(canvas.classList);
-  //     clearCanvas(canvas, ctx);
-  //     return; 
-  //   } 
-  // }
+  let sqCurrent = (state.count % 2) ? "sq1" : "sq2";
   if (!document.hasFocus()) {
     // if animation is running offscreen (esp. Firefox), don't advance timer...
     window.requestAnimationFrame(function () { circleStep(canvas, ctx, c) });
@@ -213,7 +213,7 @@ function circleStep(canvas, ctx, c) {
   }
   if (state.count !== c.count ||             // stop if already guessed
       state.wrongCount !== c.wrongCount) {   // stop if got wrong
-    clearCanvas(canvas, ctx);
+    stopDrawing(canvas, ctx);
     return; 
   } 
   if (settings.timeLimit * 1000 != c.fullTripMs) {
@@ -231,7 +231,8 @@ function circleStep(canvas, ctx, c) {
   let timeElapsed = performance.now() - c.startTime;
   let progress = timeElapsed / c.fullTripMs;
   if (timeElapsed > c.fullTripMs) {
-    outOfTime(canvas, ctx);
+    stopDrawing(canvas, ctx);
+    outOfTime(canvas);
     return;
   }
   // formula for point on outer circle, from origin cx, cy:
@@ -255,8 +256,11 @@ function circleStep(canvas, ctx, c) {
   window.requestAnimationFrame(function () { circleStep(canvas, ctx, c) });
 }
 
-function outOfTime(canvas, ctx){
+function stopDrawing(canvas, ctx){
   clearCanvas(canvas, ctx);
+}
+
+function outOfTime(canvas){
   updateStreak(false);
   state.wrongCount++;
   reanimate(canvas.id, "timeout");
