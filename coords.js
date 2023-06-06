@@ -1,7 +1,7 @@
 let settings = {}, // loaded later
   state = { prevRank:0, prevFile:0, streak:0, best:0, bestEver:0, count:-1,
             wrongCount:0, blockGuessesUntil:0, lastFrameTime:0, focusCount:0,
-            lastBlurTime:0 },
+            lastBlurTime:0, prevWasWrong:false },
   sfx = { wrong: new Howl({ src: ["wrong.wav"] }), 
           right: new Howl({ src: ["right.wav"] }), 
           timeout: new Howl({ src: ["timeout.wav"] }), 
@@ -130,32 +130,24 @@ function updateStreak(gotRight) {
   if (state.streak > state.best) state.best = state.streak;
   if (state.best > state.bestEver) {
     state.bestEver = state.best;
-    try {
-      localStorage.setItem("rankFileHiScore", state.bestEver);
-    } catch (e) {
-      console.error(`Error setting high score in localStorage:`, e);
-      alert("An error occurred accessing localStorage.");
-    }
+    setLocalStorage("rankFileHiScore", state.bestEver);
   }
   el("streakNo").textContent = state.streak;
   el("bestNo").textContent = state.best;
   el("bestEverNo").textContent = state.bestEver;
 }
 
-function setLocalStorage(key, value) { 
-   // (with error handling)
-   try {
-     localStorage.setItem(key, value);
+function setLocalStorage(key, value) {
+  try {
+    localStorage.setItem(key, value);
   } catch (e) {
     console.error(`Error setting ${key} in localStorage:`, e);
-    alert("Something went wrong. LocalStorage may be unavailable, or the" +
-    " storage quota may have been exceeded. Please check your browser" +
-    " settings and try again.");
+    alert("Something went wrong. LocalStorage may be unavailable or " +
+      "full. Please check your browser settings and try again.");
   }
 }
 
 function getLocalStorage(key) {
-  // (with error handling)
   try {
     return localStorage.getItem(key);
   } catch (e) {
@@ -165,6 +157,7 @@ function getLocalStorage(key) {
 }
 
 function processAnswer(gotRight) {
+  state.prevWasWrong = !gotRight;
   if (gotRight) {
     if (state.streak % 5) {
       playSound("right");
@@ -195,8 +188,10 @@ function startCircleTimer(sq="sq1", delay=300) {
       wrongCount: state.wrongCount, drawCount: 0 
     };
     const sqCurrent = (state.count % 2) ? "sq1" : "sq2";
-    if (sqCurrent !== canvas.id) {
-      return; // if delay causes mismatch
+    if (state.prevWasWrong) {   // possible if button mashing
+      canvas.classList.add("gotWrong");
+    } else if (sqCurrent !== canvas.id) {
+      return; // avoid starting multiple timers; possible if button mashing
     } else {
       canvas.classList.remove("gotWrong", "timeout", "gotRight");
       window.requestAnimationFrame(function () { circleStep(canvas, ctx, c) });
@@ -286,7 +281,7 @@ window.addEventListener("load", (event) => {
   resizeElements();
   resetSettings();
   loadSettings(true);  
-  state.bestEver = localStorage.getItem("rankFileHiScore");
+  state.bestEver = getLocalStorage("rankFileHiScore");
   el("bestEverNo").textContent = state.bestEver;
   let allChoices = document.getElementsByClassName("choice");
   for (let choice of allChoices) {
@@ -353,7 +348,8 @@ window.addEventListener("load", (event) => {
   window.addEventListener("focus", function (e) {
     // clear animations on window refocus to prevent oddities...
     state.focusCount++;
-    if (this.performance.now() - state.lastFrameTime > settings.timeLimit * 1000) {
+    const limitMs = settings.timeLimit * 1000;
+    if (this.performance.now() - state.lastFrameTime > limitMs) {
       clearCanvas(el("sq1"));
       clearCanvas(el("sq2"));
     }
@@ -369,7 +365,7 @@ window.addEventListener("load", (event) => {
 });
 
 function loadSettings(firstLoad) {
-  let loaded = JSON.parse(localStorage.getItem("rankFileSettings"));
+  let loaded = JSON.parse(getLocalStorage("rankFileSettings"));
   if (loaded && loaded.exists) {
     for (const p in loaded) {
       // load one property at a time, so future additions won't break saves
@@ -380,7 +376,7 @@ function loadSettings(firstLoad) {
 }
 
 function saveSettings() {
-  localStorage.setItem("rankFileSettings", JSON.stringify(settings));
+  setLocalStorage("rankFileSettings", JSON.stringify(settings));
   applySettings();
 }
 
@@ -449,12 +445,7 @@ function resetCurrentScore() {
 function resetHiScore() {
   if (confirm(`Are you sure you want to erase your 'All Time' Best Score?`)) {
     state.bestEver = 0;
-    try {
-      localStorage.setItem("rankFileHiScore", state.bestEver);
-    } catch (e) {
-      console.error(`Error setting high score in localStorage:`, e);
-      alert("An error occurred accessing localStorage.");
-    }
+    setLocalStorage("rankFileHiScore", state.bestEver);
     el("bestEverNo").textContent = state.bestEver;
   }
 }

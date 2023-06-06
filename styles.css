@@ -14,8 +14,6 @@ body {
 
 .surface {
   background: rgba(0, 0, 0, 0.4);
-  /* outline: 1px rgba(255, 255, 255, .2) solid; */
-  /* box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; */
 }
 
 div.surface {
@@ -185,18 +183,10 @@ h3 {
 }
 
 @keyframes clickAnim {
-  0% {
-    transform: scale(1);
-  }
-  
-  50% {
-    transform: scale(0.93);
-  }
-  
-  100% {
-    transform: scale(1);
-  }
-}
+  0% { transform: scale(1); }
+  50% { transform: scale(0.93); }
+  100% { transform: scale(1); }
+ }
 
 /* @media (hover: hover) { */
   /* only applies on devices w/ actual hover, preventing issues on mobile */
@@ -271,12 +261,11 @@ h3 {
   background-image: url('board.svg');
   background-size: 100%;
   width: calc(100% - 4px);
-  /* width: 100%; */
   position: relative;
   left: 2px;
   font-size: 50px;  /* overridden by JS */
   margin: 2px 0;
-  outline: 2px rgba(0, 0, 0, .95) solid;
+  outline: 2px #0c0d0e solid;
 }
 
 #board:before {
