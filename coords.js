@@ -2,10 +2,10 @@ let settings = {}, // loaded later
   state = { prevRank:0, prevFile:0, streak:0, best:0, bestEver:0, count:-1,
             wrongCount:0, blockGuessesUntil:0, lastFrameTime:0, focusCount:0,
             lastBlurTime:0, prevWasWrong:false },
-  sfx = { wrong: new Howl({ src: ["wrong.wav"] }), 
-          right: new Howl({ src: ["right.wav"] }), 
-          timeout: new Howl({ src: ["timeout.wav"] }), 
-          fanfare: new Howl({ src: ["fanfare.wav"] }) };
+  sfx = { wrong: new Howl({ src: ["wrong.mp3"] }), 
+          right: new Howl({ src: ["right.mp3"] }), 
+          timeout: new Howl({ src: ["timeout.mp3"] }), 
+          fanfare: new Howl({ src: ["fanfare.mp3"] }) };
 
 function moveSq() {
   state.count++;
