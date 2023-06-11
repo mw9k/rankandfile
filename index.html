@@ -8,6 +8,13 @@
   <meta name="keywords" content="chess, coordinates, training">
   <meta name="description"
     content="A training game to help improve your recognition of chessboard coordinates.">
+
+  <meta property="og:title" content="Coordinates Training">
+  <meta property="og:description" content="A training game to help improve your recognition of chessboard coordinates.">
+  <meta property="og:image" content="https://mw9k.github.io/rankandfile/preview.png">
+  <meta property="og:url" content="https://mw9k.github.io/rankandfile/">
+  <meta property="og:type" content="website">
+
   <title>Coordinates Training</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js" defer></script>
   <script src="coords.js" defer></script>
@@ -18,7 +25,7 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/all.min.css"
     integrity="sha512-BnbUDfEUfV0Slx6TunuB042k9tuKe3xrD6q4mg5Ed72LTgzDIcLPxg6yI2gcMFRyomt+yJJxE+zJwNmxki6/RA=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
+    crossorigin="anonymous" referrerpolicy="no-referrer">
 </head>
 
 <body>
@@ -45,7 +52,7 @@
     <div id="streakContainer">
       <span>Streak:&nbsp;<span id="streakNo">0</span></span>
       <span>Best:&nbsp;<span id="bestNo">0</span></span>
-      <span>All Time:&nbsp;<span id="bestEverNo">0</span></span>
+    <span>All Time:&nbsp;<span id="bestEverNo">0</span></span>
     </div>  
     <div id="board" class="noAnim">
       <div id="quadrants" class="hidden"></div>
@@ -152,8 +159,8 @@
         to make a multiple choice selection.
       </li>
       <li>
-        <h3>No Peeking</h3> For best results, try to formulate your guess
-        before looking at the available options.
+        <h3>No Peeking</h3> For best results,
+         try to formulate your guess before looking at the available options.
       </li>
       <li>
         <h3>Recommended Strategy</h3> Start out in File Only or Rank Only mode 
@@ -214,6 +221,7 @@
   <img class="preload" src="wrong.svg" width="1" height="1" border="0" alt="preloading for background image.">
   <img class="preload" src="right.svg" width="1" height="1" border="0" alt="preloading for background image.">
   <img class="preload" src="timeout.svg" width="1" height="1" border="0" alt="preloading for background image.">
+  
   </div>
 
   <footer class="surface">

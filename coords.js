@@ -1,22 +1,21 @@
 let settings = {}, // loaded later
-  state = { prevRank:0, prevFile:0, streak:0, best:0, bestEver:0, count:-1,
-            wrongCount:0, blockGuessesUntil:0, lastFrameTime:0, focusCount:0,
-            lastBlurTime:0, prevWasWrong:false },
+  state = { currentRank:0, currentFile:0, streak:0, best:0, bestEver:0, 
+            count:-1, wrongCount:0, blockGuessesUntil:0, lastFrameTime:0,
+            focusCount:0, lastBlurTime:0, prevWasWrong:false },
   sfx = { wrong: new Howl({ src: ["wrong.mp3"] }), 
           right: new Howl({ src: ["right.mp3"] }), 
           timeout: new Howl({ src: ["timeout.mp3"] }), 
           fanfare: new Howl({ src: ["fanfare.mp3"] }) };
 
 function moveSq() {
+  // choose a new random square and move the circle timer to it
   state.count++;
-  chosenFile = diffRndInt(0, 7, state.prevFile);
-  chosenRank = diffRndInt(0, 7, state.prevRank);
-  state.prevFile = chosenFile;
-  state.prevRank = chosenRank;
+  state.currentFile = diffRndInt(0, 7, state.currentFile);
+  state.currentRank = diffRndInt(0, 7, state.currentRank);
   let sqOld = (state.count % 2) ? "sq2" : "sq1";
   let sqNew = (state.count % 2) ? "sq1" : "sq2";
-  el(sqNew).style.setProperty("--file", chosenFile);
-  el(sqNew).style.setProperty("--rank", chosenRank);
+  el(sqNew).style.setProperty("--file", state.currentFile);
+  el(sqNew).style.setProperty("--rank", state.currentRank);
   reanimate(sqOld, "gotRight", "sq");
   reanimate(sqNew, "zoomIn", "sq");
   startCircleTimer(sqNew);
@@ -27,7 +26,7 @@ function diffRndInt(lBound, uBound, prevRnd) {
   // choose a random int different from previous choice
   // bounds are 'inclusive'
   let newRnd;
-  if (prevRnd > uBound || prevRnd < lBound) { // if prev rnd not within bounds 
+  if (prevRnd > uBound || prevRnd < lBound) { // if prev rnd outside of bounds 
     newRnd = rndIntInRange(lBound, uBound);   // straightforward rndIntInRange
   } else {
     newRnd = rndIntInRange(lBound, uBound - 1); // otherwise, reduce range by 1
@@ -50,39 +49,33 @@ function reanimate(elem, className, resetTo) {
 }
 
 function generateChoices() {
-  let choices = []; 
-  // first add correct answer, then generate near-correct wrong answers...
-  let correctChoice = constrain(numToFile(state.prevFile), state.prevRank + 1);
-  choices.push(correctChoice); 
-  let i = 0;
-  while (choices.length < 3 && i < 10000) { // try <10k, as failsafe
-    let lockAxis, rndRank, rndFile;
-    let maxDist = 3;
-    if (settings.constrain == "normal") { 
-      maxDist = 1;
-      lockAxis = (Math.random() < .5) ? "x" : "y"; // lock either axis
-    } 
-    let lBound = (state.prevRank - maxDist >= 0) ? state.prevRank - maxDist : 0;
-    let uBound = (state.prevRank + maxDist <= 7) ? state.prevRank + maxDist : 7;
-    // pseudorandomly select a file (x-axis coordinate):
-    if (lockAxis == "x") {
-      rndFile = numToFile(state.prevFile); // if locked axis, use actual answer
-    } else {
-      rndFile = rndIntInRange(lBound, uBound);
-      rndFile = numToFile(rndFile);
-    }
-    // pseudorandomly select a rank (y-axis coordinate):
-    if (lockAxis == "y") {
-      rndRank = state.prevRank; // if locked axis, use actual answer
-    } else {
-      rndRank = rndIntInRange(lBound, uBound);
-    }
-    let rndSq = constrain(rndFile, rndRank + 1);
-    if (choices.indexOf(rndSq) == -1) choices.push(rndSq);  // add if unique
-    i++;
+  // generates near-correct wrong answers
+  const maxDist = (settings.constrain == "normal") ? 2 : 3;
+  let correctSq = [state.currentFile, state.currentRank];
+  let candidateSqs = [];
+  for (let i = 0; i < 8; i++) {  // build array of every sq on same rank or file
+    if (settings.constrain != "fileOnly") candidateSqs.push([correctSq[0], i]);  
+    if (settings.constrain != "rankOnly") candidateSqs.push([i, correctSq[1]]);  
   }
-  shuffleArray(choices);
-  for (let [i, choice] of choices.entries()) {
+  // cull unwanted sqs...
+  let keepSqs = []; 
+  for (let sq of candidateSqs) {  
+    let include = true;
+    // exclude actual correct sq (should be present twice)
+    if (sq[0] == correctSq[0] && sq[1] == correctSq[1]) include = false;
+    // exclude sqs that are too distant from the correct sq...
+    if (Math.abs(sq[0] - correctSq[0]) > maxDist ) include = false;
+    if (Math.abs(sq[1] - correctSq[1]) > maxDist ) include = false;
+    let keepSq = constrain(numToFile(sq[0]), sq[1] + 1);
+    if (include) keepSqs.push(keepSq);
+  }
+  shuffleArray(keepSqs);
+  keepSqs.splice(2);  // shorten the array to 2 near-correct options
+  let rndPos = rndIntInRange(0, 2); // random positon to insert correct option
+  correctSq = constrain(numToFile(correctSq[0]), correctSq[1] + 1);
+  keepSqs.splice(rndPos, 0, correctSq); // add the actually correct option
+  // apply options to button elements...
+  for (let [i, choice] of keepSqs.entries()) {
     el(`choice${i + 1}`).textContent = choice;
   }
 }
@@ -93,6 +86,13 @@ function shuffleArray(arr) {
     const j = Math.floor(Math.random() * (i + 1));
     [arr[i], arr[j]] = [arr[j], arr[i]];
   }
+}
+
+function measureExecutionTime(fn) {
+  // for debug: returns execution time of a given function
+  console.time('Execution time');
+  fn();
+  console.timeEnd('Execution time');
 }
 
 function el(elem) {	
@@ -111,16 +111,23 @@ function numToFile(num) {
 }
 
 function makeGuess(guess) {
-  if (state.blockGuessesUntil > performance.now()) return false;
+  if (state.blockGuessesUntil > performance.now()) {
+    return false; // honour delay until guesses are allowed
+  } 
+  el("gameArea").scrollIntoView(  // ensure game is on screen while playing
+    { behavior: "smooth", block: "center" }
+  );
   if (!guess.length) return false;
-  if (settings.constrain == "rankOnly") { 
-    guess = `${numToFile(state.prevFile)}${guess}`;
+  if (settings.constrain == "rankOnly") {
+    // auto-add missing portion of guess when using constrained modes...
+    guess = `${numToFile(state.currentFile)}${guess}`;
   } else if (settings.constrain == "fileOnly") {
-    guess += state.prevRank + 1;
+    guess += state.currentRank + 1;
   }
   let guessRank = parseInt(guess[1] - 1);
   let guessFile = guess[0].toLowerCase().charCodeAt(0) - 97;
-  let gotRight = (guessRank == state.prevRank && guessFile == state.prevFile);
+  let gotRight = ( guessRank == state.currentRank && 
+                   guessFile == state.currentFile );
   updateStreak(gotRight);
   processAnswer(gotRight);
 }
@@ -157,12 +164,12 @@ function getLocalStorage(key) {
 }
 
 function processAnswer(gotRight) {
-  state.prevWasWrong = !gotRight;
+  state.prevWasWrong = !gotRight; // true if got wrong
   if (gotRight) {
     if (state.streak % 5) {
       playSound("right");
       reanimate("streakNo", "bump", "bump");
-    } else {
+    } else {  // special animation every N correct answers
       playSound("fanfare");
       reanimate("streakNo", "bigBump", "bigBump");
     }
@@ -177,16 +184,15 @@ function processAnswer(gotRight) {
 }
 
 function startCircleTimer(sq="sq1", delay=300) {
+  // initiates the "circle timer" sweep animation
   let canvas = el(sq),
       ctx = canvas.getContext("2d");
   ctx.fillStyle = "#BA990D";
   clearCanvas(canvas, ctx);
+  let cData = { fullTripMs: settings.timeLimit * 1000, count: state.count, 
+    focusCount: state.focusCount, wrongCount: state.wrongCount, drawCount: 0 };
   setTimeout(() => {  // small delay before starting timer animation
-    let c = { 
-      startTime: performance.now(), fullTripMs: settings.timeLimit * 1000,
-      focusCount: state.focusCount, count: state.count, 
-      wrongCount: state.wrongCount, drawCount: 0 
-    };
+    cData.startTime = performance.now()
     const sqCurrent = (state.count % 2) ? "sq1" : "sq2";
     if (state.prevWasWrong) {   // possible if button mashing
       canvas.classList.add("gotWrong");
@@ -194,42 +200,55 @@ function startCircleTimer(sq="sq1", delay=300) {
       return; // avoid starting multiple timers; possible if button mashing
     } else {
       canvas.classList.remove("gotWrong", "timeout", "gotRight");
-      window.requestAnimationFrame(function () { circleStep(canvas, ctx, c) });
+      window.requestAnimationFrame(function () { 
+        circleStep(canvas, ctx, cData) 
+      });
     }
  }, delay);
 }
 
-function circleStep(canvas, ctx, c) {
+function circleStep(canvas, ctx, cData) {
+  // (performs a portion of the circle timer's sweep animation)
   let sqCurrent = (state.count % 2) ? "sq1" : "sq2";
   if (!document.hasFocus()) {
     // if animation is running offscreen (esp. Firefox), don't advance timer...
-    window.requestAnimationFrame(function () { circleStep(canvas, ctx, c) });
+    window.requestAnimationFrame(function () { 
+      circleStep(canvas, ctx, cData) 
+    });
     return;
   }
-  if (state.count !== c.count ||             // stop if already guessed
-      state.wrongCount !== c.wrongCount) {   // stop if got wrong
+  if (state.count !== cData.count ||             // stop if already guessed
+      state.wrongCount !== cData.wrongCount) {   // stop if got wrong
     stopDrawing(canvas, ctx);
     return; 
   } 
-  if (settings.timeLimit * 1000 != c.fullTripMs) {
+  if (settings.timeLimit * 1000 != cData.fullTripMs) {
     // restart if settings changed mid-rotate...
     startCircleTimer(canvas.id, 100);
     return;
   }
-  if (state.focusCount !== c.focusCount && state.lastBlurTime > c.startTime) {
+  if (
+    state.focusCount !== cData.focusCount &&
+    state.lastBlurTime > cData.startTime
+  ) {
     // redraw all if window lost focus; to avoid glitchiness...
     clearCanvas(canvas, ctx);
-    c.focusCount = state.focusCount;
+    cData.focusCount = state.focusCount;
     // pick up where left off...
-    c.startTime = performance.now() - (state.lastBlurTime - c.startTime); 
+    let adjusted = performance.now() - (state.lastBlurTime - cData.startTime); 
+    cData.startTime = adjusted;
   } 
-  let timeElapsed = performance.now() - c.startTime;
-  let progress = timeElapsed / c.fullTripMs;
-  if (timeElapsed > c.fullTripMs) {
+  let timeElapsed = performance.now() - cData.startTime;
+  let progress = timeElapsed / cData.fullTripMs;
+  if (timeElapsed > cData.fullTripMs) {
     stopDrawing(canvas, ctx);
     outOfTime(canvas);
     return;
   }
+  drawCirclePortion(canvas, ctx, cData, progress);  // the actual drawing
+}
+
+function drawCirclePortion(canvas, ctx, cData, progress) {
   // formula for point on outer circle, from origin cx, cy:
   // x = cx + r * cos(a)
   // y = cy + r * sin(a)
@@ -247,8 +266,9 @@ function circleStep(canvas, ctx, c) {
   ctx.closePath();
   ctx.fill();
   state.lastFrameTime = performance.now();
-  c.drawCount++;
-  window.requestAnimationFrame(function () { circleStep(canvas, ctx, c) });
+  cData.drawCount++;
+  // continue the animation (call the next step in the recursion)...
+  window.requestAnimationFrame(function () { circleStep(canvas, ctx, cData) });
 }
 
 function stopDrawing(canvas, ctx){
@@ -277,19 +297,19 @@ function clearCanvas(canvas, ctx = canvas.getContext("2d")) {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 
-window.addEventListener("load", (event) => {
-  resizeElements();
+window.addEventListener("DOMContentLoaded", (event) => {
+  // when DOM is ready, but before images & stylesheets etc loaded
+  generateChoices();
   resetSettings();
-  loadSettings(true);  
+  loadSettings(true);
   state.bestEver = getLocalStorage("rankFileHiScore");
   el("bestEverNo").textContent = state.bestEver;
+
   let allChoices = document.getElementsByClassName("choice");
   for (let choice of allChoices) {
     choice.addEventListener("click", function () {
-      el("gameArea").scrollIntoView({ behavior: "smooth", block: "center" });
-      if (state.blockGuessesUntil > performance.now()) return false;
       let gotRight = makeGuess(choice.textContent);
-      reanimate(choice.id, "clickedDown");
+      reanimate(choice.id, "clickedDown");  
     });
   }
   el("board").addEventListener("click", function (e) {
@@ -304,16 +324,17 @@ window.addEventListener("load", (event) => {
     saveSettings();
   });
   el("resetHiScore").addEventListener("click", function (e) {
-     resetHiScore();
+    resetHiScore();
   });
   el("resetSettings").addEventListener("click", function (e) {
     resetSettings(true, true);
   });
   document.addEventListener("click", function (e) {
+    // allow for smooth scrolling internal links...
     let target = e.target.dataset.target;
     if (target !== undefined) {
       e.preventDefault();
-      el(target).scrollIntoView({ behavior: "smooth", block: "start"});
+      el(target).scrollIntoView({ behavior: "smooth", block: "start" });
     }
     if (e.target.type == "radio") {
       if (e.target.name == "showPcs") {
@@ -331,14 +352,14 @@ window.addEventListener("load", (event) => {
       saveSettings();
     }
   });
-  el("timeLimit").addEventListener("input", function(e) {
+  el("timeLimit").addEventListener("input", function (e) {
     settings.timeLimit = Number(e.target.value);
     if (settings.timeLimit == 1) settings.timeLimit = 1.5;
     saveSettings();
   });
   document.addEventListener("keypress", function (e) {
     if (e.key == "A" || e.key == "a" || e.key == "1") {
-      el("choice1").click();
+      el("choice1").click();  
     } else if (e.key == "S" || e.key == "s" || e.key == "2") {
       el("choice2").click();
     } else if (e.key == "D" || e.key == "d" || e.key == "3") {
@@ -357,12 +378,18 @@ window.addEventListener("load", (event) => {
   window.addEventListener("blur", function (e) {
     state.lastBlurTime = this.performance.now();
   });
-  generateChoices();
-  startCircleTimer("sq1", 100);
   window.addEventListener("resize", function (event) {
     resizeElements();
   }, true);
 });
+
+
+window.addEventListener("load", (event) => {
+  // when DOM is ready and styles + images are also loaded
+  resizeElements();
+  startCircleTimer("sq1", 100);
+});
+
 
 function loadSettings(firstLoad) {
   let loaded = JSON.parse(getLocalStorage("rankFileSettings"));
@@ -375,13 +402,14 @@ function loadSettings(firstLoad) {
   applySettings(firstLoad);
 }
 
+
 function saveSettings() {
   setLocalStorage("rankFileSettings", JSON.stringify(settings));
   applySettings();
 }
 
+
 function applySettings(firstLoad) {
-  if (firstLoad) el("board").classList.add("noAnim");
   if (settings.showQuads) {
     el("quadrants").classList.remove("hidden");
     el("showQuads").checked = true;
@@ -433,7 +461,6 @@ function applySettings(firstLoad) {
     }
   }
   if (settings.sfx) el("sfx").checked = true;
-  if (!firstLoad) el("board").classList.remove("noAnim");
 }
 
 function resetCurrentScore() {
@@ -469,7 +496,8 @@ function playSound(sound) {
 }
 
 function zoom(direction) {  // 1 or -1
-  const stepSize = ((100 / 65) - 1) / 8;  // assuming 65vh width & 8 steps
+  const widthVh = 65, steps = 8;
+  const stepSize = ((100 / widthVh) - 1) / steps;  
   settings.zoom += (stepSize * direction);
 }
 

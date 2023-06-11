@@ -188,18 +188,12 @@ h3 {
   100% { transform: scale(1); }
  }
 
-/* @media (hover: hover) { */
-  /* only applies on devices w/ actual hover, preventing issues on mobile */
-  #multiChoice span:hover {
-    background-color: #407840;
-  }
-  nav>a:hover {
-    color: #2ad081;
-  }
-  #zoomIn:hover, #zoomOut:hover {
-    color: #2ad081;
-  }
-/* } */
+nav>a:hover {
+  color: #2ad081;
+}
+#zoomIn:hover, #zoomOut:hover {
+  color: #2ad081;
+}
 
 #streakContainer {
   width: 100%;
@@ -379,10 +373,6 @@ div#board.hideLabels {
   left: calc(12.5% * var(--file));
   background-size: 100%;
   z-index: 2;
-}
-
-#board.noAnim .pc {
-  transition: none !important;
 }
 
 .pc.white.queen {
