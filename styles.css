@@ -1,3 +1,7 @@
+div.surface {
+  border-radius: var(--custom-size)px;
+}
+
 html {
   font-family: 'DM Sans', sans-serif;
   font-size: 100%;
@@ -98,8 +102,7 @@ i.fa {
 div#centerCover {  /* to hide the zoom box behind, esp. on mobile */
   background-color: #4D545B;
   overflow: auto;
-  /* outline: .25rem #4D545B solid; */
-  box-shadow: 0 0 2px 6px #4D545B;
+  outline: .25rem #4D545B solid;
   z-index: 2;
   position: fixed;
   top: 0;
@@ -321,7 +324,7 @@ body:not(.fullWidth) #multiChoice span:hover {
   border-color: #000;
   border-style: solid;
   /* border-width as % of container not possible yet without JS-set var... */
-  border-width: calc(var(--unscaled-rel-sz) * 2.15px);  
+  border-width: calc(var(--unscaled-rel-sz) * 2.15px);
   --rank: 0;
   --file: 0;
   bottom: calc(12.5% * var(--rank));

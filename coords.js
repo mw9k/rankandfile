@@ -1,17 +1,24 @@
-let settings = {}, // loaded later
-  state = { currentRank:0, currentFile:0, streak:0, best:0, bestEver:0, 
-            count:-1, wrongCount:0, blockGuessesUntil:0, lastFrameTime:0,
-            focusCount:0, lastBlurTime:0, prevWasWrong:false },
-  sfx = { wrong: new Howl({ src: ["loser2.wav"] }), 
-          correct1: new Howl({ src: ["correct1.mp3"] }), 
-          correct2: new Howl({ src: ["correct2.mp3"] }), 
-          correct3: new Howl({ src: ["correct3.mp3"] }), 
-          correct4: new Howl({ src: ["correct4.mp3"] }), 
-          correct5: new Howl({ src: ["correct5.mp3"] }), 
-          applause: new Howl({ src: ["applause4.mp3"] }), 
-          fanfare: new Howl({ src: ["fanfare.mp3"] }), 
-          timeout: new Howl({ src: ["timeout.mp3"] })
-  };
+"use strict";
+
+let settings = {}; // loaded later
+
+let state = {
+  best: 0, bestEver: 0, blockGuessesUntil: 0, count: -1, currentFile: 0,
+  currentRank:0, focusCount: 0, lastBlurTime: 0, lastFrameTime: 0,
+  prevWasWrong: false, streak: 0, wrongCount: 0
+};
+
+let sfx = {
+  applause: new Howl({ src: ["applause.mp3"] }),
+  correct1: new Howl({ src: ["correct1.mp3"] }),
+  correct2: new Howl({ src: ["correct2.mp3"] }),
+  correct3: new Howl({ src: ["correct3.mp3"] }),
+  correct4: new Howl({ src: ["correct4.mp3"] }),
+  correct5: new Howl({ src: ["correct5.mp3"] }),
+  fanfare: new Howl({ src: ["fanfare.mp3"] }),
+  timeout: new Howl({ src: ["timeout.mp3"] }),
+  wrong: new Howl({ src: ["wrong.mp3"] })
+};
 
 function moveSq() {
   // Choose a new random square and move the circle timer to it
@@ -28,11 +35,11 @@ function moveSq() {
   generateChoices();
 }
 
-function diffRndInt(lBound, uBound, prevRnd) {  
+function diffRndInt(lBound, uBound, prevRnd) {
   // Choose a random int different from previous choice
-  // Bounds are 'inclusive'
+  // Bounds are "inclusive"
   let newRnd;
-  if (prevRnd > uBound || prevRnd < lBound) { // if prev rnd outside of bounds 
+  if (prevRnd > uBound || prevRnd < lBound) { // if prev rnd outside of bounds
     newRnd = rndIntInRange(lBound, uBound);   // straightforward rndIntInRange
   } else {
     newRnd = rndIntInRange(lBound, uBound - 1); // otherwise, reduce range by 1
@@ -41,13 +48,13 @@ function diffRndInt(lBound, uBound, prevRnd) {
   return newRnd;
 }
 
-function rndIntInRange(lBound, uBound) { 
-  // Bounds are 'inclusive'
+function rndIntInRange(lBound, uBound) {
+  // Bounds are "inclusive"
   return Math.floor(Math.random() * (uBound - lBound + 1)) + lBound;
 }
 
 function reanimate(elem, className, resetTo) {
-  // Reset and re-apply a CSS animation, allowing it to replay 
+  // Reset and re-apply a CSS animation, allowing it to replay
   if (resetTo !== undefined) el(elem).classList = resetTo;
   el(elem).classList.remove(className);
   el(elem).offsetHeight;  // resets the animation
@@ -60,12 +67,12 @@ function generateChoices() {
   let correctSq = [state.currentFile, state.currentRank];
   let candidateSqs = [];
   for (let i = 0; i < 8; i++) {  // build array of every sq on same rank / file
-    if (settings.constrain != "fileOnly") candidateSqs.push([correctSq[0], i]);  
-    if (settings.constrain != "rankOnly") candidateSqs.push([i, correctSq[1]]);  
+    if (settings.constrain != "fileOnly") candidateSqs.push([correctSq[0], i]);
+    if (settings.constrain != "rankOnly") candidateSqs.push([i, correctSq[1]]);
   }
   // Cull unwanted sqs...
-  let keepSqs = []; 
-  for (let sq of candidateSqs) {  
+  let keepSqs = [];
+  for (let sq of candidateSqs) {
     let include = true;
     // Exclude actual correct sq (may be present twice)
     if (sq[0] == correctSq[0] && sq[1] == correctSq[1]) include = false;
@@ -112,7 +119,7 @@ function numToFile(num) {
 function makeGuess(guess) {
   if (state.blockGuessesUntil > performance.now()) {
     return false; // honour delay until guesses are allowed
-  } 
+  }
   if (!guess.length) return false;
   if (settings.constrain == "rankOnly") {
     // Auto-add missing portion of guess when using constrained modes...
@@ -122,7 +129,7 @@ function makeGuess(guess) {
   }
   let guessRank = parseInt(guess[1] - 1);
   let guessFile = guess[0].toLowerCase().charCodeAt(0) - 97;
-  let gotRight = ( guessRank == state.currentRank && 
+  let gotRight = ( guessRank == state.currentRank &&
                    guessFile == state.currentFile );
   updateStreak(gotRight);
   processAnswer(gotRight);
@@ -162,14 +169,14 @@ function getLocalStorage(key) {
 function processAnswer(gotRight) {
   state.prevWasWrong = !gotRight;  // true if got wrong
   let soundName = "";
-  if (gotRight) { 
+  if (gotRight) {
     let soundNum = state.streak % 10;
     if (soundNum > 0 && soundNum <= 5) {  // 1-5: same sound
       soundNum = 1;
     } else if (soundNum > 5) {  // 6-9: builds in pitch
       soundNum -= 4;
     } else if (soundNum == 0) {  // 10 correct: fanfare sound
-      soundName = "fanfare"; 
+      soundName = "fanfare";
     }
     if (!soundName) soundName = `correct${soundNum}`;
     playSound(soundName);
@@ -192,7 +199,7 @@ function startCircleTimer(sq="sq1", delay=300) {
       ctx = canvas.getContext("2d");
   ctx.fillStyle = "#BA990D";
   clearCanvas(canvas, ctx);
-  let cData = { fullTripMs: settings.timeLimit * 1000, count: state.count, 
+  let cData = { fullTripMs: settings.timeLimit * 1000, count: state.count,
     focusCount: state.focusCount, wrongCount: state.wrongCount, drawCount: 0 };
   setTimeout(() => {  // small delay before starting timer animation
     cData.startTime = performance.now()
@@ -203,8 +210,8 @@ function startCircleTimer(sq="sq1", delay=300) {
       return; // avoid starting multiple timers; possible if button mashing
     } else {
       canvas.classList.remove("gotWrong", "timeout", "gotRight");
-      window.requestAnimationFrame(function () { 
-        circleStep(canvas, ctx, cData) 
+      window.requestAnimationFrame(function () {
+        circleStep(canvas, ctx, cData)
       });
     }
  }, delay);
@@ -215,16 +222,16 @@ function circleStep(canvas, ctx, cData) {
   let sqCurrent = (state.count % 2) ? "sq1" : "sq2";
   if (!document.hasFocus()) {
     // If animation is running offscreen (esp. Firefox), don't advance timer...
-    window.requestAnimationFrame(function () { 
-      circleStep(canvas, ctx, cData) 
+    window.requestAnimationFrame(function () {
+      circleStep(canvas, ctx, cData)
     });
     return;
   }
   if (state.count !== cData.count ||             // stop if already guessed
       state.wrongCount !== cData.wrongCount) {   // stop if got wrong
     stopDrawing(canvas, ctx);
-    return; 
-  } 
+    return;
+  }
   if (settings.timeLimit * 1000 != cData.fullTripMs) {
     // Restart if settings changed mid-rotate...
     startCircleTimer(canvas.id, 100);
@@ -238,9 +245,9 @@ function circleStep(canvas, ctx, cData) {
     clearCanvas(canvas, ctx);
     cData.focusCount = state.focusCount;
     // Pick up where left off...
-    let adjusted = performance.now() - (state.lastBlurTime - cData.startTime); 
+    let adjusted = performance.now() - (state.lastBlurTime - cData.startTime);
     cData.startTime = adjusted;
-  } 
+  }
   let timeElapsed = performance.now() - cData.startTime;
   let progress = timeElapsed / cData.fullTripMs;
   if (timeElapsed > cData.fullTripMs) {
@@ -263,7 +270,7 @@ function drawCirclePortion(canvas, ctx, cData, progress) {
   ctx.beginPath();
   ctx.moveTo(50, 50);
   ctx.lineTo(50, -150);
-  // Draw to the corners once certain angles are passed, keeping shape fillable 
+  // Draw to the corners once certain angles are passed, keeping shape fillable
   if (angle + 90 > 45) ctx.lineTo(150, -50);
   if (angle + 90 > 135) ctx.lineTo(150, 150);
   if (angle + 90 > 225) ctx.lineTo(-50, 150);
@@ -330,14 +337,14 @@ function addEventHandling() {
   }
   const showPcsRadioBttns = document.getElementsByClassName("showPcs");
   for (let bttn of showPcsRadioBttns) {
-    bttn.addEventListener('change', function (e) {
+    bttn.addEventListener("change", function (e) {
       settings.showPcs = e.target.id;
       saveSettings();
     });
   }
   const constrainRadioBttns = document.getElementsByClassName("constrain");
   for (let bttn of constrainRadioBttns) {
-    bttn.addEventListener('change', function (e) {
+    bttn.addEventListener("change", function (e) {
       settings.constrain = e.target.id;
       resetCurrentScore();
       saveSettings();
@@ -347,15 +354,15 @@ function addEventHandling() {
   const internalLinks = document.getElementsByClassName("internalLink");
   // Custom alternative to anchor links, ensuring smooth scrolling...
   for (let link of internalLinks) {
-    link.addEventListener('click', function (e) {
+    link.addEventListener("click", function (e) {
       let target = e.target.dataset.target;
       e.preventDefault();
       el(target).scrollIntoView({ behavior: "smooth", block: "start" });
     });
   }
-  const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+  const checkboxes = document.querySelectorAll(`input[type="checkbox"]`);
   for (let box of checkboxes) {
-    box.addEventListener('change', function (e) {
+    box.addEventListener("change", function (e) {
       settings[e.target.id] = e.target.checked;
       saveSettings();
     });
@@ -381,10 +388,10 @@ function addEventHandling() {
     if (settings.timeLimit == 1) settings.timeLimit = 1.5;
     saveSettings();
   });
-  document.addEventListener('keydown', function (e) {
-    if (e.key === '-' || e.key === '_') {   // anticipating '_' as typo for '-'
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "-" || e.key === "_") {   // anticipating "_" as typo for "-"
       zoom(-1);
-    } else if (e.key === '+') {
+    } else if (e.key === "+") {
       zoom(1);
     } else if (e.key == "A" || e.key == "a" || e.key == "1") {
       el("choice1").click();
@@ -492,7 +499,7 @@ function resetCurrentScore() {
 }
 
 function resetHiScore() {
-  if (confirm(`Are you sure you want to erase your 'All Time' Best Score?`)) {
+  if (confirm(`Are you sure you want to erase your "All Time" Best Score?`)) {
     state.bestEver = 0;
     setLocalStorage("rankFileHiScore", state.bestEver);
     el("bestEverNo").textContent = state.bestEver;
@@ -504,7 +511,7 @@ function resetSettings(andSave = false, askConfirm = false) {
     if (!confirm(`Reset all settings to default?`)) return;
   }
   settings = {  // the default settings:
-    showQuads: false, flip: false, showPcs: "allPcs", constrain: "normal", 
+    showQuads: false, flip: false, showPcs: "allPcs", constrain: "normal",
     sfx: true, showLabels: true, timeLimit: "5", zoom: 100, exists: true
   };
   if (andSave) saveSettings();
@@ -521,8 +528,8 @@ function playSound(sound, delay = 0) {
   }
 }
 
-function zoom(direction, andSave = true) {  
-  // 'direction': expects 1 (zoom in), -1 (zoom out), or 0 (don't zoom)
+function zoom(direction, andSave = true) {
+  // "direction": expects 1 (zoom in), -1 (zoom out), or 0 (don't zoom)
   const stepSize = 5;
   settings.zoom += (stepSize * direction);
   settings.zoom = Math.max(15, settings.zoom);
@@ -532,7 +539,7 @@ function zoom(direction, andSave = true) {
 
 function resizeElements() {
   // Some custom resizing to account for different resolutions.
-  // Aims to stick with the default system font size up to a point, 
+  // Aims to stick with the default system font size up to a point,
   // then resizes on a logistic curve (holds close to system size for longer)
   const bodyFontSz = window.getComputedStyle(document.body).fontSize;
   let boardSz = el("board").clientWidth;
@@ -541,7 +548,7 @@ function resizeElements() {
   // Allow some elements to scale linearly (no curve applied):
   el("gameArea").style.setProperty("--unscaled-rel-sz", relativeBoardSz);
   // Assymetrical curve; more room in upper range than lower:
-  const rangeSize = (relativeBoardSz <= 1) ? .75 : 2;
+  const rangeSize = (relativeBoardSz <= 1) ? 0.75 : 2;
   const minSz = 1 - rangeSize, maxSz = 1 + rangeSize;
   relativeBoardSz = Math.max(relativeBoardSz, minSz); // lower bound for range
   relativeBoardSz = Math.min(relativeBoardSz, maxSz); // upper bound for range
@@ -557,22 +564,22 @@ function adjustForMobile() {
   // Fine tuning if content takes up full width (eg on mobile)
   const vw = window.innerWidth || document.documentElement.clientWidth;
   const ratio = el("centralColumn").clientWidth / vw;
-  if (ratio == 1) { 
-    document.body.classList.add("fullWidth"); 
+  if (ratio == 1) {
+    document.body.classList.add("fullWidth");
   } else {
-    document.body.classList.remove("fullWidth"); 
+    document.body.classList.remove("fullWidth");
 }
 }
 
 function customCurve(x) {
   // Makes a curve with a flat middle, and logistic curved approach & retreat
   // Expects input from 0 to 1
-  const flatStart = .4,	// start of the middle range at which curve flattens
+  const flatStart = 0.4,	// start of the middle range at which curve flattens
     flatScale = 1 / flatStart;  // normalise range from 0-1 to feed into curve
-  const scale = .5 / logisticCurve(flatStart * flatScale);
+  const scale = 0.5 / logisticCurve(flatStart * flatScale);
   // ...find max value of curve to scale it down,
   if (x >= flatStart && x < 1 - flatStart) {
-    return .5	// flat through middle range
+    return 0.5	// flat through middle range
   } else if (x < flatStart) {
     return logisticCurve(x * flatScale) * scale;
   } else {
@@ -583,7 +590,7 @@ function customCurve(x) {
 function logisticCurve(x) {
   // Expects input from 0 to 1
   // Produces a logistic curve (type of S shaped curve)
-  const midPoint = 0.5; // adjust curve midpoint 
+  const midPoint = 0.5; // adjust curve midpoint
   const steepness = 8; // adjust curve steepness
   return 1 / (1 + Math.exp(- steepness * (x - midPoint)));
 }
@@ -597,8 +604,8 @@ function normaliseRange(value, min, max, newMin = 0, newMax = 1) {
 }
 
 function measureExecutionTime(fn) {
-  // Debug tool: returns execution time of a given function
-  console.time('Execution time');
+  // For Debug: returns execution time of a given function
+  console.time("Execution time");
   fn();
-  console.timeEnd('Execution time');
+  console.timeEnd("Execution time");
 }
