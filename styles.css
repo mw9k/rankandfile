@@ -67,7 +67,7 @@ header>div {
 }
 
 body.fullWidth nav {
-  display: none;
+  display: block;
 }
 
 nav {
