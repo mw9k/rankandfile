@@ -32,8 +32,8 @@
   <header class="surface">
     <div>
       <nav>
-        <a href="#" data-target="options"><i class="fa fa-cog"></i></a>
-        <a href="#" data-target="about"><i class="fa fa-info-circle"></i></a>
+        <a href="#" class="internalLink" data-target="options"><i class="fa fa-cog"></i></a>
+        <a href="#" class="internalLink" data-target="about"><i class="fa fa-info-circle"></i></a>
       </nav>
       <h1>Rank &amp; File</h1>
       <span>
@@ -42,13 +42,21 @@
     </div>
   </header>
   <div id="zoomBox" class="noSelect">
-    Board Size:<br>
-    <span id="zoomIn"><i class="fas fa-search-plus actionText"></i></span>
-    <span id="zoomPercent">100%</span>
-    <span id="zoomOut"><i class="fas fa-search-minus actionText"></i></span>
+    <div> 
+      Board Size:<br>
+      <span id="zoomIn" title="Keyboard Shortcut: +">
+        <i class="fas fa-search-plus actionText"></i>
+      </span>
+      <span id="zoomPercent">100%</span>
+      <span id="zoomOut" title="Keyboard Shortcut: -">
+        <i class="fas fa-search-minus actionText">
+
+        </i></span>
+    </div>
   </div>
   <div id="centerCover">&nbsp;</div>
-  <div id=gameArea class="surface noSelect">
+  <div id=gameArea class="surface noSelect loading">
+    <div id="loadingCover"></div>
     <div id="streakContainer">
       <span>Streak:&nbsp;<span id="streakNo">0</span></span>
       <span>Best:&nbsp;<span id="bestNo">0</span></span>
@@ -119,18 +127,18 @@
       <input type="checkbox" id="showLabels" name="showLabels">
       <label for="showLabels">Board Labels</label><br>
       <hr>
-      <input type="radio" id="normal" name="constrain" checked>
+      <input type="radio" id="normal" name="constrain" class="constrain" checked>
       <label for="normal"> File &amp; Rank</label><br>
-      <input type="radio" id="fileOnly" name="constrain">
+      <input type="radio" id="fileOnly" name="constrain" class="constrain">
       <label for="fileOnly"> File Only</label><br>
-      <input type="radio" id="rankOnly" name="constrain">
+      <input type="radio" id="rankOnly" name="constrain" class="constrain">
       <label for="rankOnly"> Rank Only</label><br>
       <hr>
-      <input type="radio" id="noPcs" name="showPcs">
+      <input type="radio" id="noPcs" name="showPcs" class="showPcs">
       <label for="noPcs"> No Pieces</label><br>
-      <input type="radio" id="kqOnly" name="showPcs">
+      <input type="radio" id="kqOnly" name="showPcs" class="showPcs">
       <label for="kqOnly"> King &amp; Queen</label><br>
-      <input type="radio" id="allPcs" name="showPcs" checked>
+      <input type="radio" id="allPcs" name="showPcs" class="showPcs" checked>
       <label for="allPcs"> Full Starting Position</label>
       <hr>
       <span class="actionText" id="resetSettings">Reset Settings</span>
@@ -143,7 +151,7 @@
     <ul>
       <li>
         This training game helps improve quick recognition of chessboard
-        coordinates; important for understanding chess theory.
+        coordinates; a useful skill for understanding chess theory.
       </li>
       <li>
         <h3>How To Play</h3>Identify the coordinates of the animated circle, 
@@ -156,10 +164,12 @@
         <span class=key>A</span><span class=key>S</span><span class=key>D</span> 
         or 
         <span class=key>1</span><span class=key>2</span><span class=key>3</span>
-        to make a multiple choice selection.
+        to make a multiple choice selection. <br>
+        Use <span class=key>+</span> &amp; <span class=key>-</span> to 
+        adjust the board size to suit your screen.<br>
       </li>
       <li>
-        <h3>No Peeking</h3> For best results,
+        <h3>No Peeking</h3> To get the most from the game,
          try to formulate your guess before looking at the available options.
       </li>
       <li>
@@ -189,7 +199,13 @@
         target="_blank" >CC BY-SA 3.0</a>.
       </li>
       <li>
-        Sound Effects generated using
+        Applause sound effect adapted from '057783_Short crowd applause', by
+        <a href="https://pixabay.com/sound-effects/057783-short-crowd-applause-85909/" target="_blank">
+          Pixabay</a>. License: Pixabay's
+        <a href="https://pixabay.com/service/license-summary/" target="_blank">Content License</a>.
+      </li>
+      <li>
+        Other Sound Effects generated using
         <a href="https://sfbgames.itch.io/chiptone" 
         target="_blank" >Chiptone</a> by SFB Games.
       </li>
@@ -225,7 +241,7 @@
   </div>
 
   <footer class="surface">
-    By <a href="mailto:mattw9000@gmail.com">mw9k</a> 2023.
+    By <a href="mailto:mattw9000@gmail.com">Matt W</a> 2023.
   </footer>
 
 </body>
