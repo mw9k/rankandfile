@@ -41,8 +41,20 @@
       </span>
     </div>
   </header>
+  <nav id="sideNav">
+    <ul id="scores" class="surface">
+      <li>Streak:&nbsp;<span id="streakNo">0</span></li>
+      <li>Best:&nbsp;<span id="bestNo">0</span></li>
+      <li>All Time:&nbsp;<span id="bestEverNo">0</span></li>
+    </ul>   
+    <ul class="links">
+      <li><a>Options</a></li>
+      <li><a>About</a></li>
+      <li><a>Acknowledgements</a></li>
+    </ul>
+  </nav>
   <div id="zoomBox" class="noSelect">
-    <div> 
+    <div>
       Board Size:<br>
       <span id="zoomIn" title="Keyboard Shortcut: +">
         <i class="fas fa-search-plus actionText"></i>
@@ -55,13 +67,11 @@
     </div>
   </div>
   <div id="centerCover">&nbsp;</div>
-  <div id=gameArea class="surface noSelect loading">
+  <div id=gameArea class="noSelect loading">
     <div id="loadingCover"></div>
     <div id="streakContainer">
-      <span>Streak:&nbsp;<span id="streakNo">0</span></span>
-      <span>Best:&nbsp;<span id="bestNo">0</span></span>
-    <span>All Time:&nbsp;<span id="bestEverNo">0</span></span>
-    </div>  
+     
+    </div>
     <div id="board" class="noAnim">
       <div id="quadrants" class="hidden"></div>
       <canvas id="sq1" class="sq" width="100" height="100"></canvas>
@@ -99,7 +109,7 @@
       <div class="pc black pawn" style="--rank:6; --file:6;"></div>
       <div class="pc black pawn" style="--rank:6; --file:7;"></div>
     </div>
-  
+
     <div id="multiChoice">
       <span id="choice1" class="choice"></span>
       <span id="choice2" class="choice"></span>
@@ -112,7 +122,7 @@
   <div id="options" class="surface section noSelect">
     <h2>Options</h2>
     <div id="optionsContainer">
-      <label id="sfxLabel"> 
+      <label id="sfxLabel">
         <input type="checkbox" id="sfx" name="sfx">
         <span>Sound Effects</span>
       </label>
@@ -150,40 +160,43 @@
     <h2>About</h2>
     <ul>
       <li>
-        This training game helps improve quick recognition of chessboard
-        coordinates; a useful skill for understanding chess theory.
+        This training game helps improve quick recognition of
+        chessboard coordinates, a fundamental skill in chess.
       </li>
       <li>
-        <h3>How To Play</h3>Identify the coordinates of the animated circle, 
-        choosing between the 3 options listed below the board.
-        Act fast before the circle's timer runs out.
-
+        <h3>How To Play</h3>
+        Identify the coordinates of the animated circle,
+        choosing quickly from the 3 options listed below the board
+        before the timer expires.
       </li>
       <li>
         <h3>Keyboard Shortcuts</h3> Use
-        <span class=key>A</span><span class=key>S</span><span class=key>D</span> 
-        or 
+        <span class=key>A</span><span class=key>S</span><span class=key>D</span>
+        or
         <span class=key>1</span><span class=key>2</span><span class=key>3</span>
         to make a multiple choice selection. <br>
-        Use <span class=key>+</span> &amp; <span class=key>-</span> to 
+        Use <span class=key>+</span> &amp; <span class=key>-</span> to
         adjust the board size to suit your screen.<br>
       </li>
       <li>
-        <h3>No Peeking</h3> To get the most from the game,
-         try to formulate your guess before looking at the available options.
+        <h3>No Peeking</h3>
+        To get the most from the game, try to formulate your guess before 
+        looking at the available options.
+      <li>
+        <h3>Recommended Strategy</h3> 
+        Start out in File Only or Rank Only mode to build up intuition. 
+        The "Show Quadrants" aid may be helpful at first. 
+        For added challenge, consider turning off board labels.
       </li>
       <li>
-        <h3>Recommended Strategy</h3> Start out in File Only or Rank Only mode 
-        to build up intuition. The "Show Quadrants" aid may be helpful at first. 
-      </li>
-      <li>
-        <h3>Privacy</h3> 
+        <h3>Privacy</h3>
         Settings &amp; high scores are automatically saved in your browser's
         localStorage. No user data is tracked or collected.
       </li>
       <li>
-        <h3>Designed for Mobile</h3> Plays best on a touchscreen device.
-        <br>Requires a modern browser.
+        <h3>Requirements</h3> 
+        Plays best on touchscreen devices.<br>
+        Requires a modern browser.
       </li>
     </ul>
   </div>
@@ -191,10 +204,10 @@
     <h2>Acknowledgements</h2>
     <ul class="custBullets">
       <li>
-        Chess symbols from 
+        Chess symbols from
         <a href="https://commons.wikimedia.org/wiki/Category:SVG_chess_pieces"
         target="_blank" >
-          Wikimedia Commons</a>. License 
+          Wikimedia Commons</a>. License
         <a href="https://creativecommons.org/licenses/by-sa/3.0/"
         target="_blank" >CC BY-SA 3.0</a>.
       </li>
@@ -206,7 +219,7 @@
       </li>
       <li>
         Other Sound Effects generated using
-        <a href="https://sfbgames.itch.io/chiptone" 
+        <a href="https://sfbgames.itch.io/chiptone"
         target="_blank" >Chiptone</a> by SFB Games.
       </li>
       <li>
@@ -237,7 +250,7 @@
   <img class="preload" src="wrong.svg" width="1" height="1" border="0" alt="preloading for background image.">
   <img class="preload" src="right.svg" width="1" height="1" border="0" alt="preloading for background image.">
   <img class="preload" src="timeout.svg" width="1" height="1" border="0" alt="preloading for background image.">
-  
+
   </div>
 
   <footer class="surface">

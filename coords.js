@@ -1,23 +1,11 @@
 "use strict";
 
-let settings = {}; // loaded later
+let settings = {}, sfx = {}; // loaded later
 
 let state = {
   best: 0, bestEver: 0, blockGuessesUntil: 0, count: -1, currentFile: 0,
   currentRank:0, focusCount: 0, lastBlurTime: 0, lastFrameTime: 0,
-  prevWasWrong: false, streak: 0, wrongCount: 0
-};
-
-let sfx = {
-  applause: new Howl({ src: ["applause.mp3"] }),
-  correct1: new Howl({ src: ["correct1.mp3"] }),
-  correct2: new Howl({ src: ["correct2.mp3"] }),
-  correct3: new Howl({ src: ["correct3.mp3"] }),
-  correct4: new Howl({ src: ["correct4.mp3"] }),
-  correct5: new Howl({ src: ["correct5.mp3"] }),
-  fanfare: new Howl({ src: ["fanfare.mp3"] }),
-  timeout: new Howl({ src: ["timeout.mp3"] }),
-  wrong: new Howl({ src: ["wrong.mp3"] })
+  prevWasWrong: false, streak: 0, wrongCount: 0, soundsLoaded: true
 };
 
 function moveSq() {
@@ -312,6 +300,7 @@ function clearCanvas(canvas, ctx = canvas.getContext("2d")) {
 
 window.addEventListener("DOMContentLoaded", (event) => {
   // When DOM is ready, but before images & stylesheets etc loaded
+  loadSounds();
   generateChoices();
   resetSettings();
   loadSettings(true);
@@ -517,8 +506,21 @@ function resetSettings(andSave = false, askConfirm = false) {
   if (andSave) saveSettings();
 }
 
+function loadSounds() {
+  let soundFiles = ["applause", "correct1", "correct2", "correct3", "correct4",
+    "correct5", "fanfare", "timeout", "wrong"];
+  for (let sound of soundFiles) {
+    try {
+      sfx[sound] = new Howl({ src: [`${sound}.mp3`] });
+    } catch (error) {
+      state.soundsLoaded = false;
+      console.error(`Error loading sound '${sound}':`, error);
+    }
+  }
+}
+
 function playSound(sound, delay = 0) {
-  if (!settings.sfx) return;
+  if (!settings.sfx || !state.soundsLoaded) return;
   if (delay) {
     setTimeout(() => {
       sfx[sound].play();
@@ -539,8 +541,8 @@ function zoom(direction, andSave = true) {
 
 function resizeElements() {
   // Some custom resizing to account for different resolutions.
-  // Aims to stick with the default system font size up to a point,
-  // then resizes on a logistic curve (holds close to system size for longer)
+  // Aims to stick with the default body font size up to a point,
+  // then resizes on a logistic curve (holds close to default size for longer)
   const bodyFontSz = window.getComputedStyle(document.body).fontSize;
   let boardSz = el("board").clientWidth;
   let neutralBoardSz = 380; // typical board size in px at ~1080p
@@ -564,15 +566,16 @@ function adjustForMobile() {
   // Fine tuning if content takes up full width (eg on mobile)
   const vw = window.innerWidth || document.documentElement.clientWidth;
   const ratio = el("centralColumn").clientWidth / vw;
-  if (ratio == 1) {
+  if (ratio > .7) {
     document.body.classList.add("fullWidth");
   } else {
     document.body.classList.remove("fullWidth");
-}
+  }
 }
 
 function customCurve(x) {
-  // Makes a curve with a flat middle, and logistic curved approach & retreat
+  // Translates values onto a curve with a flat middle,
+  // and logistic curved approach & retreat.
   // Expects input from 0 to 1
   const flatStart = 0.4,	// start of the middle range at which curve flattens
     flatScale = 1 / flatStart;  // normalise range from 0-1 to feed into curve
