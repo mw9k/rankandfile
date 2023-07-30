@@ -31,9 +31,6 @@ body.fullWidth .surface {
   margin: 4vh 0;
 }
 
-nav#sideNav a:hover{
-  background-color: rebeccapurple;
-}
 
 header, footer {
   width: 100%;
@@ -101,6 +98,15 @@ nav#sideNav {
   z-index: 200;
   justify-content: flex-start;
   gap: 0;
+}
+
+nav#sideNav a {
+  color: rgba(0, 0, 0, .8);
+  cursor: pointer;
+}
+
+nav#sideNav a:hover {
+  text-decoration: underline;
 }
 
 body.fullWidth header nav {
@@ -595,7 +601,6 @@ span.key { /* keyboard illustrations */
 }
 
 span.actionText {
-  color: cornflowerblue;
   cursor: pointer;
   text-decoration: underline;
   margin: 1rem 0;
@@ -665,8 +670,8 @@ noscript {
   width: 100%;
 }
 
-a {
-  color: #89b3f7;
+a, span.actionText {
+  color: #0074D9;
 }
 
 .preload {
